@@ -1,4 +1,4 @@
-# Production Dockerfile for CodeIgniter 4 Real Estate ERP
+# Production Dockerfile for CodeIgniter 4 Real Estate ERP on Render
 FROM php:8.2-apache
 
 # Set working directory
@@ -30,17 +30,15 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         zip \
         opcache
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache modules: rewrite, headers, env
+RUN a2enmod rewrite headers env
 
-# Configure Apache DocumentRoot to point to CodeIgniter's public directory
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Configure Apache virtual host with exact DocumentRoot /var/www/html/public
+COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+RUN a2ensite 000-default.conf
 
-# Configure directory permissions and AllowOverride in Apache
-RUN printf '<Directory /var/www/html/public>\n    Options -Indexes +FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>\n' > /etc/apache2/conf-available/codeigniter.conf \
-    && a2enconf codeigniter
+# Ensure Apache global configuration allows override for /var/www/
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
 # Copy Composer binary from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

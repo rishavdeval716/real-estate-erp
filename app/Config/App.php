@@ -199,4 +199,35 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Support production base URL via environment variable with local fallback
+        $envBaseUrl = getenv('APP_BASE_URL')
+            ?: getenv('app.baseURL')
+            ?: ($_SERVER['APP_BASE_URL'] ?? $_SERVER['app_baseURL'] ?? $_ENV['APP_BASE_URL'] ?? null);
+
+        if ($envBaseUrl) {
+            $this->baseURL = rtrim($envBaseUrl, '/') . '/';
+        } elseif (isset($_SERVER['HTTP_HOST'])) {
+            // Auto-detect host from incoming HTTP request if no explicit baseURL is set
+            $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+                       (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+                       (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+            $protocol = $isHttps ? 'https' : 'http';
+            $this->baseURL = $protocol . '://' . $_SERVER['HTTP_HOST'] . '/';
+        }
+
+        // Trust reverse proxies (such as Render load balancer) for HTTPS protocol detection
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $_SERVER['HTTPS'] = 'on';
+        }
+
+        // Trust reverse proxies if configured
+        if ($proxyConfig = getenv('PROXY_IPS') ?: ($_SERVER['PROXY_IPS'] ?? null)) {
+            $this->proxyIPs = array_map('trim', explode(',', $proxyConfig));
+        }
+    }
 }

@@ -1,10 +1,23 @@
 #!/bin/bash
 set -e
 
-# Support Render dynamic PORT environment variable
+# Support Render dynamic PORT environment variable (default: 80)
 PORT="${PORT:-80}"
-sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf
-sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/000-default.conf
+
+# Configure Apache listening port
+if [ -f /etc/apache2/ports.conf ]; then
+    sed -i "s/Listen [0-9]*/Listen ${PORT}/g" /etc/apache2/ports.conf
+    if ! grep -q "Listen ${PORT}" /etc/apache2/ports.conf; then
+        echo "Listen ${PORT}" >> /etc/apache2/ports.conf
+    fi
+fi
+
+# Configure VirtualHost port in sites-available and sites-enabled
+for conf in /etc/apache2/sites-available/*.conf /etc/apache2/sites-enabled/*.conf; do
+    if [ -f "$conf" ]; then
+        sed -i "s/<VirtualHost \*:[0-9]*>/<VirtualHost \*:${PORT}>/g" "$conf"
+    fi
+done
 
 # Ensure writable directories exist with correct permissions on container start
 mkdir -p /var/www/html/writable/cache \

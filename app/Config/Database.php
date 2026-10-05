@@ -194,23 +194,33 @@ class Database extends Config
     {
         parent::__construct();
 
-        // Support environment variables with automatic fallback
-        if ($host = getenv('database.default.hostname') ?: getenv('DB_HOST')) {
+        // Support environment variables with automatic fallback across getenv, $_SERVER, and $_ENV
+        $getEnv = function(...$keys) {
+            foreach ($keys as $k) {
+                $val = getenv($k);
+                if ($val !== false && $val !== '') return $val;
+                if (!empty($_SERVER[$k])) return $_SERVER[$k];
+                if (!empty($_ENV[$k])) return $_ENV[$k];
+            }
+            return null;
+        };
+
+        if ($host = $getEnv('database.default.hostname', 'DB_HOST')) {
             $this->default['hostname'] = $host;
         }
-        if ($db = getenv('database.default.database') ?: getenv('DB_DATABASE')) {
+        if ($db = $getEnv('database.default.database', 'DB_DATABASE')) {
             $this->default['database'] = $db;
         }
-        if ($user = getenv('database.default.username') ?: getenv('DB_USERNAME')) {
+        if ($user = $getEnv('database.default.username', 'DB_USERNAME')) {
             $this->default['username'] = $user;
         }
-        if ($pass = getenv('database.default.password') ?: getenv('DB_PASSWORD')) {
+        if ($pass = $getEnv('database.default.password', 'DB_PASSWORD')) {
             $this->default['password'] = $pass;
         }
-        if ($driver = getenv('database.default.DBDriver') ?: getenv('DB_DRIVER')) {
+        if ($driver = $getEnv('database.default.DBDriver', 'DB_DRIVER')) {
             $this->default['DBDriver'] = $driver;
         }
-        if ($port = getenv('database.default.port') ?: getenv('DB_PORT')) {
+        if ($port = $getEnv('database.default.port', 'DB_PORT')) {
             $this->default['port'] = (int) $port;
         }
 
