@@ -1,0 +1,46 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: real_estate_erp_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      CI_ENVIRONMENT: development
+      app.baseURL: "http://localhost:8080/"
+      database.default.hostname: db
+      database.default.database: real_estate_erp
+      database.default.username: erp_user
+      database.default.password: erp_password
+      database.default.DBDriver: MySQLi
+      database.default.port: 3306
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./writable:/var/www/html/writable
+
+  db:
+    image: mysql:8.0
+    container_name: real_estate_erp_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: real_estate_erp
+      MYSQL_USER: erp_user
+      MYSQL_PASSWORD: erp_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "erp_user", "-perp_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  db_data:
+    driver: local
