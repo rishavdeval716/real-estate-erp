@@ -337,21 +337,24 @@ class Phase3CrmSeeder extends Seeder
             ]);
 
             // Site Visit for Lead 1
-            $db->table('site_visits')->insert([
-                'visit_code'        => 'SV-2026-000001',
-                'lead_id'           => $lead1['id'],
-                'project_id'        => $proj1Id,
-                'property_id'       => $prop1Id,
-                'property_unit_id'  => null,
-                'assigned_user_id'  => $salesUserId,
-                'scheduled_at'      => date('Y-m-d 11:00:00', strtotime('+2 days')),
-                'visit_type'        => 'Property Visit',
-                'status'            => 'Confirmed',
-                'visitor_count'     => 2,
-                'remarks'           => 'Client visiting with architect and spouse.',
-                'created_at'        => $now,
-                'updated_at'        => $now,
-            ]);
+            $existingVisit = $db->table('site_visits')->where('visit_code', 'SV-2026-000001')->get()->getRowArray();
+            if (!$existingVisit) {
+                $db->table('site_visits')->insert([
+                    'visit_code'        => 'SV-2026-000001',
+                    'lead_id'           => $lead1['id'],
+                    'project_id'        => $proj1Id,
+                    'property_id'       => $prop1Id,
+                    'property_unit_id'  => null,
+                    'assigned_user_id'  => $salesUserId,
+                    'scheduled_at'      => date('Y-m-d 11:00:00', strtotime('+2 days')),
+                    'visit_type'        => 'Property Visit',
+                    'status'            => 'Confirmed',
+                    'visitor_count'     => 2,
+                    'remarks'           => 'Client visiting with architect and spouse.',
+                    'created_at'        => $now,
+                    'updated_at'        => $now,
+                ]);
+            }
         }
 
         if ($lead2) {

@@ -104,7 +104,7 @@ class Phase4PermissionSeeder extends Seeder
 
         // 2. Manager gets all Phase 4 transactional permissions
         if ($managerRole) {
-            $phase4Slugs = array_column($permissions, 'slug');
+            $phase4Slugs = array_column($phase4Permissions, 'slug');
             foreach ($allPermissions as $p) {
                 if (in_array($p['slug'], $phase4Slugs, true)) {
                     $exists = $db->table('role_permissions')->where([
