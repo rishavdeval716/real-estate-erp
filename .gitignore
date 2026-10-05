@@ -90,9 +90,10 @@ tests/*cookies*.txt
 /phpunit
 
 #-------------------------
-# Composer
+# Composer & Dependencies
 #-------------------------
 vendor/
+node_modules/
 
 #-------------------------
 # IDE / Development Files
