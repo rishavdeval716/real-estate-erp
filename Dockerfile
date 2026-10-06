@@ -4,10 +4,12 @@ FROM php:8.2-apache
 # Set working directory
 WORKDIR /var/www/html
 
-# Install system dependencies
+# Install system dependencies + lightweight MariaDB for zero-config free deployment
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
+    mariadb-server \
+    mariadb-client \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -18,6 +20,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     unzip \
     && rm -rf /var/lib/apt/lists/*
+
+# Low-memory MariaDB config for Render Free Tier (512MB RAM total)
+RUN { \
+        echo '[mysqld]'; \
+        echo 'innodb_buffer_pool_size=32M'; \
+        echo 'innodb_log_buffer_size=4M'; \
+        echo 'key_buffer_size=8M'; \
+        echo 'max_connections=25'; \
+        echo 'skip-name-resolve'; \
+    } > /etc/mysql/conf.d/render-low-mem.cnf
 
 # Configure & install PHP extensions required by CodeIgniter 4
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
