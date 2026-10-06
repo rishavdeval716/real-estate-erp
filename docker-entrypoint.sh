@@ -46,17 +46,36 @@ if [ -z "${DB_HOST}" ] || [ "${DB_HOST}" = "localhost" ] || [ "${DB_HOST}" = "12
         sleep 1
     done
 
-    # Grant permissions for root on 127.0.0.1, localhost, and %
-    echo "[*] Configuring MariaDB user permissions for 127.0.0.1 and localhost..."
+    # Grant permissions and switch authentication to mysql_native_password with empty password
+    echo "[*] Configuring MariaDB user authentication for root and erp_user..."
+    mysql -e "
+        ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('');
+        GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;
+    " 2>/dev/null || mysql -e "
+        ALTER USER 'root'@'localhost' IDENTIFIED BY '';
+        GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+    " || true
+
     mysql -e "
         CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED BY '';
+        ALTER USER 'root'@'127.0.0.1' IDENTIFIED VIA mysql_native_password USING PASSWORD('');
         GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION;
-        CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY '';
-        GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
         CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '';
+        ALTER USER 'root'@'%' IDENTIFIED VIA mysql_native_password USING PASSWORD('');
         GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+        CREATE USER IF NOT EXISTS 'erp_user'@'%' IDENTIFIED BY '';
+        ALTER USER 'erp_user'@'%' IDENTIFIED BY '';
+        GRANT ALL PRIVILEGES ON *.* TO 'erp_user'@'%' WITH GRANT OPTION;
+        CREATE USER IF NOT EXISTS 'erp_user'@'localhost' IDENTIFIED BY '';
+        ALTER USER 'erp_user'@'localhost' IDENTIFIED BY '';
+        GRANT ALL PRIVILEGES ON *.* TO 'erp_user'@'localhost' WITH GRANT OPTION;
+        CREATE USER IF NOT EXISTS 'erp_user'@'127.0.0.1' IDENTIFIED BY '';
+        ALTER USER 'erp_user'@'127.0.0.1' IDENTIFIED BY '';
+        GRANT ALL PRIVILEGES ON *.* TO 'erp_user'@'127.0.0.1' WITH GRANT OPTION;
+        UPDATE mysql.global_priv SET priv=json_set(priv, '$.plugin', 'mysql_native_password', '$.authentication_string', '') WHERE User IN ('root', 'erp_user');
+        UPDATE mysql.user SET plugin='mysql_native_password' WHERE User IN ('root', 'erp_user');
         FLUSH PRIVILEGES;
-    " || true
+    " 2>/dev/null || true
 
     # Ensure database exists
     mysql -e "CREATE DATABASE IF NOT EXISTS \`real_estate_erp\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
@@ -71,17 +90,33 @@ if [ -z "${DB_HOST}" ] || [ "${DB_HOST}" = "localhost" ] || [ "${DB_HOST}" = "12
         echo "[+] Database already contains ${TABLE_COUNT} tables. Skipping initialization."
     fi
 
-    # Verify PHP MySQLi connection to 127.0.0.1
-    php -r '
-        $conn = @new mysqli("127.0.0.1", "root", "", "real_estate_erp", 3306);
-        if ($conn->connect_error) {
-            echo "[-] Warning: PHP MySQLi connection to 127.0.0.1 failed: " . $conn->connect_error . "\n";
-        } else {
-            $count = $conn->query("SHOW TABLES")->num_rows;
-            echo "[+] PHP MySQLi connection to 127.0.0.1 verified successfully! Total tables: {$count}\n";
-            $conn->close();
-        }
-    ' || true
+    # Verify PHP database connection
+    for attempt in $(seq 1 10); do
+        PHP_STATUS=$(php -r '
+            $users = ["root", "erp_user"];
+            $hosts = ["127.0.0.1", "localhost"];
+            foreach ($hosts as $h) {
+                foreach ($users as $u) {
+                    $c = @new mysqli($h, $u, "", "real_estate_erp", 3306);
+                    if (!$c->connect_error) {
+                        $n = $c->query("SHOW TABLES")->num_rows;
+                        echo "OK:{$u}@{$h}:{$n}";
+                        $c->close();
+                        exit(0);
+                    }
+                }
+            }
+            exit(1);
+        ' 2>/dev/null || echo "FAILED")
+
+        if [[ "$PHP_STATUS" == OK* ]]; then
+            echo "[+] PHP database connection verified successfully: ${PHP_STATUS}"
+            break
+        fi
+
+        echo "[*] PHP database connection waiting (status: ${PHP_STATUS}). Retrying in 1s..."
+        sleep 1
+    done
 else
     echo "[*] Remote database mode: connecting to external host ${DB_HOST}..."
     php /var/www/html/spark db:init-production
