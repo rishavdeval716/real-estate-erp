@@ -123,41 +123,52 @@ Open your browser at `http://localhost:8080/login`:
 
 ---
 
-## 7. Step 6: Deploy Database to Render
+## 7. Step 6: Deploy Database to Render (Prevent Data Removal on Sleep)
 
-Render hosts applications as Docker Web Services. Because Render does not offer managed MySQL directly (it offers native PostgreSQL), your MySQL database can be hosted on a cloud MySQL provider such as **Aiven MySQL**, **Render Private MySQL Service**, **Supabase MySQL**, or **Railway MySQL**.
+### Why Data is Removed After 15–30 Minutes on Render Free Tier:
+Render Free Web Services **spin down (sleep) after 15 minutes of inactivity**, and their local container filesystems are **ephemeral**. When Render spins back up, a new container instance starts with an empty filesystem, causing embedded local databases to reset back to the default seed!
 
-### Step-by-Step Render Cloud Database Setup:
+### The Permanent Fix (Free Persistent Cloud MySQL):
+Connect your Render Web Service to a free persistent cloud MySQL database such as **TiDB Cloud Serverless** (Free forever, 5GB, no credit card, 100% MySQL 8.0) or **Aiven for MySQL**.
 
-1. **Provision MySQL Instance**:
-   - Create a MySQL 8.x database on your preferred cloud provider (e.g. Aiven free tier, Render Docker MySQL private service).
-   - Note the connection credentials:
-     - `DB_HOST` (e.g. `mysql-xxxx.aivencloud.com`)
-     - `DB_PORT` (e.g. `12345` or `3306`)
-     - `DB_DATABASE` (e.g. `defaultdb` or `real_estate_erp`)
-     - `DB_USERNAME` (e.g. `avnadmin`)
-     - `DB_PASSWORD` (e.g. your cloud password)
+Our container is now configured to **automatically initialize an empty cloud database on first connect** (`spark db:init-production`) and **never overwrite data** on subsequent restarts or spin-downs!
 
-2. **Import the SQL Dump into Cloud MySQL**:
-   From your local computer or terminal, import the dump directly:
-   ```bash
-   mysql -h <DB_HOST> -P <DB_PORT> -u <DB_USERNAME> -p <DB_DATABASE> < database/backups/real_estate_erp.sql
-   ```
-   *(Note: If your cloud database requires SSL, add `--ssl-mode=REQUIRED` or `--ssl-ca` as required by your provider).*
+---
 
-3. **Configure Environment Variables in Render Dashboard**:
-   - Go to [dashboard.render.com](https://dashboard.render.com) ➔ Select your Web Service (`real-estate-erp-dxdb`).
+### Recommended: TiDB Cloud Serverless (100% Free Forever, 2 Minutes Setup)
+
+1. **Sign up at [tidbcloud.com](https://tidbcloud.com)** (Free sign-up with GitHub or Google, no credit card needed).
+2. **Create a Serverless Cluster**:
+   - Select **Serverless (Free)**.
+   - Choose a region close to your Render service (e.g. AWS `us-east-1` or `eu-central-1`).
+   - Click **Create**.
+3. **Get Connection Parameters**:
+   - Click **Connect** ➔ Select **General** connection format.
+   - You will see:
+     - **Host**: `gateway01.us-east-1.prod.aws.tidbcloud.com` (or similar)
+     - **Port**: `4000`
+     - **User**: `xxxxxxxx.root`
+     - **Password**: `<your-generated-password>`
+     - **Database**: `test` (or create a database named `real_estate_erp`)
+
+4. **Add Environment Variables in Render Dashboard**:
+   - Go to [dashboard.render.com](https://dashboard.render.com) ➔ Select your Web Service (`real-estate-erp-dxbd`).
    - Click **Environment** ➔ Add / Update:
-     | Key | Value | Description |
-     | :--- | :--- | :--- |
-     | `CI_ENVIRONMENT` | `production` | Production mode |
-     | `APP_BASE_URL` | `https://real-estate-erp-dxdb.onrender.com/` | Public service URL |
-     | `DB_HOST` | `<remote_host>` | Remote database hostname |
-     | `DB_PORT` | `3306` (or custom) | Database port |
-     | `DB_DATABASE` | `<remote_database>` | Database name |
-     | `DB_USERNAME` | `<remote_user>` | Database user |
-     | `DB_PASSWORD` | `<remote_password>` | Database password |
 
-4. **Deploy Web Service**:
-   - Click **Manual Deploy** ➔ **Deploy latest commit**.
-   - Render will launch the container, connect to the remote database, and serve the application live!
+| Key | Example Value | Description |
+| :--- | :--- | :--- |
+| `CI_ENVIRONMENT` | `production` | Production mode |
+| `APP_BASE_URL` | `https://real-estate-erp-dxbd.onrender.com/` | Public service URL |
+| `DB_HOST` | `gateway01.us-east-1.prod.aws.tidbcloud.com` | TiDB host |
+| `DB_PORT` | `4000` | TiDB port |
+| `DB_DATABASE` | `test` (or `real_estate_erp`) | Database name |
+| `DB_USERNAME` | `xxxxxxxx.root` | TiDB username |
+| `DB_PASSWORD` | `<your_password>` | TiDB password |
+| `DB_SSL` | `true` | Enables TLS encryption (auto-detected) |
+
+*(Alternatively, you can provide a single `DATABASE_URL` string if preferred).*
+
+5. **Deploy / Save Changes**:
+   - Render will immediately restart the web service container.
+   - On startup, the container connects to TiDB, detects that it is fresh (0 tables), and imports all 75 tables automatically from `real_estate_erp.sql`.
+   - From this point on, **any user, property, or change you save is permanently stored in TiDB Cloud and will NEVER be deleted when Render sleeps or restarts!**

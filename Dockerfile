@@ -8,6 +8,7 @@ WORKDIR /var/www/html
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
+    ca-certificates \
     mariadb-server \
     mariadb-client \
     libpng-dev \

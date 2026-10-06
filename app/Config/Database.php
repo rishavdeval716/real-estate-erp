@@ -279,6 +279,7 @@ class Database extends Config
         };
 
         // Support standard connection URLs (e.g. DATABASE_URL, MYSQL_URL)
+        $urlSsl = false;
         if ($dbUrl = $getEnv('DATABASE_URL', 'MYSQL_URL')) {
             $parsed = parse_url($dbUrl);
             if ($parsed && !empty($parsed['host'])) {
@@ -287,6 +288,12 @@ class Database extends Config
                 if (!empty($parsed['user'])) $this->default['username'] = urldecode($parsed['user']);
                 if (isset($parsed['pass'])) $this->default['password'] = urldecode($parsed['pass']);
                 if (!empty($parsed['path'])) $this->default['database'] = ltrim(urldecode($parsed['path']), '/');
+                if (!empty($parsed['query'])) {
+                    parse_str($parsed['query'], $queryParams);
+                    if (isset($queryParams['ssl']) || isset($queryParams['ssl-mode']) || isset($queryParams['sslmode'])) {
+                        $urlSsl = true;
+                    }
+                }
             }
         }
 
@@ -309,14 +316,32 @@ class Database extends Config
             $this->default['port'] = (int) $port;
         }
 
-        // Support SSL/TLS encryption for cloud-hosted MySQL databases (Aiven, DigitalOcean, Supabase, RDS)
-        if ($ssl = $getEnv('DB_SSL', 'MYSQL_SSL', 'DB_ENCRYPT')) {
-            $sslEnabled = filter_var($ssl, FILTER_VALIDATE_BOOLEAN);
-            if ($sslEnabled) {
-                $this->default['encrypt'] = [
-                    'ssl_verify' => false,
-                ];
+        // Support SSL/TLS encryption for cloud-hosted MySQL databases (TiDB, Aiven, Supabase, RDS)
+        $sslFlag = $getEnv('DB_SSL', 'MYSQL_SSL', 'DB_ENCRYPT');
+        $sslEnabled = $sslFlag !== null ? filter_var($sslFlag, FILTER_VALIDATE_BOOLEAN) : $urlSsl;
+
+        // Auto-enable SSL if connecting to known cloud MySQL services (TiDB Cloud, Aiven, PlanetScale, RDS, etc.)
+        if (!$sslEnabled && !empty($this->default['hostname'])) {
+            $cloudHosts = ['tidbcloud.com', 'aivencloud.com', 'ondigitalocean.com', 'clever-cloud.com', 'supabase.co', 'planetscale.com', 'render.com'];
+            foreach ($cloudHosts as $cloudHost) {
+                if (stripos($this->default['hostname'], $cloudHost) !== false) {
+                    $sslEnabled = true;
+                    break;
+                }
             }
+        }
+
+        if ($sslEnabled) {
+            $caPath = null;
+            if ($customCa = $getEnv('DB_SSL_CA', 'MYSQL_SSL_CA')) {
+                $caPath = $customCa;
+            } elseif (file_exists('/etc/ssl/certs/ca-certificates.crt')) {
+                $caPath = '/etc/ssl/certs/ca-certificates.crt';
+            }
+            $this->default['encrypt'] = [
+                'ssl_verify' => filter_var($getEnv('DB_SSL_VERIFY') ?? 'false', FILTER_VALIDATE_BOOLEAN),
+                'ssl_ca'     => $caPath,
+            ];
         }
 
         // Log connection info in production

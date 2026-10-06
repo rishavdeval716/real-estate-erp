@@ -44,13 +44,22 @@ class DatabaseInit extends BaseCommand
     {
         CLI::write('[*] Checking database initialization status...', 'cyan');
 
-        try {
-            $db = \Config\Database::connect();
-            $db->initialize();
-        } catch (\Throwable $e) {
-            CLI::write('[WARNING] Could not connect to database: ' . $e->getMessage(), 'yellow');
-            CLI::write('          Skipping database auto-init. Please verify DB_HOST and credentials.', 'yellow');
-            return 0; // Return gracefully so container does not crash-loop
+        $db = null;
+        $maxAttempts = 5;
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $db = \Config\Database::connect();
+                $db->initialize();
+                break;
+            } catch (\Throwable $e) {
+                if ($attempt === $maxAttempts) {
+                    CLI::write('[WARNING] Could not connect to database after ' . $maxAttempts . ' attempts: ' . $e->getMessage(), 'yellow');
+                    CLI::write('          Skipping database auto-init. Please verify DB_HOST and credentials.', 'yellow');
+                    return 0; // Return gracefully so container does not crash-loop
+                }
+                CLI::write("[*] Database connection waiting (attempt {$attempt}/{$maxAttempts}: " . $e->getMessage() . "). Retrying in 2s...", 'yellow');
+                sleep(2);
+            }
         }
 
         $tables = $db->listTables();

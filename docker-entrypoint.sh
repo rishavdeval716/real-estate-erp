@@ -29,12 +29,30 @@ mkdir -p /var/www/html/writable/cache \
 chown -R www-data:www-data /var/www/html/writable
 chmod -R 775 /var/www/html/writable
 
+# Detect external database from DATABASE_URL or MYSQL_URL if DB_HOST is unset
+if [ -z "${DB_HOST}" ] || [ "${DB_HOST}" = "localhost" ] || [ "${DB_HOST}" = "127.0.0.1" ]; then
+    if [ -n "${DATABASE_URL}" ] || [ -n "${MYSQL_URL}" ]; then
+        REMOTE_URL="${DATABASE_URL:-${MYSQL_URL}}"
+        EXTRACTED_HOST=$(php -r '$u = parse_url(getenv("REMOTE_URL") ?: ""); echo $u["host"] ?? "";' 2>/dev/null || echo "")
+        if [ -n "${EXTRACTED_HOST}" ] && [ "${EXTRACTED_HOST}" != "localhost" ] && [ "${EXTRACTED_HOST}" != "127.0.0.1" ]; then
+            DB_HOST="${EXTRACTED_HOST}"
+        fi
+    fi
+fi
+
 # Database initialization and connection handling
 if [ -z "${DB_HOST}" ] || [ "${DB_HOST}" = "localhost" ] || [ "${DB_HOST}" = "127.0.0.1" ]; then
     echo "[*] Local database mode: starting embedded MariaDB service..."
     mkdir -p /var/run/mysqld
     chown -R mysql:mysql /var/run/mysqld
     chmod 777 /var/run/mysqld
+
+    # If /var/lib/mysql was mounted on a persistent disk and is uninitialized, install system tables
+    if [ ! -d "/var/lib/mysql/mysql" ]; then
+        echo "[*] Initializing MariaDB system tables in /var/lib/mysql..."
+        mysql_install_db --user=mysql --datadir=/var/lib/mysql >/dev/null 2>&1 || true
+    fi
+
     service mariadb start || /etc/init.d/mariadb start
 
     # Wait up to 30 seconds for MariaDB to become ready
