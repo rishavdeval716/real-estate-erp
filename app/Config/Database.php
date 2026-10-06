@@ -39,6 +39,8 @@ class Database extends Config
         'swapPre'      => '',
         'encrypt'      => false,
         'compress'     => false,
+        'strictOn'     => false,
+        'port'         => 3306,
         'failover'     => [
             [
                 'hostname'     => '127.0.0.1',
@@ -320,7 +322,7 @@ class Database extends Config
         // Log connection info in production
         $isProd = (defined('ENVIRONMENT') && ENVIRONMENT === 'production') || getenv('CI_ENVIRONMENT') === 'production';
         if ($isProd && in_array($this->default['hostname'], ['localhost', '127.0.0.1'], true) && !$getEnv('DB_HOST', 'DATABASE_URL', 'MYSQL_URL')) {
-            error_log('[REAL ESTATE ERP] Production environment: using local embedded MariaDB at ' . $this->default['hostname'] . ':' . $this->default['port']);
+            error_log('[REAL ESTATE ERP] Production environment: using local embedded MariaDB at ' . $this->default['hostname'] . ':' . ($this->default['port'] ?? 3306));
         }
 
         // Ensure that we always set the database group to 'tests' if
