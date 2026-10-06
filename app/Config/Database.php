@@ -246,10 +246,10 @@ class Database extends Config
             }
         }
 
-        // Log an informative warning if running in production without a remote DB_HOST
+        // Log connection info in production
         $isProd = (defined('ENVIRONMENT') && ENVIRONMENT === 'production') || getenv('CI_ENVIRONMENT') === 'production';
         if ($isProd && in_array($this->default['hostname'], ['localhost', '127.0.0.1'], true) && !$getEnv('DB_HOST', 'DATABASE_URL', 'MYSQL_URL')) {
-            error_log('[REAL ESTATE ERP] Production environment active, but DB_HOST is set to localhost/127.0.0.1. A remote MySQL host is required on Render.');
+            error_log('[REAL ESTATE ERP] Production environment: using local embedded MariaDB at ' . $this->default['hostname'] . ':' . $this->default['port']);
         }
 
         // Ensure that we always set the database group to 'tests' if

@@ -24,11 +24,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Low-memory MariaDB config for Render Free Tier (512MB RAM total)
 RUN { \
         echo '[mysqld]'; \
+        echo 'bind-address=0.0.0.0'; \
         echo 'innodb_buffer_pool_size=32M'; \
         echo 'innodb_log_buffer_size=4M'; \
         echo 'key_buffer_size=8M'; \
         echo 'max_connections=25'; \
-        echo 'skip-name-resolve'; \
     } > /etc/mysql/conf.d/render-low-mem.cnf
 
 # Configure & install PHP extensions required by CodeIgniter 4
