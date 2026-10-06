@@ -1,58 +1,9 @@
--- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: real_estate_erp
--- ------------------------------------------------------
--- Server version	8.0.46
+-- ==============================================================================
+-- MainSeeder.sql — Master Database Seeder
+-- Imports all seed data in correct foreign key dependency order
+-- ==============================================================================
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Real Estate ERP — Database Schema & Initial Data
--- Portable across any target database name (e.g., real_estate_erp, defaultdb, etc.)
---
-
---
--- Table structure for table `agents`
---
-
-DROP TABLE IF EXISTS `agents`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `agents` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `agent_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int unsigned DEFAULT NULL,
-  `agent_type` enum('Internal Agent','External Broker','Channel Partner','Agency') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'External Broker',
-  `agency_name` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `first_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `license_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pan_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `commission_rate` decimal(5,2) NOT NULL DEFAULT '2.00',
-  `status` enum('active','inactive','suspended') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `agent_code` (`agent_code`),
-  KEY `user_id` (`user_id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET FOREIGN_KEY_CHECKS = 0;
 
 --
 -- Dumping data for table `agents`
@@ -65,26 +16,6 @@ INSERT INTO `agents` VALUES (1,'AGT-2026-000001',NULL,'External Broker','Prime R
 UNLOCK TABLES;
 
 --
--- Table structure for table `amenities`
---
-
-DROP TABLE IF EXISTS `amenities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `amenities` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `amenities`
 --
 
@@ -93,30 +24,6 @@ LOCK TABLES `amenities` WRITE;
 INSERT INTO `amenities` VALUES (1,'Parking','ri-car-line','Dedicated covered and open parking spaces','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(2,'Lift','ri-arrow-up-down-line','High-speed passenger and stretcher elevators','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(3,'Gym','ri-heart-pulse-line','Fully equipped fitness center and gym','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(4,'Swimming Pool','ri-water-flash-line','Temperature-controlled swimming pool with kids deck','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(5,'Clubhouse','ri-community-line','Multi-purpose recreational community clubhouse','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(6,'Garden','ri-plant-line','Landscaped central gardens and walking trails','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(7,'CCTV','ri-video-chat-line','24/7 CCTV surveillance across perimeter and lobbies','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(8,'Security','ri-shield-check-line','Manned entrance security and boom barriers','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(9,'Power Backup','ri-flashlight-line','100% DG generator emergency power backup','active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(10,'Water Supply','ri-drop-line','24-hour treated municipal and borewell water supply','active','2026-10-01 15:14:39','2026-10-01 15:14:39');
 /*!40000 ALTER TABLE `amenities` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `audit_logs`
---
-
-DROP TABLE IF EXISTS `audit_logs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `audit_logs` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned DEFAULT NULL,
-  `action` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `module` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `record_id` int unsigned DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `audit_logs_user_id_foreign` (`user_id`),
-  KEY `module_action` (`module`,`action`),
-  CONSTRAINT `audit_logs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1489 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `audit_logs`
@@ -129,30 +36,6 @@ INSERT INTO `audit_logs` VALUES (1,1,'FAILED_PASSWORD','Authentication',1,'Incor
 UNLOCK TABLES;
 
 --
--- Table structure for table `booking_status_history`
---
-
-DROP TABLE IF EXISTS `booking_status_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `booking_status_history` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `booking_id` int unsigned NOT NULL,
-  `old_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `new_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `changed_by` int unsigned DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `booking_status_history_changed_by_foreign` (`changed_by`),
-  KEY `booking_id` (`booking_id`),
-  KEY `created_at` (`created_at`),
-  CONSTRAINT `booking_status_history_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `booking_status_history_changed_by_foreign` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `booking_status_history`
 --
 
@@ -161,56 +44,6 @@ LOCK TABLES `booking_status_history` WRITE;
 INSERT INTO `booking_status_history` VALUES (1,1,'None','Draft',1,'Created in Draft state','2026-10-01 17:09:56'),(2,1,'Draft','Confirmed',1,'Formally confirmed with token receipt','2026-10-01 17:09:56'),(3,2,'None','Draft',17,'Created','2026-10-01 17:09:56'),(4,2,'Draft','Confirmed',17,'Confirmed on receipt of UPI token','2026-10-01 17:09:56'),(5,3,'None','Draft',17,'Created in Draft','2026-10-01 17:09:56'),(6,3,'Draft','Pending Confirmation',17,'Pending cheque deposit','2026-10-01 17:09:56'),(7,4,'None','Draft',1,'Draft created','2026-10-01 17:09:57'),(8,4,'Draft','Cancelled',1,'Loan rejection led to voluntary cancellation','2026-10-01 17:09:57'),(9,5,'None','Draft',1,'Initial booking created in Draft status.','2026-10-01 17:10:53'),(10,5,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-01 17:10:54'),(11,5,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-01 17:10:54'),(12,6,'None','Draft',1,'Initial booking created in Draft status.','2026-10-01 17:13:37'),(13,6,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-01 17:13:38'),(14,6,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-01 17:13:38'),(15,7,'None','Draft',1,'Initial booking created in Draft status.','2026-10-01 17:14:17'),(16,7,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-01 17:14:17'),(17,7,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-01 17:14:18'),(18,8,'None','Draft',1,'Initial booking created in Draft status.','2026-10-01 17:21:44'),(19,8,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-01 17:21:45'),(20,8,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-01 17:21:45'),(21,9,'None','Draft',1,'Initial booking created in Draft status.','2026-10-01 17:44:59'),(22,9,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-01 17:45:00'),(23,9,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-01 17:45:00'),(24,10,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 11:54:37'),(25,10,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 11:54:37'),(26,10,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 11:54:37'),(27,11,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 12:38:49'),(28,11,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 12:38:50'),(29,11,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 12:38:50'),(30,12,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 13:08:06'),(31,12,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 13:08:07'),(32,12,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 13:08:07'),(33,13,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 13:24:51'),(34,13,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 13:24:51'),(35,13,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 13:24:51'),(36,14,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 14:03:14'),(37,14,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 14:03:15'),(38,14,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 14:03:15'),(39,15,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 14:14:48'),(40,15,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 14:14:48'),(41,15,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 14:14:49'),(42,16,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 14:25:17'),(43,16,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 14:25:18'),(44,16,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 14:25:18'),(45,17,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 14:30:53'),(46,17,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 14:30:54'),(47,17,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 14:30:54'),(48,18,'None','Draft',1,'Initial booking created in Draft status.','2026-10-03 15:22:57'),(49,18,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-03 15:22:57'),(50,18,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-03 15:22:57'),(51,19,'None','Draft',1,'Initial booking created in Draft status.','2026-10-05 11:03:41'),(52,19,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-05 11:03:42'),(53,19,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-05 11:03:42'),(54,20,'None','Draft',1,'Initial booking created in Draft status.','2026-10-05 12:38:04'),(55,20,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-05 12:38:05'),(56,20,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-05 12:38:05'),(57,21,'None','Draft',1,'Initial booking created in Draft status.','2026-10-05 12:48:30'),(58,21,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-05 12:48:31'),(59,21,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-05 12:48:31'),(60,22,'None','Draft',1,'Initial booking created in Draft status.','2026-10-05 13:06:19'),(61,22,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-05 13:06:20'),(62,22,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-05 13:06:20'),(63,23,'None','Draft',1,'Initial booking created in Draft status.','2026-10-05 14:36:24'),(64,23,'Draft','Confirmed',1,'Booking formally confirmed. Unit locked as Booked.','2026-10-05 14:36:25'),(65,23,'Confirmed','Cancelled',1,'Cancelled by user. Reason: Automated test suite cancellation verification','2026-10-05 14:36:25');
 /*!40000 ALTER TABLE `booking_status_history` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `bookings`
---
-
-DROP TABLE IF EXISTS `bookings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `bookings` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `booking_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id` int unsigned NOT NULL,
-  `lead_id` int unsigned DEFAULT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned NOT NULL,
-  `sales_executive_id` int unsigned DEFAULT NULL,
-  `booking_date` date NOT NULL,
-  `booking_status` enum('Draft','Pending Confirmation','Confirmed','Cancelled','Completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Draft',
-  `base_price` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `discount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `tax_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `final_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `token_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `booking_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `booking_number` (`booking_number`),
-  KEY `bookings_created_by_foreign` (`created_by`),
-  KEY `customer_id` (`customer_id`),
-  KEY `lead_id` (`lead_id`),
-  KEY `project_id` (`project_id`),
-  KEY `property_id` (`property_id`),
-  KEY `property_unit_id` (`property_unit_id`),
-  KEY `sales_executive_id` (`sales_executive_id`),
-  KEY `booking_status` (`booking_status`),
-  KEY `booking_date` (`booking_date`),
-  CONSTRAINT `bookings_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `bookings_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `bookings_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `bookings_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `bookings_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `bookings_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `bookings_sales_executive_id_foreign` FOREIGN KEY (`sales_executive_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `bookings`
@@ -223,37 +56,6 @@ INSERT INTO `bookings` VALUES (1,'BK-2026-000001',1,1,1,1,1,17,'2026-09-01','Can
 UNLOCK TABLES;
 
 --
--- Table structure for table `branches`
---
-
-DROP TABLE IF EXISTS `branches`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `branches` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `company_id` int unsigned NOT NULL,
-  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `manager_name` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'India',
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code` (`code`),
-  KEY `branches_company_id_foreign` (`company_id`),
-  CONSTRAINT `branches_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `branches`
 --
 
@@ -262,40 +64,6 @@ LOCK TABLES `branches` WRITE;
 INSERT INTO `branches` VALUES (1,1,'Corporate Headquarters','BR-HQ-001','Vikram Singhania','+91 22 2490 8801','hq.mumbai@apexhorizon.com','Apex Horizon Towers, BKC','Mumbai','Maharashtra','India','400051','active','2026-10-01 14:37:22','2026-10-01 14:37:22',NULL),(2,1,'North Regional Office','BR-NCR-002','Rajesh Sharma','+91 124 450 9900','delhi.ncr@apexhorizon.com','Cyber City, DLF Phase 2','Gurugram','Haryana','India','122002','active','2026-10-01 14:37:22','2026-10-01 14:37:22',NULL),(3,1,'South Tech Hub Branch','BR-BLR-003','Ananya Iyer','+91 80 4120 7700','bengaluru@apexhorizon.com','Outer Ring Road, Bellandur','Bengaluru','Karnataka','India','560103','active','2026-10-01 14:37:22','2026-10-01 14:37:22',NULL),(4,1,'Ahmedabad Commercial Hub','BR-AHM-889','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:49:36','2026-10-01 14:49:36',NULL),(5,1,'Ahmedabad Commercial Hub','BR-AHM-424','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:49:55','2026-10-01 14:49:55',NULL),(6,1,'Ahmedabad Commercial Hub','BR-AHM-555','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:50:12','2026-10-01 14:50:12',NULL),(7,1,'Ahmedabad Commercial Hub','BR-AHM-559','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:50:43','2026-10-01 14:50:43',NULL),(8,1,'Ahmedabad Commercial Hub','BR-AHM-258','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:50:59','2026-10-01 14:50:59',NULL),(9,1,'Ahmedabad Commercial Hub','BR-AHM-332','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:52:07','2026-10-01 14:52:07',NULL),(10,1,'Ahmedabad Commercial Hub','BR-AHM-523','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:52:33','2026-10-01 14:52:33',NULL),(11,1,'Ahmedabad Commercial Hub','BR-AHM-154','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:52:58','2026-10-01 14:52:58',NULL),(12,1,'Ahmedabad Commercial Hub','BR-AHM-552','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:53:33','2026-10-01 14:53:33',NULL),(13,1,'Ahmedabad Commercial Hub','BR-AHM-496','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 14:54:35','2026-10-01 14:54:35',NULL),(14,1,'Ahmedabad Commercial Hub','BR-AHM-232','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 15:02:24','2026-10-01 15:02:24',NULL),(15,1,'Ahmedabad Commercial Hub','BR-AHM-530','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 15:45:52','2026-10-01 15:45:52',NULL),(16,1,'Ahmedabad Commercial Hub','BR-AHM-223','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 16:25:03','2026-10-01 16:25:03',NULL),(17,1,'Ahmedabad Commercial Hub','BR-AHM-229','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 16:32:57','2026-10-01 16:32:57',NULL),(18,1,'Ahmedabad Commercial Hub','BR-AHM-853','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 16:39:09','2026-10-01 16:39:09',NULL),(19,1,'Ahmedabad Commercial Hub','BR-AHM-915','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 17:14:36','2026-10-01 17:14:36',NULL),(20,1,'Ahmedabad Commercial Hub','BR-AHM-662','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-01 17:20:25','2026-10-01 17:20:25',NULL),(21,1,'Ahmedabad Commercial Hub','BR-AHM-401','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-03 11:47:50','2026-10-03 11:47:50',NULL),(22,1,'Ahmedabad Commercial Hub','BR-AHM-274','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-03 12:30:17','2026-10-03 12:30:17',NULL),(23,1,'Ahmedabad Commercial Hub','BR-AHM-177','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-03 13:06:13','2026-10-03 13:06:13',NULL),(24,1,'Ahmedabad Commercial Hub','BR-AHM-734','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-03 13:23:30','2026-10-03 13:23:30',NULL),(25,1,'Ahmedabad Commercial Hub','BR-AHM-700','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-03 14:12:43','2026-10-03 14:12:43',NULL),(26,1,'Ahmedabad Commercial Hub','BR-AHM-435','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-03 14:24:51','2026-10-03 14:24:51',NULL),(27,1,'Ahmedabad Commercial Hub','BR-AHM-728','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-03 15:21:27','2026-10-03 15:21:27',NULL),(28,1,'Ahmedabad Commercial Hub','BR-AHM-309','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-05 11:03:11','2026-10-05 11:03:11',NULL),(29,1,'Ahmedabad Commercial Hub','BR-AHM-675','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-05 12:29:44','2026-10-05 12:29:44',NULL),(30,1,'Ahmedabad Commercial Hub','BR-AHM-245','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-05 12:48:01','2026-10-05 12:48:01',NULL),(31,1,'Ahmedabad Commercial Hub','BR-AHM-236','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-05 13:05:55','2026-10-05 13:05:55',NULL),(32,1,'Ahmedabad Commercial Hub','BR-AHM-992','Karan Patel','+91 79 2650 1100','ahmedabad@apexhorizon.com','','Ahmedabad','Gujarat','India','380015','active','2026-10-05 14:34:53','2026-10-05 14:34:53',NULL);
 /*!40000 ALTER TABLE `branches` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `cam_charges`
---
-
-DROP TABLE IF EXISTS `cam_charges`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cam_charges` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `cam_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `property_id` int unsigned NOT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `tenant_id` int unsigned DEFAULT NULL,
-  `area_sqft` decimal(10,2) NOT NULL,
-  `billing_model` enum('per_sqft','flat_rate') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'per_sqft',
-  `rate` decimal(10,2) NOT NULL,
-  `period` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` decimal(12,2) NOT NULL,
-  `tax` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `total` decimal(12,2) NOT NULL,
-  `status` enum('unbilled','billed','paid') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unbilled',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cam_code` (`cam_code`),
-  KEY `cam_charges_property_id_foreign` (`property_id`),
-  KEY `cam_charges_property_unit_id_foreign` (`property_unit_id`),
-  KEY `cam_charges_tenant_id_foreign` (`tenant_id`),
-  CONSTRAINT `cam_charges_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `cam_charges_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `cam_charges_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cam_charges`
@@ -308,27 +76,6 @@ INSERT INTO `cam_charges` VALUES (1,'CAM-2026-000001',1,5,1,1450.00,'per_sqft',4
 UNLOCK TABLES;
 
 --
--- Table structure for table `commission_rules`
---
-
-DROP TABLE IF EXISTS `commission_rules`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `commission_rules` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `commission_type` enum('Percentage','Fixed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Percentage',
-  `commission_value` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `applicable_to` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'All',
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `commission_rules`
 --
 
@@ -337,37 +84,6 @@ LOCK TABLES `commission_rules` WRITE;
 INSERT INTO `commission_rules` VALUES (1,'Standard Broker Commission (2.0%)','Percentage',2.00,'Broker','active','2026-10-01 17:03:52','2026-10-01 17:03:52'),(2,'Channel Partner Premium (2.5%)','Percentage',2.50,'Channel Partner','active','2026-10-01 17:03:52','2026-10-01 17:03:52'),(3,'In-House Executive Direct Sales Bonus','Fixed',25000.00,'Direct','active','2026-10-01 17:03:52','2026-10-01 17:03:52');
 /*!40000 ALTER TABLE `commission_rules` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `commissions`
---
-
-DROP TABLE IF EXISTS `commissions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `commissions` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `booking_id` int unsigned NOT NULL,
-  `agent_user_id` int unsigned NOT NULL,
-  `commission_rule_id` int unsigned DEFAULT NULL,
-  `booking_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `commission_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `status` enum('Pending','Approved','Paid','Cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `payable_date` date DEFAULT NULL,
-  `paid_date` date DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `commissions_commission_rule_id_foreign` (`commission_rule_id`),
-  KEY `booking_id` (`booking_id`),
-  KEY `agent_user_id` (`agent_user_id`),
-  KEY `status` (`status`),
-  CONSTRAINT `commissions_agent_user_id_foreign` FOREIGN KEY (`agent_user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `commissions_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `commissions_commission_rule_id_foreign` FOREIGN KEY (`commission_rule_id`) REFERENCES `commission_rules` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `commissions`
@@ -380,36 +96,6 @@ INSERT INTO `commissions` VALUES (1,1,17,1,47145000.00,942900.00,'Approved','202
 UNLOCK TABLES;
 
 --
--- Table structure for table `companies`
---
-
-DROP TABLE IF EXISTS `companies`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `companies` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alternate_phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'India',
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `website` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tax_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `companies`
 --
 
@@ -418,43 +104,6 @@ LOCK TABLES `companies` WRITE;
 INSERT INTO `companies` VALUES (1,'Apex Horizon Real Estate Corp',NULL,'contact@apexhorizon.com','+91 22 2490 8800','+91 98200 12345','Floor 18, Apex Horizon Towers, Financial District','Mumbai','Maharashtra','India','400051','https://apexhorizon.com','27AAACA9988B1Z6','Premier enterprise real estate developer and asset management group operating residential, commercial, and retail portfolios across metropolitan hubs.','active','2026-10-01 14:37:22','2026-10-01 14:37:22',NULL);
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `complaints`
---
-
-DROP TABLE IF EXISTS `complaints`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `complaints` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `complaint_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `complaint_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `property_id` int unsigned NOT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `tenant_id` int unsigned DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `priority` enum('low','medium','high','urgent') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'medium',
-  `assigned_user_id` int unsigned DEFAULT NULL,
-  `status` enum('submitted','in_review','in_progress','resolved','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'submitted',
-  `resolution` text COLLATE utf8mb4_unicode_ci,
-  `feedback_rating` int DEFAULT NULL,
-  `feedback_comments` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `complaint_code` (`complaint_code`),
-  KEY `complaints_property_id_foreign` (`property_id`),
-  KEY `complaints_property_unit_id_foreign` (`property_unit_id`),
-  KEY `complaints_tenant_id_foreign` (`tenant_id`),
-  KEY `complaints_assigned_user_id_foreign` (`assigned_user_id`),
-  KEY `status` (`status`),
-  CONSTRAINT `complaints_assigned_user_id_foreign` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `complaints_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `complaints_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `complaints_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `complaints`
@@ -467,38 +116,6 @@ INSERT INTO `complaints` VALUES (1,'CMP-2026-000001','Noise Disturbance',1,5,1,'
 UNLOCK TABLES;
 
 --
--- Table structure for table `construction_milestones`
---
-
-DROP TABLE IF EXISTS `construction_milestones`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `construction_milestones` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `milestone_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `project_id` int unsigned NOT NULL,
-  `tower_id` int unsigned DEFAULT NULL,
-  `milestone_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `stage_order` int NOT NULL DEFAULT '1',
-  `weightage_percentage` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `target_start_date` date DEFAULT NULL,
-  `target_completion_date` date DEFAULT NULL,
-  `actual_completion_date` date DEFAULT NULL,
-  `progress_percentage` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `status` enum('Not Started','In Progress','Under Review','Completed','Delayed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Not Started',
-  `verified_by` int unsigned DEFAULT NULL,
-  `verified_at` datetime DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `milestone_code` (`milestone_code`),
-  KEY `project_id` (`project_id`),
-  KEY `tower_id` (`tower_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `construction_milestones`
 --
 
@@ -507,38 +124,6 @@ LOCK TABLES `construction_milestones` WRITE;
 INSERT INTO `construction_milestones` VALUES (1,'MIL-2026-000001',1,1,'Piling, Deep Excavation & Foundation Works',1,15.00,'2025-01-10','2025-04-30','2025-04-25',100.00,'Completed',1,'2025-04-26 14:00:00','Piling certified by structural auditor. Raft foundation slab cast.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(2,'MIL-2026-000002',1,1,'Plinth, Podium & Basement Parking Structure',2,15.00,'2025-05-01','2025-08-31','2025-08-28',100.00,'Completed',1,'2025-08-29 11:30:00','Multi-level basement retention and ramp columns completed.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(3,'MIL-2026-000003',1,1,'Tower RCC Superstructure Frame (Floors 1-14)',3,20.00,'2025-09-01','2026-04-30',NULL,80.00,'In Progress',NULL,NULL,'11th floor slab de-shuttered. 12th floor column rebar in place.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(4,'MIL-2026-000004',1,1,'External/Internal AAC Masonry & Sand-Face Plaster',4,15.00,'2026-01-15','2026-07-31',NULL,45.00,'In Progress',NULL,NULL,'Floors 1 to 6 brickwork complete. Gypsum plaster initiated on floors 1-3.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(5,'MIL-2026-000005',1,1,'MEP Conduit, Fire Safety Sprinklers & Vertical Wet Risers',5,15.00,'2026-03-01','2026-09-30',NULL,35.00,'In Progress',NULL,NULL,'Conduit drop verification completed for lower 5 tiers.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(6,'MIL-2026-000006',1,1,'Flooring, Anodized Glazing, Elevators & Finishing',6,10.00,'2026-08-01','2026-11-30',NULL,0.00,'Not Started',NULL,NULL,'Sample apartment finishes approved by architect.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(7,'MIL-2026-000007',1,1,'Fire NOC, Occupancy Certificate (OC) & Possession Handover',7,10.00,'2026-11-01','2027-01-31',NULL,0.00,'Not Started',NULL,NULL,'Scheduled for municipal submission upon completion.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(8,'MIL-2026-000008',1,1,'Phase 6 Test Superstructure Stage 1791012603',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 13:00:04','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 13:00:04','2026-10-03 13:00:04'),(9,'MIL-2026-000009',1,1,'Phase 6 Test Superstructure Stage 1791012951',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 13:05:52','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 13:05:52','2026-10-03 13:05:52'),(10,'MIL-2026-000010',1,1,'Phase 6 Test Superstructure Stage 1791013132',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 13:08:53','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 13:08:52','2026-10-03 13:08:53'),(11,'MIL-2026-000011',1,1,'Phase 6 Test Superstructure Stage 1791014120',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 13:25:20','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 13:25:20','2026-10-03 13:25:20'),(12,'MIL-2026-000012',1,1,'Phase 6 Test Superstructure Stage 1791017171',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 14:16:11','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 14:16:11','2026-10-03 14:16:11'),(13,'MIL-2026-000013',1,1,'Phase 6 Test Superstructure Stage 1791017731',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 14:25:31','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 14:25:31','2026-10-03 14:25:31'),(14,'MIL-2026-000014',1,1,'Phase 6 Test Superstructure Stage 1791018069',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 14:31:10','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 14:31:10','2026-10-03 14:31:10'),(15,'MIL-2026-000015',1,1,'Phase 6 Test Superstructure Stage 1791021296',10,5.00,'2026-10-03','2026-11-02','2026-10-03',100.00,'Completed',1,'2026-10-03 15:24:56','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-03 15:24:56','2026-10-03 15:24:56'),(16,'MIL-2026-000016',1,1,'Phase 6 Test Superstructure Stage 1791178441',10,5.00,'2026-10-05','2026-11-04','2026-10-05',100.00,'Completed',1,'2026-10-05 11:04:01','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-05 11:04:01','2026-10-05 11:04:01'),(17,'MIL-2026-000017',1,1,'Phase 6 Test Superstructure Stage 1791184150',10,5.00,'2026-10-05','2026-11-04','2026-10-05',100.00,'Completed',1,'2026-10-05 12:39:11','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-05 12:39:11','2026-10-05 12:39:11'),(18,'MIL-2026-000018',1,1,'Phase 6 Test Superstructure Stage 1791184723',10,5.00,'2026-10-05','2026-11-04','2026-10-05',100.00,'Completed',1,'2026-10-05 12:48:44','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-05 12:48:43','2026-10-05 12:48:44'),(19,'MIL-2026-000019',1,1,'Phase 6 Test Superstructure Stage 1791185792',10,5.00,'2026-10-05','2026-11-04','2026-10-05',100.00,'Completed',1,'2026-10-05 13:06:32','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-05 13:06:32','2026-10-05 13:06:32'),(20,'MIL-2026-000020',1,1,'Phase 6 Test Superstructure Stage 1791191250',10,5.00,'2026-10-05','2026-11-04','2026-10-05',100.00,'Completed',1,'2026-10-05 14:37:31','Cube tests certified 100% compressive strength. Approved by chief structural auditor.','2026-10-05 14:37:31','2026-10-05 14:37:31');
 /*!40000 ALTER TABLE `construction_milestones` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `construction_work_orders`
---
-
-DROP TABLE IF EXISTS `construction_work_orders`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `construction_work_orders` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `work_order_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contractor_id` int unsigned NOT NULL,
-  `project_id` int unsigned NOT NULL,
-  `tower_id` int unsigned DEFAULT NULL,
-  `milestone_id` int unsigned DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `scope_of_work` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contract_amount` decimal(12,2) NOT NULL,
-  `retention_percentage` decimal(5,2) NOT NULL DEFAULT '5.00',
-  `start_date` date NOT NULL,
-  `completion_date` date NOT NULL,
-  `payment_terms` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('Draft','Awarded','In Progress','Under Inspection','Completed','Terminated') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Awarded',
-  `created_by` int unsigned NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `work_order_code` (`work_order_code`),
-  KEY `contractor_id` (`contractor_id`),
-  KEY `project_id` (`project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `construction_work_orders`
@@ -551,33 +136,6 @@ INSERT INTO `construction_work_orders` VALUES (1,'CWO-2026-000001',1,1,1,3,'RCC 
 UNLOCK TABLES;
 
 --
--- Table structure for table `contractors`
---
-
-DROP TABLE IF EXISTS `contractors`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `contractors` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `contractor_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `company_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `specialization` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contact_person` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `license_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gstin` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rating` decimal(3,1) NOT NULL DEFAULT '5.0',
-  `status` enum('Active','Inactive','Blacklisted') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `contractor_code` (`contractor_code`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `contractors`
 --
 
@@ -586,35 +144,6 @@ LOCK TABLES `contractors` WRITE;
 INSERT INTO `contractors` VALUES (1,'CON-2026-000001','Apex Structural Infrastructure Ltd.','Civil & Structural','Rajeshwar Sharma','+91 98210 11223','contact@apexstructural.local','LIC-CIV-MH-2021-998','27AAACA1234A1Z5',4.8,'Active','2026-10-03 12:42:05','2026-10-03 12:42:05'),(2,'CON-2026-000002','Siemens Power & MEP Solutions','Electrical','Arun Gopalan','+91 98210 44556','mep@siemenspower.local','LIC-ELE-MH-2020-412','27BBBCB5678B1Z6',4.9,'Active','2026-10-03 12:42:05','2026-10-03 12:42:05'),(3,'CON-2026-000003','Supreme Flow Plumbing & Fire Services','Plumbing','Dinesh Panchal','+91 98210 77889','services@supremeflow.local','LIC-PLB-MH-2022-105','27CCCC59012C1Z7',4.6,'Active','2026-10-03 12:42:05','2026-10-03 12:42:05'),(4,'CON-2026-000004','Asian Finishes & Architectural Paints','Finishing & Painting','Kavita Deshmukh','+91 98210 88990','projects@asianfinishes.local','LIC-FNH-MH-2023-334','27DDDDD3456D1Z8',4.7,'Active','2026-10-03 12:42:05','2026-10-03 12:42:05'),(5,'CON-2026-000005','Reliance Infrastructure Specialist 1791012605 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791012605@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 13:00:05','2026-10-03 13:00:06'),(6,'CON-2026-000006','Reliance Infrastructure Specialist 1791012954 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791012954@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 13:05:54','2026-10-03 13:05:55'),(7,'CON-2026-000007','Reliance Infrastructure Specialist 1791013134 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791013134@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 13:08:54','2026-10-03 13:08:55'),(8,'CON-2026-000008','Reliance Infrastructure Specialist 1791014121 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791014121@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 13:25:22','2026-10-03 13:25:22'),(9,'CON-2026-000009','Reliance Infrastructure Specialist 1791017173 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791017173@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 14:16:13','2026-10-03 14:16:14'),(10,'CON-2026-000010','Reliance Infrastructure Specialist 1791017733 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791017733@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 14:25:33','2026-10-03 14:25:34'),(11,'CON-2026-000011','Reliance Infrastructure Specialist 1791018072 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791018072@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 14:31:12','2026-10-03 14:31:13'),(12,'CON-2026-000012','Reliance Infrastructure Specialist 1791021298 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791021298@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-03 15:24:58','2026-10-03 15:24:58'),(13,'CON-2026-000013','Reliance Infrastructure Specialist 1791178443 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791178443@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-05 11:04:03','2026-10-05 11:04:04'),(14,'CON-2026-000014','Reliance Infrastructure Specialist 1791184152 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791184152@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-05 12:39:13','2026-10-05 12:39:13'),(15,'CON-2026-000015','Reliance Infrastructure Specialist 1791184726 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791184726@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-05 12:48:46','2026-10-05 12:48:47'),(16,'CON-2026-000016','Reliance Infrastructure Specialist 1791185794 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791185794@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-05 13:06:34','2026-10-05 13:06:35'),(17,'CON-2026-000017','Reliance Infrastructure Specialist 1791191252 Prime','Civil & Structural','Sunil Mittal','+91 98200 99882','contracts.1791191252@relianceinfra.local','LIC-REL-2026-991-REV','27AAACR1234F1Z9',5.0,'Inactive','2026-10-05 14:37:33','2026-10-05 14:37:33');
 /*!40000 ALTER TABLE `contractors` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `customer_communications`
---
-
-DROP TABLE IF EXISTS `customer_communications`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customer_communications` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `comm_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id` int unsigned DEFAULT NULL,
-  `lead_id` int unsigned DEFAULT NULL,
-  `channel` enum('Phone Call','WhatsApp','Email','SMS','In-Person Meeting','Video Call','Letter / Notice') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Phone Call',
-  `purpose` enum('Follow-up','Property Enquiry','Site Visit Reminder','Booking Confirmation','Payment Reminder','Payment Receipt','Rent Reminder','Agreement Execution','Document Request','Grievance Resolution','General Update') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Follow-up',
-  `subject` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('Planned','Sent','Delivered','Completed','Failed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Completed',
-  `communication_date` datetime NOT NULL,
-  `user_id` int unsigned DEFAULT NULL,
-  `response_notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `comm_code` (`comm_code`),
-  KEY `customer_id` (`customer_id`),
-  KEY `lead_id` (`lead_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_communications`
@@ -627,35 +156,6 @@ INSERT INTO `customer_communications` VALUES (1,'COM-2026-000001',1,1,'Phone Cal
 UNLOCK TABLES;
 
 --
--- Table structure for table `customer_documents`
---
-
-DROP TABLE IF EXISTS `customer_documents`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customer_documents` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `customer_id` int unsigned NOT NULL,
-  `document_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `document_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `file_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `verification_status` enum('Pending','Verified','Rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `verified_by` int unsigned DEFAULT NULL,
-  `verified_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `customer_documents_verified_by_foreign` (`verified_by`),
-  KEY `customer_id` (`customer_id`),
-  KEY `document_type` (`document_type`),
-  KEY `verification_status` (`verification_status`),
-  CONSTRAINT `customer_documents_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `customer_documents_verified_by_foreign` FOREIGN KEY (`verified_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `customer_documents`
 --
 
@@ -664,44 +164,6 @@ LOCK TABLES `customer_documents` WRITE;
 INSERT INTO `customer_documents` VALUES (1,1,'PAN Card','ABCPS1234F','pan_card_doc.pdf','kyc/sample_1.pdf','Verified',1,'2026-10-01 17:03:52','2026-10-01 17:03:52','2026-10-01 17:03:52'),(2,2,'Aadhaar Card','8492 1092 3847','aadhaar_card_doc.pdf','kyc/sample_2.pdf','Verified',1,'2026-10-01 17:03:52','2026-10-01 17:03:52','2026-10-01 17:03:52'),(3,3,'PAN Card','AVPPR4567G','pan_card_doc.pdf','kyc/sample_3.pdf','Pending',NULL,NULL,'2026-10-01 17:03:52','2026-10-01 17:03:52'),(4,4,'Passport','Z1234567','passport_doc.pdf','kyc/sample_4.pdf','Verified',1,'2026-10-01 17:03:52','2026-10-01 17:03:52','2026-10-01 17:03:52');
 /*!40000 ALTER TABLE `customer_documents` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `customers`
---
-
-DROP TABLE IF EXISTS `customers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customers` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `customer_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lead_id` int unsigned DEFAULT NULL,
-  `first_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alternate_phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_proof_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_proof_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kyc_status` enum('Pending','Verified','Rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `status` enum('Active','Inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `customer_code` (`customer_code`),
-  KEY `phone` (`phone`),
-  KEY `email` (`email`),
-  KEY `kyc_status` (`kyc_status`),
-  KEY `status` (`status`),
-  KEY `lead_id` (`lead_id`),
-  CONSTRAINT `customers_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customers`
@@ -714,39 +176,6 @@ INSERT INTO `customers` VALUES (1,'CUS-2026-000001',1,'Rajesh','Sharma','rajesh.
 UNLOCK TABLES;
 
 --
--- Table structure for table `daily_site_logs`
---
-
-DROP TABLE IF EXISTS `daily_site_logs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daily_site_logs` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `log_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `log_date` date NOT NULL,
-  `project_id` int unsigned NOT NULL,
-  `tower_id` int unsigned DEFAULT NULL,
-  `milestone_id` int unsigned DEFAULT NULL,
-  `skilled_workers` int NOT NULL DEFAULT '0',
-  `unskilled_workers` int NOT NULL DEFAULT '0',
-  `weather_condition` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Sunny',
-  `work_completed` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `materials_used` text COLLATE utf8mb4_unicode_ci,
-  `equipment_deployed` text COLLATE utf8mb4_unicode_ci,
-  `delays_or_impediments` text COLLATE utf8mb4_unicode_ci,
-  `logged_by` int unsigned NOT NULL,
-  `approved_by` int unsigned DEFAULT NULL,
-  `status` enum('Draft','Submitted','Approved') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Submitted',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `log_code` (`log_code`),
-  KEY `project_id` (`project_id`),
-  KEY `log_date` (`log_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `daily_site_logs`
 --
 
@@ -755,46 +184,6 @@ LOCK TABLES `daily_site_logs` WRITE;
 INSERT INTO `daily_site_logs` VALUES (1,'LOG-2026-000001','2026-10-03',1,1,3,28,45,'Sunny','Completed shuttering and steel binding for 12th floor column grid C1-C14. Poured 45 cubic meters ready-mix concrete for central service core.','RMC M35 Grade: 45 cu.m, Fe500D TMT Steel 16mm: 3.8 Metric Tons, Binding Wire: 60 kg.','Tower Crane #1, Concrete Boom Placer (36m), Vibrator needles (4 units).','None. Work proceeded as scheduled with zero safety incidents.',1,1,'Approved','2026-10-03 12:42:05','2026-10-03 12:42:05'),(2,'LOG-2026-000002','2026-10-03',1,1,8,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791012604','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 13:00:04','2026-10-03 13:00:05'),(3,'LOG-2026-000003','2026-10-03',1,1,9,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791012953','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 13:05:53','2026-10-03 13:05:53'),(4,'LOG-2026-000004','2026-10-03',1,1,10,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791013133','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 13:08:53','2026-10-03 13:08:54'),(5,'LOG-2026-000005','2026-10-03',1,1,11,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791014121','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 13:25:21','2026-10-03 13:25:21'),(6,'LOG-2026-000006','2026-10-03',1,1,12,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791017172','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 14:16:12','2026-10-03 14:16:12'),(7,'LOG-2026-000007','2026-10-03',1,1,13,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791017732','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 14:25:32','2026-10-03 14:25:32'),(8,'LOG-2026-000008','2026-10-03',1,1,14,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791018070','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 14:31:11','2026-10-03 14:31:11'),(9,'LOG-2026-000009','2026-10-03',1,1,15,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791021297','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-03 15:24:57','2026-10-03 15:24:57'),(10,'LOG-2026-000010','2026-10-05',1,1,16,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791178442','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-05 11:04:02','2026-10-05 11:04:02'),(11,'LOG-2026-000011','2026-10-05',1,1,17,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791184151','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-05 12:39:12','2026-10-05 12:39:12'),(12,'LOG-2026-000012','2026-10-05',1,1,18,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791184725','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-05 12:48:45','2026-10-05 12:48:45'),(13,'LOG-2026-000013','2026-10-05',1,1,19,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791185793','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-05 13:06:33','2026-10-05 13:06:33'),(14,'LOG-2026-000014','2026-10-05',1,1,20,32,50,'Sunny','Test concrete pour for 14th floor grid: 1791191252','55 cu.m RMC M40, 4.2 MT steel','Tower Crane #1, Concrete Pump','Zero delays, perfect pour',1,1,'Approved','2026-10-05 14:37:32','2026-10-05 14:37:32');
 /*!40000 ALTER TABLE `daily_site_logs` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `enquiries`
---
-
-DROP TABLE IF EXISTS `enquiries`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `enquiries` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `enquiry_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lead_id` int unsigned NOT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `enquiry_type` enum('Purchase','Investment','Rent','Commercial','Plot/Land','Other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Purchase',
-  `requirement` text COLLATE utf8mb4_unicode_ci,
-  `budget` decimal(15,2) DEFAULT NULL,
-  `preferred_location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `preferred_property_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('Open','In Progress','Qualified','Closed','Cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Open',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `enquiry_code` (`enquiry_code`),
-  KEY `enquiries_lead_id_foreign` (`lead_id`),
-  KEY `enquiries_project_id_foreign` (`project_id`),
-  KEY `enquiries_property_id_foreign` (`property_id`),
-  KEY `enquiries_property_unit_id_foreign` (`property_unit_id`),
-  KEY `enquiries_created_by_foreign` (`created_by`),
-  KEY `status` (`status`),
-  CONSTRAINT `enquiries_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `enquiries_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `enquiries_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `enquiries_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `enquiries_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enquiries`
@@ -807,26 +196,6 @@ INSERT INTO `enquiries` VALUES (1,'ENQ-2026-000001',1,NULL,1,NULL,'Purchase','Lo
 UNLOCK TABLES;
 
 --
--- Table structure for table `expense_categories`
---
-
-DROP TABLE IF EXISTS `expense_categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `expense_categories` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `expense_categories`
 --
 
@@ -835,33 +204,6 @@ LOCK TABLES `expense_categories` WRITE;
 INSERT INTO `expense_categories` VALUES (1,'Property Maintenance','EXP-CAT-MAINT','Routine building and facility maintenance, lift AMCs, landscaping','active','2026-10-05 11:12:43','2026-10-05 11:12:43'),(2,'Repair & Renovation','EXP-CAT-REPAIR','Plumbing, civil repairs, waterproofing, painting and restoration','active','2026-10-05 11:12:43','2026-10-05 11:12:43'),(3,'Property Tax & Municipal','EXP-CAT-TAX','Municipal property tax, land assessment charges, statutory water tax','active','2026-10-05 11:12:43','2026-10-05 11:12:43'),(4,'Utilities & Energy','EXP-CAT-UTIL','Electricity bills, DG diesel fuel, water tanker supply','active','2026-10-05 11:12:43','2026-10-05 11:12:43'),(5,'Marketing & Advertising','EXP-CAT-MKT','Online portal listings, social media ads, brochures, hoarding displays','active','2026-10-05 11:12:43','2026-10-05 11:12:43'),(6,'Legal, Title & Audit','EXP-CAT-LEGAL','Legal opinion, title searches, RERA compliance certification, audit fees','active','2026-10-05 11:12:43','2026-10-05 11:12:43'),(7,'Insurance Premiums','EXP-CAT-INSUR','Building fire insurance, public liability, equipment breakdown cover','active','2026-10-05 11:12:43','2026-10-05 11:12:43'),(8,'Security & Housekeeping','EXP-CAT-SEC','Manned security guard agency, housekeeping materials and janitorial','active','2026-10-05 11:12:43','2026-10-05 11:12:43');
 /*!40000 ALTER TABLE `expense_categories` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `facility_assets`
---
-
-DROP TABLE IF EXISTS `facility_assets`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `facility_assets` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `asset_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category` enum('elevators','generators','fire_safety','water_treatment','electrical','hvac','other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'other',
-  `property_id` int unsigned NOT NULL,
-  `location_details` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `installation_date` date DEFAULT NULL,
-  `warranty_expiry` date DEFAULT NULL,
-  `status` enum('operational','under_maintenance','decommissioned') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'operational',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `asset_code` (`asset_code`),
-  KEY `facility_assets_property_id_foreign` (`property_id`),
-  KEY `status` (`status`),
-  CONSTRAINT `facility_assets_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `facility_assets`
@@ -874,42 +216,6 @@ INSERT INTO `facility_assets` VALUES (1,'AST-2026-000001','Passenger Elevator Un
 UNLOCK TABLES;
 
 --
--- Table structure for table `handover_certificates`
---
-
-DROP TABLE IF EXISTS `handover_certificates`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `handover_certificates` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `certificate_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `booking_id` int unsigned NOT NULL,
-  `customer_id` int unsigned NOT NULL,
-  `property_unit_id` int unsigned NOT NULL,
-  `handover_date` date NOT NULL,
-  `financial_clearance` tinyint(1) NOT NULL DEFAULT '1',
-  `snagging_clearance` tinyint(1) NOT NULL DEFAULT '1',
-  `occupancy_certificate_ref` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `electricity_meter_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `initial_electricity_reading` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `water_meter_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `initial_water_reading` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `key_sets_provided` int NOT NULL DEFAULT '2',
-  `customer_acknowledged` tinyint(1) NOT NULL DEFAULT '1',
-  `authorized_by` int unsigned NOT NULL,
-  `status` enum('Draft','Ready for Handover','Handed Over','Archived') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Handed Over',
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `certificate_number` (`certificate_number`),
-  KEY `booking_id` (`booking_id`),
-  KEY `customer_id` (`customer_id`),
-  KEY `property_unit_id` (`property_unit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `handover_certificates`
 --
 
@@ -918,40 +224,6 @@ LOCK TABLES `handover_certificates` WRITE;
 INSERT INTO `handover_certificates` VALUES (1,'HND-2026-000001',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491','MSEDCL-LT-889021',12.50,'MCGM-WM-44120',4.00,3,1,1,'Handed Over','Unit inspected with buyer. All final financial dues settled. 3 complete sets of brass keys handed over along with warranty cards for electrical fittings.','2026-10-03 12:42:05','2026-10-03 12:42:05'),(2,'HND-2026-000002',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 13:00:09','2026-10-03 13:00:09'),(3,'HND-2026-000003',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 13:05:58','2026-10-03 13:05:58'),(4,'HND-2026-000004',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 13:08:59','2026-10-03 13:08:59'),(5,'HND-2026-000005',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 13:25:26','2026-10-03 13:25:26'),(6,'HND-2026-000006',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 14:16:17','2026-10-03 14:16:17'),(7,'HND-2026-000007',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 14:25:38','2026-10-03 14:25:38'),(8,'HND-2026-000008',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 14:31:18','2026-10-03 14:31:18'),(9,'HND-2026-000009',2,2,2,'2026-10-03',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-03 15:25:02','2026-10-03 15:25:02'),(10,'HND-2026-000010',2,2,2,'2026-10-05',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-05 11:04:09','2026-10-05 11:04:09'),(11,'HND-2026-000011',2,2,2,'2026-10-05',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-05 12:39:18','2026-10-05 12:39:18'),(12,'HND-2026-000012',2,2,2,'2026-10-05',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-05 12:48:50','2026-10-05 12:48:50'),(13,'HND-2026-000013',2,2,2,'2026-10-05',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-05 13:06:39','2026-10-05 13:06:39'),(14,'HND-2026-000014',2,2,2,'2026-10-05',1,1,'MCGM/BP/OC-2026/0491-REV','MSEDCL-LT-889025',15.50,'MCGM-WM-44125',5.00,3,1,1,'Handed Over','All master brass keys handed over with welcome kit and appliance warranties.','2026-10-05 14:37:37','2026-10-05 14:37:37');
 /*!40000 ALTER TABLE `handover_certificates` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `invoices`
---
-
-DROP TABLE IF EXISTS `invoices`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `invoices` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `invoice_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `booking_id` int unsigned NOT NULL,
-  `customer_id` int unsigned NOT NULL,
-  `invoice_date` date NOT NULL,
-  `due_date` date NOT NULL,
-  `subtotal` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `discount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `tax` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `total_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `paid_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `balance_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `status` enum('Draft','Issued','Partially Paid','Paid','Cancelled','Overdue') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Draft',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `invoice_number` (`invoice_number`),
-  KEY `booking_id` (`booking_id`),
-  KEY `customer_id` (`customer_id`),
-  KEY `status` (`status`),
-  KEY `due_date` (`due_date`),
-  CONSTRAINT `invoices_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `invoices_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `invoices`
@@ -964,31 +236,6 @@ INSERT INTO `invoices` VALUES (1,'INV-2026-000001',1,1,'2026-09-06','2026-09-26'
 UNLOCK TABLES;
 
 --
--- Table structure for table `lead_assignments`
---
-
-DROP TABLE IF EXISTS `lead_assignments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `lead_assignments` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `lead_id` int unsigned NOT NULL,
-  `assigned_to` int unsigned NOT NULL,
-  `assigned_by` int unsigned DEFAULT NULL,
-  `assignment_type` enum('Initial','Reassignment') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Initial',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lead_assignments_lead_id_foreign` (`lead_id`),
-  KEY `lead_assignments_assigned_to_foreign` (`assigned_to`),
-  KEY `lead_assignments_assigned_by_foreign` (`assigned_by`),
-  CONSTRAINT `lead_assignments_assigned_by_foreign` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `lead_assignments_assigned_to_foreign` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `lead_assignments_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `lead_assignments`
 --
 
@@ -997,40 +244,6 @@ LOCK TABLES `lead_assignments` WRITE;
 INSERT INTO `lead_assignments` VALUES (1,1,17,1,'Initial','System lead routing assignment','2026-10-01 16:02:38'),(2,2,17,1,'Initial','System lead routing assignment','2026-10-01 16:02:38'),(3,3,17,1,'Initial','System lead routing assignment','2026-10-01 16:02:38'),(4,4,1,1,'Initial','System lead routing assignment','2026-10-01 16:02:38'),(5,5,17,1,'Initial','System lead routing assignment','2026-10-01 16:02:38'),(6,6,17,1,'Initial','Assigned to senior sales specialist','2026-10-01 16:10:25'),(7,6,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 16:10:26'),(8,6,17,1,'Reassignment','Assigned to senior sales specialist','2026-10-01 16:16:49'),(9,6,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 16:16:49'),(10,8,17,1,'Initial','Assigned to senior sales specialist','2026-10-01 16:27:31'),(11,8,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 16:27:31'),(12,9,17,1,'Initial','Assigned to senior sales specialist','2026-10-01 16:30:02'),(13,9,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 16:30:03'),(14,9,2,1,'Initial','Auto round-robin distribution','2026-10-01 16:30:03'),(15,10,17,1,'Initial','Assigned to senior sales specialist','2026-10-01 16:32:28'),(16,10,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 16:32:29'),(17,10,4,1,'Initial','Auto round-robin distribution','2026-10-01 16:32:29'),(18,11,17,1,'Initial','Assigned to senior sales specialist','2026-10-01 16:39:53'),(19,11,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 16:39:54'),(20,11,5,1,'Initial','Auto round-robin distribution','2026-10-01 16:39:54'),(21,12,17,1,'Initial','Assigned to senior sales specialist','2026-10-01 16:40:33'),(22,12,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 16:40:34'),(23,12,6,1,'Initial','Auto round-robin distribution','2026-10-01 16:40:34'),(24,13,17,1,'Initial','Assigned to senior sales specialist','2026-10-01 17:21:25'),(25,13,3,1,'Reassignment','VIP escalation to branch manager','2026-10-01 17:21:25'),(26,13,7,1,'Initial','Auto round-robin distribution','2026-10-01 17:21:25'),(27,14,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 11:49:27'),(28,14,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 11:49:28'),(29,14,8,1,'Initial','Auto round-robin distribution','2026-10-03 11:49:28'),(30,15,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 11:50:14'),(31,15,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 11:50:14'),(32,15,9,1,'Initial','Auto round-robin distribution','2026-10-03 11:50:15'),(33,16,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 11:51:13'),(34,16,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 11:51:13'),(35,16,10,1,'Initial','Auto round-robin distribution','2026-10-03 11:51:14'),(36,17,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 11:52:54'),(37,17,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 11:52:54'),(38,17,11,1,'Initial','Auto round-robin distribution','2026-10-03 11:52:55'),(39,18,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 12:38:20'),(40,18,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 12:38:20'),(41,18,12,1,'Initial','Auto round-robin distribution','2026-10-03 12:38:20'),(42,19,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 13:07:38'),(43,19,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 13:07:39'),(44,19,13,1,'Initial','Auto round-robin distribution','2026-10-03 13:07:39'),(45,20,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 13:24:19'),(46,20,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 13:24:20'),(47,20,14,1,'Initial','Auto round-robin distribution','2026-10-03 13:24:20'),(48,21,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 14:14:20'),(49,21,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 14:14:20'),(50,21,15,1,'Initial','Auto round-robin distribution','2026-10-03 14:14:21'),(51,22,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 14:25:06'),(52,22,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 14:25:07'),(53,22,16,1,'Initial','Auto round-robin distribution','2026-10-03 14:25:07'),(54,23,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 14:30:42'),(55,23,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 14:30:42'),(56,23,18,1,'Initial','Auto round-robin distribution','2026-10-03 14:30:42'),(57,24,17,1,'Initial','Assigned to senior sales specialist','2026-10-03 15:22:46'),(58,24,3,1,'Reassignment','VIP escalation to branch manager','2026-10-03 15:22:46'),(59,24,19,1,'Initial','Auto round-robin distribution','2026-10-03 15:22:46'),(60,25,17,1,'Initial','Assigned to senior sales specialist','2026-10-05 11:03:28'),(61,25,3,1,'Reassignment','VIP escalation to branch manager','2026-10-05 11:03:29'),(62,25,20,1,'Initial','Auto round-robin distribution','2026-10-05 11:03:29'),(63,26,17,1,'Initial','Assigned to senior sales specialist','2026-10-05 12:37:31'),(64,26,3,1,'Reassignment','VIP escalation to branch manager','2026-10-05 12:37:31'),(65,26,21,1,'Initial','Auto round-robin distribution','2026-10-05 12:37:32'),(66,27,17,1,'Initial','Assigned to senior sales specialist','2026-10-05 12:48:17'),(67,27,3,1,'Reassignment','VIP escalation to branch manager','2026-10-05 12:48:18'),(68,27,33,1,'Initial','Auto round-robin distribution','2026-10-05 12:48:18'),(69,28,17,1,'Initial','Assigned to senior sales specialist','2026-10-05 13:06:09'),(70,28,3,1,'Reassignment','VIP escalation to branch manager','2026-10-05 13:06:10'),(71,28,34,1,'Initial','Auto round-robin distribution','2026-10-05 13:06:10'),(72,29,17,1,'Initial','Assigned to senior sales specialist','2026-10-05 14:35:55'),(73,29,3,1,'Reassignment','VIP escalation to branch manager','2026-10-05 14:35:55'),(74,29,35,1,'Initial','Auto round-robin distribution','2026-10-05 14:35:56');
 /*!40000 ALTER TABLE `lead_assignments` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `lead_followups`
---
-
-DROP TABLE IF EXISTS `lead_followups`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `lead_followups` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `lead_id` int unsigned NOT NULL,
-  `assigned_to` int unsigned NOT NULL,
-  `followup_type` enum('Phone Call','WhatsApp','Email','Meeting','Site Visit','Other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Phone Call',
-  `scheduled_at` datetime NOT NULL,
-  `completed_at` datetime DEFAULT NULL,
-  `status` enum('Pending','Completed','Cancelled','Missed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `outcome` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `next_followup_at` datetime DEFAULT NULL,
-  `created_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lead_followups_lead_id_foreign` (`lead_id`),
-  KEY `lead_followups_assigned_to_foreign` (`assigned_to`),
-  KEY `lead_followups_created_by_foreign` (`created_by`),
-  KEY `status` (`status`),
-  KEY `scheduled_at` (`scheduled_at`),
-  KEY `next_followup_at` (`next_followup_at`),
-  CONSTRAINT `lead_followups_assigned_to_foreign` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `lead_followups_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `lead_followups_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `lead_followups`
@@ -1043,35 +256,6 @@ INSERT INTO `lead_followups` VALUES (1,1,17,'Phone Call','2026-09-29 10:00:00','
 UNLOCK TABLES;
 
 --
--- Table structure for table `lead_property_interests`
---
-
-DROP TABLE IF EXISTS `lead_property_interests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `lead_property_interests` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `lead_id` int unsigned NOT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `interest_level` enum('Primary','Interested','Alternative','Not Interested') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Interested',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lead_property_interests_lead_id_foreign` (`lead_id`),
-  KEY `lead_property_interests_project_id_foreign` (`project_id`),
-  KEY `lead_property_interests_property_id_foreign` (`property_id`),
-  KEY `lead_property_interests_property_unit_id_foreign` (`property_unit_id`),
-  CONSTRAINT `lead_property_interests_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `lead_property_interests_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `lead_property_interests_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `lead_property_interests_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `lead_property_interests`
 --
 
@@ -1080,29 +264,6 @@ LOCK TABLES `lead_property_interests` WRITE;
 INSERT INTO `lead_property_interests` VALUES (1,1,NULL,1,NULL,'Primary','Client shortlisted this property on priority.','2026-10-01 16:02:38','2026-10-01 16:02:38'),(2,4,NULL,1,NULL,'Primary','Client shortlisted this property on priority.','2026-10-01 16:02:38','2026-10-01 16:02:38'),(3,6,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 16:10:25','2026-10-01 16:10:25'),(4,7,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 16:16:48','2026-10-01 16:16:48'),(5,6,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-01 16:16:51','2026-10-01 16:16:51'),(6,8,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 16:27:30','2026-10-01 16:27:30'),(7,8,NULL,1,5,'Primary','Client primary choice after reviewing specs','2026-10-01 16:27:33','2026-10-01 16:27:33'),(8,9,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 16:30:02','2026-10-01 16:30:02'),(9,9,NULL,1,5,'Primary','Client primary choice after reviewing specs','2026-10-01 16:30:05','2026-10-01 16:30:05'),(10,10,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 16:32:28','2026-10-01 16:32:28'),(11,10,NULL,1,5,'Primary','Client primary choice after reviewing specs','2026-10-01 16:32:31','2026-10-01 16:32:31'),(12,11,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 16:39:53','2026-10-01 16:39:53'),(13,11,NULL,1,5,'Primary','Client primary choice after reviewing specs','2026-10-01 16:39:57','2026-10-01 16:39:57'),(14,12,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 16:40:33','2026-10-01 16:40:33'),(15,12,NULL,1,5,'Primary','Client primary choice after reviewing specs','2026-10-01 16:40:36','2026-10-01 16:40:36'),(16,13,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-01 17:21:24','2026-10-01 17:21:24'),(17,13,NULL,1,5,'Primary','Client primary choice after reviewing specs','2026-10-01 17:21:28','2026-10-01 17:21:28'),(18,14,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 11:49:27','2026-10-03 11:49:27'),(19,14,NULL,1,9,'Primary','Client primary choice after reviewing specs','2026-10-03 11:49:30','2026-10-03 11:49:30'),(20,15,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 11:50:13','2026-10-03 11:50:13'),(21,15,NULL,1,NULL,'Primary','Client primary choice after reviewing specs','2026-10-03 11:50:17','2026-10-03 11:50:17'),(22,16,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 11:51:12','2026-10-03 11:51:12'),(23,16,NULL,1,NULL,'Primary','Client primary choice after reviewing specs','2026-10-03 11:51:16','2026-10-03 11:51:16'),(24,17,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 11:52:53','2026-10-03 11:52:53'),(25,17,NULL,1,9,'Primary','Client primary choice after reviewing specs','2026-10-03 11:52:57','2026-10-03 11:52:57'),(26,18,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 12:38:19','2026-10-03 12:38:19'),(27,18,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-03 12:38:23','2026-10-03 12:38:23'),(28,19,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 13:07:38','2026-10-03 13:07:38'),(29,19,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-03 13:07:41','2026-10-03 13:07:41'),(30,20,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 13:24:19','2026-10-03 13:24:19'),(31,20,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-03 13:24:22','2026-10-03 13:24:22'),(32,21,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 14:14:19','2026-10-03 14:14:19'),(33,21,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-03 14:14:23','2026-10-03 14:14:23'),(34,22,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 14:25:06','2026-10-03 14:25:06'),(35,22,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-03 14:25:09','2026-10-03 14:25:09'),(36,23,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 14:30:41','2026-10-03 14:30:41'),(37,23,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-03 14:30:45','2026-10-03 14:30:45'),(38,24,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-03 15:22:45','2026-10-03 15:22:45'),(39,24,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-03 15:22:48','2026-10-03 15:22:48'),(40,25,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-05 11:03:27','2026-10-05 11:03:27'),(41,25,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-05 11:03:31','2026-10-05 11:03:31'),(42,26,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-05 12:37:30','2026-10-05 12:37:30'),(43,26,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-05 12:37:34','2026-10-05 12:37:34'),(44,27,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-05 12:48:17','2026-10-05 12:48:17'),(45,27,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-05 12:48:20','2026-10-05 12:48:20'),(46,28,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-05 13:06:08','2026-10-05 13:06:08'),(47,28,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-05 13:06:12','2026-10-05 13:06:12'),(48,29,1,1,NULL,'Primary','Shortlisted at initial intake','2026-10-05 14:35:54','2026-10-05 14:35:54'),(49,29,NULL,1,1,'Primary','Client primary choice after reviewing specs','2026-10-05 14:35:58','2026-10-05 14:35:58');
 /*!40000 ALTER TABLE `lead_property_interests` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `lead_sources`
---
-
-DROP TABLE IF EXISTS `lead_sources`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `lead_sources` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `slug` (`slug`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `lead_sources`
@@ -1115,67 +276,6 @@ INSERT INTO `lead_sources` VALUES (1,'Website','website','Direct organic traffic
 UNLOCK TABLES;
 
 --
--- Table structure for table `leads`
---
-
-DROP TABLE IF EXISTS `leads`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `leads` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `lead_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alternate_phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lead_source_id` int unsigned DEFAULT NULL,
-  `assigned_user_id` int unsigned DEFAULT NULL,
-  `branch_id` int unsigned DEFAULT NULL,
-  `lead_status` enum('New','Contacted','Qualified','Unqualified','Converted','Lost') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'New',
-  `lead_stage` enum('New','Contacted','Qualified','Site Visit Scheduled','Site Visit Completed','Negotiation','Token Pending','Ready for Booking','Won','Lost') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'New',
-  `priority` enum('Low','Medium','High','Urgent') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Medium',
-  `budget_min` decimal(15,2) DEFAULT NULL,
-  `budget_max` decimal(15,2) DEFAULT NULL,
-  `preferred_location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `property_type_id` int unsigned DEFAULT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `purchase_purpose` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `purchase_timeline` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `financing_required` enum('Yes','No','Undecided') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Undecided',
-  `site_visit_required` enum('Yes','No','Scheduled','Completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'No',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `lead_code` (`lead_code`),
-  KEY `leads_lead_source_id_foreign` (`lead_source_id`),
-  KEY `leads_assigned_user_id_foreign` (`assigned_user_id`),
-  KEY `leads_branch_id_foreign` (`branch_id`),
-  KEY `leads_property_type_id_foreign` (`property_type_id`),
-  KEY `leads_project_id_foreign` (`project_id`),
-  KEY `leads_property_id_foreign` (`property_id`),
-  KEY `leads_property_unit_id_foreign` (`property_unit_id`),
-  KEY `phone` (`phone`),
-  KEY `email` (`email`),
-  KEY `lead_status` (`lead_status`),
-  KEY `lead_stage` (`lead_stage`),
-  KEY `priority` (`priority`),
-  KEY `created_at` (`created_at`),
-  CONSTRAINT `leads_assigned_user_id_foreign` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `leads_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `leads_lead_source_id_foreign` FOREIGN KEY (`lead_source_id`) REFERENCES `lead_sources` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `leads_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `leads_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `leads_property_type_id_foreign` FOREIGN KEY (`property_type_id`) REFERENCES `property_types` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `leads_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `leads`
 --
 
@@ -1184,53 +284,6 @@ LOCK TABLES `leads` WRITE;
 INSERT INTO `leads` VALUES (1,'LEAD-2026-000001','Vikramaditya','Singhania','vikram.singhania@apexventures.in','+91 98200 12345','+91 22 2640 9900',1,17,1,'Qualified','Site Visit Scheduled','High',40000000.00,50000000.00,'Bandra West, Mumbai',1,NULL,1,NULL,'End Use / Family Home','1-3 Months','No','Scheduled','Looking for a sea-facing 3/4 BHK premium unit with 2 car parks.','2026-10-01 16:02:38','2026-10-01 16:02:38',NULL),(2,'LEAD-2026-000002','Ananya','Deshmukh','ananya.deshmukh@techcorp.io','+91 98450 67890',NULL,5,17,1,'Qualified','Negotiation','Urgent',60000000.00,70000000.00,'Whitefield, Bengaluru',2,NULL,NULL,NULL,'Luxury Residence','Immediate','No','Completed','Interested in Grand Verdant Villa 12. Discussing price adjustments and payment schedule.','2026-10-01 16:02:38','2026-10-01 16:02:38',NULL),(3,'LEAD-2026-000003','Rohit','Verma','rohit.verma@fintech.co','+91 97110 54321',NULL,6,17,1,'New','New','Medium',15000000.00,20000000.00,'Cyberabad / HITEC City',1,NULL,NULL,NULL,'Investment','3-6 Months','Yes','No','Inquired via Google search ad. Needs brochure and floor plan sent via WhatsApp.','2026-10-01 16:02:38','2026-10-01 16:02:38',NULL),(4,'LEAD-2026-000004','Dr. Meera','Nambiar','dr.meera@medicare.org','+91 98860 99887','+91 80 4122 3344',9,1,1,'Qualified','Ready for Booking','Urgent',42000000.00,48000000.00,'Bandra West, Mumbai',1,NULL,1,NULL,'Family Residence','Immediate','No','Completed','Selected Unit A-102. Temporary hold requested while preparing token check.','2026-10-01 16:02:38','2026-10-01 17:13:36',NULL),(5,'LEAD-2026-000005','Kunal','Malhotra','kunal.malhotra@gmail.com','+91 99300 44556',NULL,2,17,1,'Qualified','Ready for Booking','Low',8000000.00,10000000.00,'Suburban Outskirts',1,NULL,NULL,NULL,'First Home','6+ Months','Yes','No','Budget mismatch for prime Bandra property. Lead closed as lost for current portfolio.','2026-10-01 16:02:38','2026-10-01 17:14:16',NULL),(6,'LEAD-2026-000006','Vikram','Singhania','vikram.singhania@corp.local','+91 98200 88771','+91 98200 88772',NULL,3,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','Undecided','No','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-01 16:10:25','2026-10-01 17:21:44',NULL),(7,'LEAD-2026-000007','Vikram','Singhania','vikram.singhania@corp.local','+91 98200 88771','+91 98200 88772',13,NULL,1,'Qualified','Ready for Booking','High',18000000.00,25000000.00,'Bandra Kurla Complex',NULL,1,1,NULL,'','','Undecided','No','Looking for luxury 3BHK for immediate investment','2026-10-01 16:16:48','2026-10-01 17:44:58',NULL),(8,'LEAD-2026-000008','Vikram','Singhania','vikram.singhania.1790852249@corp.local','+91 98200 88771','+91 98200 88772',14,3,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,NULL,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-01 16:27:30','2026-10-03 11:53:41',NULL),(9,'LEAD-2026-000009','Vikram','Singhania','vikram.singhania.1790852400@corp.local','+91 98200 88771','+91 98200 88772',15,2,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,NULL,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-01 16:30:01','2026-10-03 11:54:36',NULL),(10,'LEAD-2026-000010','Vikram','Singhania','vikram.singhania.1790852546@corp.local','+91 98200 88771','+91 98200 88772',16,4,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,5,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-01 16:32:28','2026-10-03 12:38:49',NULL),(11,'LEAD-2026-000011','Vikram','Singhania','vikram.singhania.1790852991@corp.local','+91 98200 88771','+91 98200 88772',17,5,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,5,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-01 16:39:53','2026-10-03 13:08:06',NULL),(12,'LEAD-2026-000012','Vikram','Singhania','vikram.singhania.1790853031@corp.local','+91 98200 88771','+91 98200 88772',18,6,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,5,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-01 16:40:33','2026-10-03 13:24:50',NULL),(13,'LEAD-2026-000013','Vikram','Singhania','vikram.singhania.1790855483@corp.local','+91 98200 88771','+91 98200 88772',19,7,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,5,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-01 17:21:24','2026-10-03 14:03:13',NULL),(14,'LEAD-2026-000014','Vikram','Singhania','vikram.singhania.1791008366@corp.local','+91 98200 88771','+91 98200 88772',20,8,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,9,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 11:49:27','2026-10-03 14:14:47',NULL),(15,'LEAD-2026-000015','Vikram','Singhania','vikram.singhania.1791008412@corp.local','+91 98200 88771','+91 98200 88772',21,9,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,NULL,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 11:50:13','2026-10-03 14:25:16',NULL),(16,'LEAD-2026-000016','Vikram','Singhania','vikram.singhania.1791008471@corp.local','+91 98200 88771','+91 98200 88772',22,10,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,NULL,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 11:51:12','2026-10-03 14:30:53',NULL),(17,'LEAD-2026-000017','Vikram','Singhania','vikram.singhania.1791008572@corp.local','+91 98200 88771','+91 98200 88772',23,11,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,9,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 11:52:53','2026-10-03 15:22:56',NULL),(18,'LEAD-2026-000018','Vikram','Singhania','vikram.singhania.1791011298@corp.local','+91 98200 88771','+91 98200 88772',24,12,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 12:38:19','2026-10-05 11:03:40',NULL),(19,'LEAD-2026-000019','Vikram','Singhania','vikram.singhania.1791013057@corp.local','+91 98200 88771','+91 98200 88772',25,13,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 13:07:38','2026-10-05 12:38:04',NULL),(20,'LEAD-2026-000020','Vikram','Singhania','vikram.singhania.1791014058@corp.local','+91 98200 88771','+91 98200 88772',26,14,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 13:24:19','2026-10-05 12:48:29',NULL),(21,'LEAD-2026-000021','Vikram','Singhania','vikram.singhania.1791017058@corp.local','+91 98200 88771','+91 98200 88772',27,15,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 14:14:19','2026-10-05 13:06:19',NULL),(22,'LEAD-2026-000022','Vikram','Singhania','vikram.singhania.1791017704@corp.local','+91 98200 88771','+91 98200 88772',28,16,1,'Qualified','Ready for Booking','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 14:25:06','2026-10-05 14:36:24',NULL),(23,'LEAD-2026-000023','Vikram','Singhania','vikram.singhania.1791018040@corp.local','+91 98200 88771','+91 98200 88772',29,18,1,'Qualified','Token Pending','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 14:30:41','2026-10-03 14:30:47',NULL),(24,'LEAD-2026-000024','Vikram','Singhania','vikram.singhania.1791021164@corp.local','+91 98200 88771','+91 98200 88772',30,19,1,'Qualified','Token Pending','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-03 15:22:45','2026-10-03 15:22:50',NULL),(25,'LEAD-2026-000025','Vikram','Singhania','vikram.singhania.1791178406@corp.local','+91 98200 88771','+91 98200 88772',31,20,1,'Qualified','Token Pending','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-05 11:03:27','2026-10-05 11:03:34',NULL),(26,'LEAD-2026-000026','Vikram','Singhania','vikram.singhania.1791184049@corp.local','+91 98200 88771','+91 98200 88772',32,21,1,'Qualified','Token Pending','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-05 12:37:30','2026-10-05 12:37:36',NULL),(27,'LEAD-2026-000027','Vikram','Singhania','vikram.singhania.1791184695@corp.local','+91 98200 88771','+91 98200 88772',33,33,1,'Qualified','Token Pending','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-05 12:48:17','2026-10-05 12:48:22',NULL),(28,'LEAD-2026-000028','Vikram','Singhania','vikram.singhania.1791185767@corp.local','+91 98200 88771','+91 98200 88772',34,34,1,'Qualified','Token Pending','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-05 13:06:08','2026-10-05 13:06:14',NULL),(29,'LEAD-2026-000029','Vikram','Singhania','vikram.singhania.1791191153@corp.local','+91 98200 88771','+91 98200 88772',35,35,1,'Qualified','Token Pending','High',20000000.00,25000000.00,'BKC',NULL,1,1,1,'Investment','Immediate (< 30 days)','No','Completed','Looking for luxury 3BHK for immediate investment\n[Qualification Note: High net-worth investor, verified funds]','2026-10-05 14:35:54','2026-10-05 14:36:00',NULL);
 /*!40000 ALTER TABLE `leads` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `lease_agreements`
---
-
-DROP TABLE IF EXISTS `lease_agreements`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `lease_agreements` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `agreement_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tenant_id` int unsigned NOT NULL,
-  `property_id` int unsigned NOT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `agreement_type` enum('residential','commercial') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'residential',
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `lock_in_period_months` int NOT NULL DEFAULT '0',
-  `notice_period_days` int NOT NULL DEFAULT '30',
-  `monthly_rent` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `security_deposit` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `maintenance_charges` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `rent_escalation_pct` decimal(5,2) NOT NULL DEFAULT '5.00',
-  `escalation_frequency` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'annual',
-  `payment_due_day` int NOT NULL DEFAULT '5',
-  `late_fee_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `terms_conditions` text COLLATE utf8mb4_unicode_ci,
-  `document_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('draft','active','expiring_soon','expired','terminated','renewed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft',
-  `created_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `agreement_number` (`agreement_number`),
-  KEY `lease_agreements_tenant_id_foreign` (`tenant_id`),
-  KEY `lease_agreements_property_id_foreign` (`property_id`),
-  KEY `lease_agreements_property_unit_id_foreign` (`property_unit_id`),
-  KEY `lease_agreements_created_by_foreign` (`created_by`),
-  KEY `status` (`status`),
-  KEY `start_date_end_date` (`start_date`,`end_date`),
-  CONSTRAINT `lease_agreements_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `lease_agreements_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `lease_agreements_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `lease_agreements_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `lease_agreements`
@@ -1243,33 +296,6 @@ INSERT INTO `lease_agreements` VALUES (1,'LSE-2026-000001',1,1,5,'residential','
 UNLOCK TABLES;
 
 --
--- Table structure for table `locations`
---
-
-DROP TABLE IF EXISTS `locations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `locations` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `area` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `locality` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `landmark` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nearby_locations` text COLLATE utf8mb4_unicode_ci,
-  `map_location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `city_area` (`city`,`area`),
-  KEY `pincode` (`pincode`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `locations`
 --
 
@@ -1278,53 +304,6 @@ LOCK TABLES `locations` WRITE;
 INSERT INTO `locations` VALUES (1,'Maharashtra','Mumbai','Bandra West','Pali Hill','Near Carter Road Promenade','400050','Khar West, Santacruz, Bandra-Worli Sea Link','19.0607° N, 72.8277° E','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(2,'Maharashtra','Pune','Kharadi','EON Free Zone','Adjacent to World Trade Center','411014','Viman Nagar, Kalyani Nagar, Magarpatta','18.5514° N, 73.9352° E','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(3,'Karnataka','Bengaluru','Whitefield','EPIP Zone','ITPL Main Road','560066','Brookefield, Hoodi, Marathahalli','12.9698° N, 77.7500° E','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(4,'Haryana','Gurugram','Golf Course Road','DLF Phase 5','Near Sector 42 Metro Station','122002','Cyber Hub, MG Road, Sushant Lok','28.4595° N, 77.0266° E','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(5,'Telangana','Hyderabad','HITEC City Prime','','','500081','','','active','2026-10-01 15:25:55','2026-10-01 15:25:56',NULL);
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `maintenance_requests`
---
-
-DROP TABLE IF EXISTS `maintenance_requests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `maintenance_requests` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `ticket_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tenant_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned NOT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `asset_id` int unsigned DEFAULT NULL,
-  `category` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subcategory` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `priority` enum('low','medium','high','urgent') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'medium',
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_date` datetime NOT NULL,
-  `assigned_technician_id` int unsigned DEFAULT NULL,
-  `sla_due_date` datetime DEFAULT NULL,
-  `status` enum('open','assigned','in_progress','on_hold','resolved','closed','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'open',
-  `resolution` text COLLATE utf8mb4_unicode_ci,
-  `closed_date` datetime DEFAULT NULL,
-  `created_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ticket_number` (`ticket_number`),
-  KEY `maintenance_requests_tenant_id_foreign` (`tenant_id`),
-  KEY `maintenance_requests_property_id_foreign` (`property_id`),
-  KEY `maintenance_requests_property_unit_id_foreign` (`property_unit_id`),
-  KEY `maintenance_requests_asset_id_foreign` (`asset_id`),
-  KEY `maintenance_requests_assigned_technician_id_foreign` (`assigned_technician_id`),
-  KEY `maintenance_requests_created_by_foreign` (`created_by`),
-  KEY `status` (`status`),
-  KEY `priority` (`priority`),
-  CONSTRAINT `maintenance_requests_asset_id_foreign` FOREIGN KEY (`asset_id`) REFERENCES `facility_assets` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `maintenance_requests_assigned_technician_id_foreign` FOREIGN KEY (`assigned_technician_id`) REFERENCES `technicians` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `maintenance_requests_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `maintenance_requests_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `maintenance_requests_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `maintenance_requests_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `maintenance_requests`
@@ -1337,41 +316,6 @@ INSERT INTO `maintenance_requests` VALUES (1,'MR-2026-000001',1,1,5,1,'electrica
 UNLOCK TABLES;
 
 --
--- Table structure for table `marketing_campaigns`
---
-
-DROP TABLE IF EXISTS `marketing_campaigns`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `marketing_campaigns` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `campaign_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `campaign_type` enum('Social Media','Google Ads','Property Portal','Print Media','Hoarding / Outdoor','Email Marketing','SMS Campaign','Event / Expo','Referral Program','Other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Social Media',
-  `project_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date DEFAULT NULL,
-  `budget` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `actual_spend` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `leads_generated` int unsigned NOT NULL DEFAULT '0',
-  `qualified_leads` int unsigned NOT NULL DEFAULT '0',
-  `converted_leads` int unsigned NOT NULL DEFAULT '0',
-  `status` enum('Planning','Active','Paused','Completed','Cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `campaign_code` (`campaign_code`),
-  KEY `project_id` (`project_id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `marketing_campaigns`
 --
 
@@ -1380,38 +324,6 @@ LOCK TABLES `marketing_campaigns` WRITE;
 INSERT INTO `marketing_campaigns` VALUES (1,'CMP-2026-000001','Prestige Skyrise Festive Launch - Meta Ads','Social Media',1,1,'2026-09-01','2026-10-31',150000.00,112500.00,84,28,6,'Active','Hyper-targeted Instagram and Facebook carousel campaigns targeting high-net-worth buyers in Bandra and Worli.','Strong conversion on 3BHK Luxury formats; cost per lead at approx ₹1,339',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(2,'CMP-2026-000002','Google High-Intent Search Ads - Corporate IT Park','Google Ads',2,2,'2026-08-15','2026-10-15',200000.00,178000.00,65,24,5,'Active','High-intent search keyword campaigns covering terms like \"Grade A office space for lease\" and \"commercial IT units\".','Qualified corporate inquiries from multinational tenants; solid CPL',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(3,'CMP-2026-000003','MagicBricks Platinum Showcase & Banner Ads','Property Portal',1,1,'2026-07-01','2026-08-31',120000.00,120000.00,58,19,4,'Completed','Prime banner real estate on MagicBricks portal with automated lead sync into CRM.','Completed successfully with 4 bookings finalized.',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(4,'CMP-2026-000004','Western Express Highway Airport Corridor Billboards','Hoarding / Outdoor',1,1,'2026-08-01','2026-09-30',350000.00,350000.00,42,14,3,'Completed','Dual LED illuminated billboards adjacent to Mumbai Airport Terminal 2 approach road.','Excellent brand recall and drive-in site visit walk-ins generated.',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(5,'CMP-2026-000005','Festive Luxury Expo 631','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 11:30:54','2026-10-05 11:30:54',NULL),(6,'CMP-2026-000006','Festive Luxury Expo 406','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','','',1,'2026-10-05 11:36:07','2026-10-05 11:36:07',NULL),(7,'CMP-2026-000007','Festive Luxury Expo 307','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','','',1,'2026-10-05 11:52:02','2026-10-05 11:52:02',NULL),(8,'CMP-2026-000008','Festive Luxury Expo 816','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 12:02:29','2026-10-05 12:02:29',NULL),(9,'CMP-2026-000009','Festive Luxury Expo 615','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 12:05:09','2026-10-05 12:05:09',NULL),(10,'CMP-2026-000010','Festive Luxury Expo 575','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 12:48:57','2026-10-05 12:48:57',NULL),(11,'CMP-2026-000011','Festive Luxury Expo 402','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 13:06:46','2026-10-05 13:06:46',NULL),(12,'CMP-2026-000012','Festive Luxury Expo 435','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 14:07:24','2026-10-05 14:07:24',NULL),(13,'CMP-2026-000013','Festive Luxury Expo 930','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 14:30:16','2026-10-05 14:30:16',NULL),(14,'CMP-2026-000014','Festive Luxury Expo 224','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 14:51:37','2026-10-05 14:51:37',NULL),(15,'CMP-2026-000015','Festive Luxury Expo 138','',NULL,1,'2026-10-01','2026-10-28',75000.00,68500.00,0,34,5,'Active','Targeted Meta and Google Discovery ad campaigns','',1,'2026-10-05 16:36:18','2026-10-05 16:36:18',NULL);
 /*!40000 ALTER TABLE `marketing_campaigns` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `material_requisitions`
---
-
-DROP TABLE IF EXISTS `material_requisitions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `material_requisitions` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `requisition_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `project_id` int unsigned NOT NULL,
-  `tower_id` int unsigned DEFAULT NULL,
-  `item_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` decimal(10,2) NOT NULL,
-  `unit_of_measure` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `estimated_unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `estimated_total_cost` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `required_by_date` date NOT NULL,
-  `priority` enum('Low','Medium','High','Urgent') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Medium',
-  `requested_by` int unsigned NOT NULL,
-  `status` enum('Requested','Approved','Procured','Rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Requested',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `requisition_code` (`requisition_code`),
-  KEY `project_id` (`project_id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `material_requisitions`
@@ -1424,25 +336,6 @@ INSERT INTO `material_requisitions` VALUES (1,'REQ-2026-000001',1,1,'Ultratech 5
 UNLOCK TABLES;
 
 --
--- Table structure for table `migrations`
---
-
-DROP TABLE IF EXISTS `migrations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `migrations` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `class` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `group` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `namespace` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `time` int NOT NULL,
-  `batch` int unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `migrations`
 --
 
@@ -1451,33 +344,6 @@ LOCK TABLES `migrations` WRITE;
 INSERT INTO `migrations` VALUES (1,'2026-10-01-000001','App\\Database\\Migrations\\CreateCompaniesTable','default','App',1790845537,1),(2,'2026-10-01-000002','App\\Database\\Migrations\\CreateBranchesTable','default','App',1790845537,1),(3,'2026-10-01-000003','App\\Database\\Migrations\\CreateRolesAndPermissionsTables','default','App',1790845537,1),(4,'2026-10-01-000004','App\\Database\\Migrations\\CreateUsersTable','default','App',1790845537,1),(5,'2026-10-01-000005','App\\Database\\Migrations\\CreateAuditLogsTable','default','App',1790845537,1),(6,'2026-10-01-000006','App\\Database\\Migrations\\CreatePropertyTypesTable','default','App',1790847587,2),(7,'2026-10-01-000007','App\\Database\\Migrations\\CreateLocationsTable','default','App',1790847587,2),(8,'2026-10-01-000008','App\\Database\\Migrations\\CreateAmenitiesTable','default','App',1790847587,2),(9,'2026-10-01-000009','App\\Database\\Migrations\\CreateProjectsAndTowersTables','default','App',1790847644,3),(10,'2026-10-01-000010','App\\Database\\Migrations\\CreatePropertiesAndUnitsTables','default','App',1790847644,3),(11,'2026-10-01-000011','App\\Database\\Migrations\\CreatePropertyRelationsAndMediaTables','default','App',1790847644,3),(12,'2026-10-01-000012','App\\Database\\Migrations\\CreateStatusHistoryAndPricingTables','default','App',1790847644,3),(13,'2026-10-01-000013','App\\Database\\Migrations\\CreateLeadSourcesTable','default','App',1790850219,4),(14,'2026-10-01-000014','App\\Database\\Migrations\\CreateLeadsAndProspectsTables','default','App',1790850545,5),(15,'2026-10-01-000015','App\\Database\\Migrations\\CreateEnquiriesAndInterestsTables','default','App',1790850545,5),(16,'2026-10-01-000016','App\\Database\\Migrations\\CreateLeadAssignmentsAndFollowupsTables','default','App',1790850545,5),(17,'2026-10-01-000017','App\\Database\\Migrations\\CreateSiteVisitsAndUnitHoldsTables','default','App',1790850545,5),(18,'2026-10-01-000018','App\\Database\\Migrations\\CreateCustomersAndDocumentsTables','default','App',1790853599,6),(19,'2026-10-01-000019','App\\Database\\Migrations\\CreateBookingsAndHistoryTables','default','App',1790853599,6),(20,'2026-10-01-000020','App\\Database\\Migrations\\CreateSalesAgreementsTable','default','App',1790853599,6),(21,'2026-10-01-000021','App\\Database\\Migrations\\CreatePaymentSchedulesAndItemsTables','default','App',1790853599,6),(22,'2026-10-01-000022','App\\Database\\Migrations\\CreatePaymentsAndInvoicesTables','default','App',1790853599,6),(23,'2026-10-01-000023','App\\Database\\Migrations\\CreateCommissionsTables','default','App',1790853599,6),(24,'2026-10-01-000024','App\\Database\\Migrations\\CreateTenantsAndDocumentsTables','default','App',1790857155,7),(25,'2026-10-01-000025','App\\Database\\Migrations\\CreateLeasesAndDepositsTables','default','App',1790857155,7),(26,'2026-10-01-000026','App\\Database\\Migrations\\CreateRentDemandsAndCollectionsTables','default','App',1790857155,7),(27,'2026-10-01-000027','App\\Database\\Migrations\\CreateMaintenanceFacilityTables','default','App',1790857156,7),(28,'2026-10-01-000028','App\\Database\\Migrations\\CreateFinanceComplianceAndTdsTables','default','App',1790857156,7),(29,'2026-10-01-000029','App\\Database\\Migrations\\CreateConstructionAndHandoverTables','default','App',1791011423,8),(30,'2026-10-01-000030','App\\Database\\Migrations\\CreatePhase7ERPCompletenessTables','default','App',1791178868,9);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `notifications`
---
-
-DROP TABLE IF EXISTS `notifications`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `notifications` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned DEFAULT NULL,
-  `role_id` int unsigned DEFAULT NULL,
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` enum('lead','site_visit','followup','payment_due','overdue_payment','rent_due','agreement_expiry','booking','document_expiry','maintenance','system') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'system',
-  `priority` enum('low','medium','high','urgent') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'medium',
-  `related_module` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `related_id` int unsigned DEFAULT NULL,
-  `link_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_read` tinyint(1) NOT NULL DEFAULT '0',
-  `read_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `is_read` (`is_read`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `notifications`
@@ -1490,34 +356,6 @@ INSERT INTO `notifications` VALUES (1,NULL,NULL,'New High-Value Lead Ingested','
 UNLOCK TABLES;
 
 --
--- Table structure for table `payment_schedule_items`
---
-
-DROP TABLE IF EXISTS `payment_schedule_items`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payment_schedule_items` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `payment_schedule_id` int unsigned NOT NULL,
-  `milestone_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `due_date` date DEFAULT NULL,
-  `percentage` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `status` enum('Pending','Partially Paid','Paid','Overdue') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `paid_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `remaining_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `payment_schedule_id` (`payment_schedule_id`),
-  KEY `status` (`status`),
-  KEY `due_date` (`due_date`),
-  CONSTRAINT `payment_schedule_items_payment_schedule_id_foreign` FOREIGN KEY (`payment_schedule_id`) REFERENCES `payment_schedules` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `payment_schedule_items`
 --
 
@@ -1526,26 +364,6 @@ LOCK TABLES `payment_schedule_items` WRITE;
 INSERT INTO `payment_schedule_items` VALUES (1,1,'Token Advance','2026-09-01',10.00,4714500.00,'Partially Paid',355000.00,4359500.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-05 14:36:26'),(2,1,'Booking Confirmation & Agreement','2026-10-01',10.00,4714500.00,'Partially Paid',500000.00,4214500.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(3,1,'Commencement of Foundation','2026-11-30',15.00,7071750.00,'Pending',0.00,7071750.00,'Standard stage milestone (15%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(4,1,'Completion of Plinth Level','2027-02-28',15.00,7071750.00,'Pending',0.00,7071750.00,'Standard stage milestone (15%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(5,1,'Completion of Structural Slab','2027-05-29',20.00,9429000.00,'Pending',0.00,9429000.00,'Standard stage milestone (20%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(6,1,'Brickwork & Internal Plaster','2027-09-01',10.00,4714500.00,'Pending',0.00,4714500.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(7,1,'Flooring, Plumbing & Finishing','2027-11-25',10.00,4714500.00,'Pending',0.00,4714500.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(8,1,'Notice of Possession & Handover','2028-02-23',10.00,4714500.00,'Pending',0.00,4714500.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(9,2,'Token Advance','2026-09-19',10.00,4350000.00,'Partially Paid',200000.00,4150000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(10,2,'Booking Confirmation & Agreement','2026-10-19',10.00,4350000.00,'Pending',0.00,4350000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(11,2,'Commencement of Foundation','2026-12-18',15.00,6525000.00,'Pending',0.00,6525000.00,'Standard stage milestone (15%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(12,2,'Completion of Plinth Level','2027-03-18',15.00,6525000.00,'Pending',0.00,6525000.00,'Standard stage milestone (15%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(13,2,'Completion of Structural Slab','2027-06-16',20.00,8700000.00,'Pending',0.00,8700000.00,'Standard stage milestone (20%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(14,2,'Brickwork & Internal Plaster','2027-09-19',10.00,4350000.00,'Pending',0.00,4350000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(15,2,'Flooring, Plumbing & Finishing','2027-12-13',10.00,4350000.00,'Pending',0.00,4350000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(16,2,'Notice of Possession & Handover','2028-03-12',10.00,4350000.00,'Pending',0.00,4350000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(17,3,'Token Advance','2026-09-28',10.00,6495000.00,'Pending',0.00,6495000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(18,3,'Booking Confirmation & Agreement','2026-10-28',10.00,6495000.00,'Pending',0.00,6495000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(19,3,'Commencement of Foundation','2026-12-27',15.00,9742500.00,'Pending',0.00,9742500.00,'Standard stage milestone (15%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(20,3,'Completion of Plinth Level','2027-03-27',15.00,9742500.00,'Pending',0.00,9742500.00,'Standard stage milestone (15%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(21,3,'Completion of Structural Slab','2027-06-25',20.00,12990000.00,'Pending',0.00,12990000.00,'Standard stage milestone (20%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(22,3,'Brickwork & Internal Plaster','2027-09-28',10.00,6495000.00,'Pending',0.00,6495000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(23,3,'Flooring, Plumbing & Finishing','2027-12-22',10.00,6495000.00,'Pending',0.00,6495000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(24,3,'Notice of Possession & Handover','2028-03-21',10.00,6495000.00,'Pending',0.00,6495000.00,'Standard stage milestone (10%)','2026-10-01 17:09:56','2026-10-01 17:09:56'),(25,4,'Token Advance','2026-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(26,4,'Booking Confirmation & Agreement','2026-10-31',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(27,4,'Commencement of Foundation','2026-12-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(28,4,'Completion of Plinth Level','2027-03-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(29,4,'Completion of Structural Slab','2027-06-28',20.00,5695000.00,'Pending',0.00,5695000.00,'Standard stage milestone (20%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(30,4,'Brickwork & Internal Plaster','2027-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(31,4,'Flooring, Plumbing & Finishing','2027-12-25',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(32,4,'Notice of Possession & Handover','2028-03-24',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:10:53','2026-10-01 17:10:53'),(33,5,'Token Advance','2026-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(34,5,'Booking Confirmation & Agreement','2026-10-31',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(35,5,'Commencement of Foundation','2026-12-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(36,5,'Completion of Plinth Level','2027-03-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(37,5,'Completion of Structural Slab','2027-06-28',20.00,5695000.00,'Pending',0.00,5695000.00,'Standard stage milestone (20%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(38,5,'Brickwork & Internal Plaster','2027-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(39,5,'Flooring, Plumbing & Finishing','2027-12-25',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(40,5,'Notice of Possession & Handover','2028-03-24',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:13:37','2026-10-01 17:13:37'),(41,6,'Token Advance','2026-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(42,6,'Booking Confirmation & Agreement','2026-10-31',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(43,6,'Commencement of Foundation','2026-12-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(44,6,'Completion of Plinth Level','2027-03-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(45,6,'Completion of Structural Slab','2027-06-28',20.00,5695000.00,'Pending',0.00,5695000.00,'Standard stage milestone (20%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(46,6,'Brickwork & Internal Plaster','2027-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(47,6,'Flooring, Plumbing & Finishing','2027-12-25',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(48,6,'Notice of Possession & Handover','2028-03-24',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:14:17','2026-10-01 17:14:17'),(49,7,'Token Advance','2026-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(50,7,'Booking Confirmation & Agreement','2026-10-31',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(51,7,'Commencement of Foundation','2026-12-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(52,7,'Completion of Plinth Level','2027-03-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(53,7,'Completion of Structural Slab','2027-06-28',20.00,5695000.00,'Pending',0.00,5695000.00,'Standard stage milestone (20%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(54,7,'Brickwork & Internal Plaster','2027-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(55,7,'Flooring, Plumbing & Finishing','2027-12-25',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(56,7,'Notice of Possession & Handover','2028-03-24',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:21:45','2026-10-01 17:21:45'),(57,8,'Token Advance','2026-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(58,8,'Booking Confirmation & Agreement','2026-10-31',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(59,8,'Commencement of Foundation','2026-12-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(60,8,'Completion of Plinth Level','2027-03-30',15.00,4271250.00,'Pending',0.00,4271250.00,'Standard stage milestone (15%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(61,8,'Completion of Structural Slab','2027-06-28',20.00,5695000.00,'Pending',0.00,5695000.00,'Standard stage milestone (20%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(62,8,'Brickwork & Internal Plaster','2027-10-01',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(63,8,'Flooring, Plumbing & Finishing','2027-12-25',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(64,8,'Notice of Possession & Handover','2028-03-24',10.00,2847500.00,'Pending',0.00,2847500.00,'Standard stage milestone (10%)','2026-10-01 17:44:59','2026-10-01 17:44:59'),(65,9,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(66,9,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(67,9,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(68,9,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(69,9,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(70,9,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(71,9,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(72,9,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 11:54:37','2026-10-03 11:54:37'),(73,10,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(74,10,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(75,10,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(76,10,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(77,10,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(78,10,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(79,10,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(80,10,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 12:38:49','2026-10-03 12:38:49'),(81,11,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(82,11,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(83,11,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(84,11,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(85,11,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(86,11,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(87,11,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(88,11,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:08:06','2026-10-03 13:08:06'),(89,12,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(90,12,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(91,12,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(92,12,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(93,12,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(94,12,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(95,12,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(96,12,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 13:24:51','2026-10-03 13:24:51'),(97,13,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(98,13,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(99,13,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(100,13,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(101,13,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(102,13,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(103,13,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(104,13,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:03:14','2026-10-03 14:03:14'),(105,14,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(106,14,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(107,14,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(108,14,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(109,14,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(110,14,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(111,14,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(112,14,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:14:48','2026-10-03 14:14:48'),(113,15,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(114,15,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(115,15,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(116,15,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(117,15,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(118,15,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(119,15,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(120,15,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:25:17','2026-10-03 14:25:17'),(121,16,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(122,16,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(123,16,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(124,16,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(125,16,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(126,16,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(127,16,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(128,16,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 14:30:53','2026-10-03 14:30:53'),(129,17,'Token Advance','2026-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(130,17,'Booking Confirmation & Agreement','2026-11-02',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(131,17,'Commencement of Foundation','2027-01-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(132,17,'Completion of Plinth Level','2027-04-01',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(133,17,'Completion of Structural Slab','2027-06-30',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(134,17,'Brickwork & Internal Plaster','2027-10-03',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(135,17,'Flooring, Plumbing & Finishing','2027-12-27',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(136,17,'Notice of Possession & Handover','2028-03-26',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-03 15:22:57','2026-10-03 15:22:57'),(137,18,'Token Advance','2026-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(138,18,'Booking Confirmation & Agreement','2026-11-04',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(139,18,'Commencement of Foundation','2027-01-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(140,18,'Completion of Plinth Level','2027-04-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(141,18,'Completion of Structural Slab','2027-07-02',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(142,18,'Brickwork & Internal Plaster','2027-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(143,18,'Flooring, Plumbing & Finishing','2027-12-29',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(144,18,'Notice of Possession & Handover','2028-03-28',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 11:03:41','2026-10-05 11:03:41'),(145,19,'Token Advance','2026-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(146,19,'Booking Confirmation & Agreement','2026-11-04',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(147,19,'Commencement of Foundation','2027-01-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(148,19,'Completion of Plinth Level','2027-04-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(149,19,'Completion of Structural Slab','2027-07-02',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(150,19,'Brickwork & Internal Plaster','2027-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(151,19,'Flooring, Plumbing & Finishing','2027-12-29',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(152,19,'Notice of Possession & Handover','2028-03-28',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:38:04','2026-10-05 12:38:04'),(153,20,'Token Advance','2026-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(154,20,'Booking Confirmation & Agreement','2026-11-04',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(155,20,'Commencement of Foundation','2027-01-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(156,20,'Completion of Plinth Level','2027-04-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(157,20,'Completion of Structural Slab','2027-07-02',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(158,20,'Brickwork & Internal Plaster','2027-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(159,20,'Flooring, Plumbing & Finishing','2027-12-29',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(160,20,'Notice of Possession & Handover','2028-03-28',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 12:48:30','2026-10-05 12:48:30'),(161,21,'Token Advance','2026-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(162,21,'Booking Confirmation & Agreement','2026-11-04',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(163,21,'Commencement of Foundation','2027-01-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(164,21,'Completion of Plinth Level','2027-04-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(165,21,'Completion of Structural Slab','2027-07-02',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(166,21,'Brickwork & Internal Plaster','2027-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(167,21,'Flooring, Plumbing & Finishing','2027-12-29',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(168,21,'Notice of Possession & Handover','2028-03-28',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 13:06:19','2026-10-05 13:06:19'),(169,22,'Token Advance','2026-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 14:36:24','2026-10-05 14:36:24'),(170,22,'Booking Confirmation & Agreement','2026-11-04',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 14:36:24','2026-10-05 14:36:24'),(171,22,'Commencement of Foundation','2027-01-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 14:36:24','2026-10-05 14:36:24'),(172,22,'Completion of Plinth Level','2027-04-03',15.00,6746250.00,'Pending',0.00,6746250.00,'Standard stage milestone (15%)','2026-10-05 14:36:24','2026-10-05 14:36:24'),(173,22,'Completion of Structural Slab','2027-07-02',20.00,8995000.00,'Pending',0.00,8995000.00,'Standard stage milestone (20%)','2026-10-05 14:36:24','2026-10-05 14:36:24'),(174,22,'Brickwork & Internal Plaster','2027-10-05',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 14:36:24','2026-10-05 14:36:24'),(175,22,'Flooring, Plumbing & Finishing','2027-12-29',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 14:36:24','2026-10-05 14:36:24'),(176,22,'Notice of Possession & Handover','2028-03-28',10.00,4497500.00,'Pending',0.00,4497500.00,'Standard stage milestone (10%)','2026-10-05 14:36:24','2026-10-05 14:36:24');
 /*!40000 ALTER TABLE `payment_schedule_items` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `payment_schedules`
---
-
-DROP TABLE IF EXISTS `payment_schedules`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payment_schedules` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `booking_id` int unsigned NOT NULL,
-  `schedule_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Standard Construction Linked Plan',
-  `total_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `booking_id` (`booking_id`),
-  CONSTRAINT `payment_schedules_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `payment_schedules`
@@ -1558,45 +376,6 @@ INSERT INTO `payment_schedules` VALUES (1,1,'Construction Linked Plan (CLP)',471
 UNLOCK TABLES;
 
 --
--- Table structure for table `payments`
---
-
-DROP TABLE IF EXISTS `payments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payments` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `payment_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `booking_id` int unsigned NOT NULL,
-  `customer_id` int unsigned NOT NULL,
-  `payment_schedule_item_id` int unsigned DEFAULT NULL,
-  `payment_date` date NOT NULL,
-  `amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `payment_method` enum('Cash','Bank Transfer','NEFT','RTGS','IMPS','UPI','Cheque','Online Gateway','Other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Bank Transfer',
-  `transaction_reference` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cheque_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('Pending','Received','Failed','Cancelled','Refunded') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Received',
-  `received_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `payment_number` (`payment_number`),
-  KEY `payments_received_by_foreign` (`received_by`),
-  KEY `booking_id` (`booking_id`),
-  KEY `customer_id` (`customer_id`),
-  KEY `payment_schedule_item_id` (`payment_schedule_item_id`),
-  KEY `status` (`status`),
-  KEY `payment_date` (`payment_date`),
-  CONSTRAINT `payments_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `payments_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `payments_payment_schedule_item_id_foreign` FOREIGN KEY (`payment_schedule_item_id`) REFERENCES `payment_schedule_items` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `payments_received_by_foreign` FOREIGN KEY (`received_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `payments`
 --
 
@@ -1605,26 +384,6 @@ LOCK TABLES `payments` WRITE;
 INSERT INTO `payments` VALUES (1,'PMT-2026-000001',1,1,1,'2026-09-01',100000.00,'Bank Transfer','HDFCNEFT92019238','HDFC Bank',NULL,'Token advance against booking','Received',17,'2026-10-01 17:09:56','2026-10-01 17:09:56'),(2,'PMT-2026-000002',1,1,2,'2026-09-16',500000.00,'NEFT','ICICINEFT5502910','ICICI Bank',NULL,'Booking confirmation milestone advance','Received',17,'2026-10-01 17:09:56','2026-10-01 17:09:56'),(3,'PMT-2026-000003',2,2,9,'2026-09-19',200000.00,'UPI','UPI/920182749219','State Bank of India',NULL,'Initial token advance via UPI','Received',17,'2026-10-01 17:09:56','2026-10-01 17:09:56'),(4,'PMT-2026-000004',1,1,1,'2026-10-01',15000.00,'Bank Transfer','UTR1790855058','HDFC Bank',NULL,NULL,'Received',1,'2026-10-01 17:14:18','2026-10-01 17:14:18'),(5,'PMT-2026-000005',1,1,1,'2026-10-01',15000.00,'Bank Transfer','UTR1790855506','HDFC Bank',NULL,NULL,'Received',1,'2026-10-01 17:21:46','2026-10-01 17:21:46'),(6,'PMT-2026-000006',1,1,1,'2026-10-01',15000.00,'Bank Transfer','UTR1790856900','HDFC Bank',NULL,NULL,'Received',1,'2026-10-01 17:45:01','2026-10-01 17:45:01'),(7,'PMT-2026-000007',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791008678','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 11:54:38','2026-10-03 11:54:38'),(8,'PMT-2026-000008',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791011330','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 12:38:50','2026-10-03 12:38:50'),(9,'PMT-2026-000009',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791013087','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 13:08:07','2026-10-03 13:08:07'),(10,'PMT-2026-000010',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791014092','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 13:24:52','2026-10-03 13:24:52'),(11,'PMT-2026-000011',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791016395','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 14:03:15','2026-10-03 14:03:15'),(12,'PMT-2026-000012',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791017089','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 14:14:49','2026-10-03 14:14:49'),(13,'PMT-2026-000013',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791017718','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 14:25:18','2026-10-03 14:25:18'),(14,'PMT-2026-000014',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791018055','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 14:30:55','2026-10-03 14:30:55'),(15,'PMT-2026-000015',1,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791021178','HDFC Bank',NULL,NULL,'Received',1,'2026-10-03 15:22:58','2026-10-03 15:22:58'),(16,'PMT-2026-000016',1,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791178423','HDFC Bank',NULL,NULL,'Received',1,'2026-10-05 11:03:43','2026-10-05 11:03:43'),(17,'PMT-2026-000017',1,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791184085','HDFC Bank',NULL,NULL,'Received',1,'2026-10-05 12:38:05','2026-10-05 12:38:05'),(18,'PMT-2026-000018',1,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791184711','HDFC Bank',NULL,NULL,'Received',1,'2026-10-05 12:48:32','2026-10-05 12:48:32'),(19,'PMT-2026-000019',1,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791185780','HDFC Bank',NULL,NULL,'Received',1,'2026-10-05 13:06:20','2026-10-05 13:06:20'),(20,'PMT-2026-000020',1,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791191185','HDFC Bank',NULL,NULL,'Received',1,'2026-10-05 14:36:26','2026-10-05 14:36:26');
 /*!40000 ALTER TABLE `payments` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `permissions`
---
-
-DROP TABLE IF EXISTS `permissions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `permissions` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `group_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `permissions`
@@ -1637,33 +396,6 @@ INSERT INTO `permissions` VALUES (1,'View Dashboard','dashboard.view','Dashboard
 UNLOCK TABLES;
 
 --
--- Table structure for table `portal_requests`
---
-
-DROP TABLE IF EXISTS `portal_requests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `portal_requests` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `request_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `portal_type` enum('customer','tenant','partner') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int unsigned NOT NULL,
-  `request_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `details` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('submitted','in_progress','approved','rejected','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'submitted',
-  `admin_notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `request_code` (`request_code`),
-  KEY `portal_requests_user_id_foreign` (`user_id`),
-  KEY `portal_type_user_id` (`portal_type`,`user_id`),
-  CONSTRAINT `portal_requests_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `portal_requests`
 --
 
@@ -1672,36 +404,6 @@ LOCK TABLES `portal_requests` WRITE;
 INSERT INTO `portal_requests` VALUES (1,'REQ-2026-000001','customer',1,'Bank NOC for Home Loan','Request for Tripartite NOC - HDFC Bank','Kindly issue builder NOC for loan disbursement against Unit 401.','in_progress','Legal team reviewing draft NOC.','2026-09-29 17:56:00','2026-10-01 17:56:00'),(2,'REQ-2026-000002','tenant',1,'Parking Permit Pass','Additional Car Parking RFID Sticker','Requesting additional RFID sticker for secondary resident car.','approved','RFID sticker #P-401-B issued at security gate.','2026-09-26 17:56:00','2026-10-01 17:56:00');
 /*!40000 ALTER TABLE `portal_requests` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `preventive_maintenance`
---
-
-DROP TABLE IF EXISTS `preventive_maintenance`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `preventive_maintenance` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `schedule_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `asset_id` int unsigned NOT NULL,
-  `maintenance_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `frequency` enum('daily','weekly','monthly','quarterly','semi_annual','annual') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'monthly',
-  `last_service_date` date DEFAULT NULL,
-  `next_service_date` date NOT NULL,
-  `assigned_technician_id` int unsigned DEFAULT NULL,
-  `status` enum('scheduled','completed','overdue') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'scheduled',
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `schedule_code` (`schedule_code`),
-  KEY `preventive_maintenance_asset_id_foreign` (`asset_id`),
-  KEY `preventive_maintenance_assigned_technician_id_foreign` (`assigned_technician_id`),
-  KEY `status` (`status`),
-  CONSTRAINT `preventive_maintenance_asset_id_foreign` FOREIGN KEY (`asset_id`) REFERENCES `facility_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `preventive_maintenance_assigned_technician_id_foreign` FOREIGN KEY (`assigned_technician_id`) REFERENCES `technicians` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `preventive_maintenance`
@@ -1714,29 +416,6 @@ INSERT INTO `preventive_maintenance` VALUES (1,'PM-2026-000001',1,'Elevator Mont
 UNLOCK TABLES;
 
 --
--- Table structure for table `project_towers`
---
-
-DROP TABLE IF EXISTS `project_towers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_towers` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `project_id` int unsigned NOT NULL,
-  `tower_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tower_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `number_of_floors` int unsigned NOT NULL DEFAULT '1',
-  `total_units` int unsigned NOT NULL DEFAULT '0',
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `project_id_tower_code` (`project_id`,`tower_code`),
-  CONSTRAINT `project_towers_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `project_towers`
 --
 
@@ -1745,36 +424,6 @@ LOCK TABLES `project_towers` WRITE;
 INSERT INTO `project_towers` VALUES (1,1,'Tower Alpha (Sea View)','TWR-A',24,48,'active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(2,1,'Tower Beta (Club View)','TWR-B',20,40,'active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(3,2,'Wing 1 (Executive Suites)','WNG-1',12,24,'active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(4,2,'Wing 2 (Retail Plaza)','WNG-2',6,18,'active','2026-10-01 15:14:39','2026-10-01 15:14:39'),(5,4,'Tower Pinnacle','PIN-1',20,0,'active','2026-10-01 15:25:58','2026-10-01 15:25:58');
 /*!40000 ALTER TABLE `project_towers` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `projects`
---
-
-DROP TABLE IF EXISTS `projects`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `projects` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `project_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `builder_developer` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `location_id` int unsigned NOT NULL,
-  `construction_status` enum('Pre-Launch','Under Construction','Ready to Move','Completed','On Hold') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Under Construction',
-  `possession_date` date DEFAULT NULL,
-  `total_units` int unsigned NOT NULL DEFAULT '0',
-  `available_units` int unsigned NOT NULL DEFAULT '0',
-  `status` enum('active','inactive','completed','archived') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `project_code` (`project_code`),
-  KEY `location_id` (`location_id`),
-  KEY `construction_status` (`construction_status`),
-  CONSTRAINT `projects_location_id_foreign` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `projects`
@@ -1787,42 +436,6 @@ INSERT INTO `projects` VALUES (1,'PRJ-MUM-SKY01','Skyline Horizon Residences','U
 UNLOCK TABLES;
 
 --
--- Table structure for table `properties`
---
-
-DROP TABLE IF EXISTS `properties`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `properties` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `property_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `property_type_id` int unsigned NOT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `location_id` int unsigned NOT NULL,
-  `owner_id` int unsigned DEFAULT NULL,
-  `owner_name_or_reference` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ownership_details` text COLLATE utf8mb4_unicode_ci,
-  `area` decimal(12,2) NOT NULL,
-  `price` decimal(15,2) NOT NULL,
-  `status` enum('Available','Reserved','Under Negotiation','Booked','Sold','Rented','Under Maintenance','Unavailable') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Available',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `property_code` (`property_code`),
-  KEY `property_type_id` (`property_type_id`),
-  KEY `project_id` (`project_id`),
-  KEY `location_id` (`location_id`),
-  KEY `status` (`status`),
-  CONSTRAINT `properties_location_id_foreign` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `properties_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE SET NULL,
-  CONSTRAINT `properties_property_type_id_foreign` FOREIGN KEY (`property_type_id`) REFERENCES `property_types` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `properties`
 --
 
@@ -1831,26 +444,6 @@ LOCK TABLES `properties` WRITE;
 INSERT INTO `properties` VALUES (1,'PROP-MUM-001','Skyline Luxury 3 BHK Sea-View Residence','Exquisite 3 BHK high-floor apartment overlooking the Arabian Sea, featuring Italian marble flooring, wrap-around balcony, and smart home automation.',6,1,1,1,'Skyline Developers Primary Listing','Freehold Title, Clear RERA Registration No. P51800049281',1850.00,45000000.00,'Available','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(2,'PROP-MUM-002','Skyline Grand Penthouse Suite','Spectacular 5 BHK duplex penthouse with private terrace jacuzzi, personal elevator access, and 360-degree panorama.',6,1,1,2,'Ananya Singhania (Private Owner)','Direct Owner Resale, Clear Society Conveyance',4200.00,125000000.00,'Under Negotiation','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(3,'PROP-PUN-001','Apex Grade-A Corporate Office Suite','Plug-and-play furnished corporate office space on 7th floor with 40 workstations, 2 conference rooms, and server room.',9,2,2,3,'Apex Commercials Institutional Inventory','Commercial Freehold with Occupancy Certificate (OC)',3500.00,38500000.00,'Available','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(4,'PROP-BLR-001','Green Meadows 4 BHK Signature Eco Villa','Contemporary modern villa with private swimming plunge pool, solar power generation, and manicured landscaped lawn in Whitefield.',7,3,3,NULL,'Meadows Master Joint Venture','A-Khata Freehold Independent Land Title',3800.00,29500000.00,'Reserved','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(5,'PROP-TEST-1790848558','Cyber Heights 3 BHK Smart Residence','',1,4,5,NULL,'','',1650.00,18500000.00,'Available','2026-10-01 15:25:59','2026-10-01 15:25:59',NULL);
 /*!40000 ALTER TABLE `properties` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `property_amenities`
---
-
-DROP TABLE IF EXISTS `property_amenities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_amenities` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `property_id` int unsigned NOT NULL,
-  `amenity_id` int unsigned NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `property_id_amenity_id` (`property_id`,`amenity_id`),
-  KEY `property_amenities_amenity_id_foreign` (`amenity_id`),
-  CONSTRAINT `property_amenities_amenity_id_foreign` FOREIGN KEY (`amenity_id`) REFERENCES `amenities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `property_amenities_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `property_amenities`
@@ -1863,44 +456,6 @@ INSERT INTO `property_amenities` VALUES (1,1,1,'2026-10-01 15:14:39'),(2,1,2,'20
 UNLOCK TABLES;
 
 --
--- Table structure for table `property_documents`
---
-
-DROP TABLE IF EXISTS `property_documents`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_documents` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `document_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `document_category` enum('Ownership / Title Deed','Registry Document','Property Tax Receipt','NOC Clearance','Building Approval Plan','Occupancy Certificate','RERA Certificate','Encumbrance Certificate','Legal Opinion','KYC Document','Other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Ownership / Title Deed',
-  `property_id` int unsigned DEFAULT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `owner_id` int unsigned DEFAULT NULL,
-  `file_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file_size` int unsigned NOT NULL DEFAULT '0',
-  `mime_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'application/pdf',
-  `issue_date` date DEFAULT NULL,
-  `expiry_date` date DEFAULT NULL,
-  `verification_status` enum('Pending','Under Review','Verified','Rejected','Expired') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `verified_by` int unsigned DEFAULT NULL,
-  `verified_at` datetime DEFAULT NULL,
-  `rejection_reason` text COLLATE utf8mb4_unicode_ci,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `uploaded_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `document_code` (`document_code`),
-  KEY `property_id` (`property_id`),
-  KEY `owner_id` (`owner_id`),
-  KEY `verification_status` (`verification_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `property_documents`
 --
 
@@ -1909,44 +464,6 @@ LOCK TABLES `property_documents` WRITE;
 INSERT INTO `property_documents` VALUES (1,'DOC-2026-000001','Registered Sale Title Deed & Conveyance Certificate','Ownership / Title Deed',1,1,1,'uploads/documents/title_deed_prestige.pdf','Title_Deed_Prestige_Registered.pdf',2450000,'application/pdf','2024-03-15',NULL,'Verified',1,'2026-09-01 10:00:00',NULL,'Registered at Sub-Registrar Office, Mumbai. Title clear without lien.',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(2,'DOC-2026-000002','Municipal Corporation Sanctioned Building Plan','Building Approval Plan',1,1,NULL,'uploads/documents/sanctioned_plan_prestige.pdf','Sanctioned_Plan_Tower_A_B.pdf',8900000,'application/pdf','2024-01-20',NULL,'Verified',1,'2026-09-01 10:30:00',NULL,'Approved by Chief Town Planner; FAR/FSI utilization verified.',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(3,'DOC-2026-000003','Fire Safety Statutory NOC Clearance','NOC Clearance',1,1,NULL,'uploads/documents/fire_noc_2026.pdf','Fire_NOC_Annual_Clearance.pdf',1200000,'application/pdf','2026-04-01','2027-03-31','Verified',1,'2026-09-02 11:00:00',NULL,'Annual fire sprinkler and riser hydrant test clearance certificate.',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(4,'DOC-2026-000004','Statutory Occupancy Certificate (OC)','Occupancy Certificate',1,1,NULL,'uploads/documents/occupancy_certificate.pdf','Final_OC_Prestige_Highline.pdf',3100000,'application/pdf','2026-06-10',NULL,'Verified',1,'2026-09-02 11:30:00',NULL,'Complete building occupancy granted with zero pending structural snags.',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(5,'DOC-2026-000005','RERA Project Registration Certificate','RERA Certificate',2,2,NULL,'uploads/documents/rera_registration.pdf','RERA_Registration_Certificate.pdf',1450000,'application/pdf','2025-01-01','2028-12-31','Verified',1,'2026-09-03 14:00:00',NULL,'RERA approved project registration certificate; quarterly audits compliant.',NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43',NULL),(6,'DOC-2026-000006','30-Year Non-Encumbrance Search Report','Encumbrance Certificate',2,2,NULL,'uploads/documents/encumbrance_cert.pdf','Encumbrance_30Year_Search.pdf',4200000,'application/pdf','2026-08-20',NULL,'Verified',1,'2026-10-05 11:30:56',NULL,'Submitted to senior legal panel for final validation.',NULL,'2026-10-05 11:12:43','2026-10-05 11:30:56',NULL),(7,'DOC-2026-000007','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 12:02:30',NULL,'',1,'2026-10-05 12:02:30','2026-10-05 12:02:30',NULL),(8,'DOC-2026-000008','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 12:05:12',NULL,'',1,'2026-10-05 12:05:11','2026-10-05 12:05:12',NULL),(9,'DOC-2026-000009','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 12:48:58',NULL,'',1,'2026-10-05 12:48:58','2026-10-05 12:48:58',NULL),(10,'DOC-2026-000010','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 13:06:47',NULL,'',1,'2026-10-05 13:06:47','2026-10-05 13:06:47',NULL),(11,'DOC-2026-000011','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 14:07:25',NULL,'',1,'2026-10-05 14:07:25','2026-10-05 14:07:25',NULL),(12,'DOC-2026-000012','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 14:30:17',NULL,'',1,'2026-10-05 14:30:16','2026-10-05 14:30:17',NULL),(13,'DOC-2026-000013','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 14:51:38',NULL,'',1,'2026-10-05 14:51:37','2026-10-05 14:51:38',NULL),(14,'DOC-2026-000014','Municipal Fire Safety NOC 2026','',1,NULL,NULL,'uploads/documents/sample_document.pdf','document.pdf',102400,'application/pdf','2026-01-01','2027-12-31','Verified',1,'2026-10-05 16:36:20',NULL,'',1,'2026-10-05 16:36:19','2026-10-05 16:36:20',NULL);
 /*!40000 ALTER TABLE `property_documents` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `property_expenses`
---
-
-DROP TABLE IF EXISTS `property_expenses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_expenses` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `expense_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category_id` int unsigned NOT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expense_date` date NOT NULL,
-  `payee_vendor` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` decimal(15,2) NOT NULL,
-  `tax_amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `total_amount` decimal(15,2) NOT NULL,
-  `payment_method` enum('Cash','Bank Transfer','Cheque','UPI','Credit Card','NEFT','RTGS','Other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Bank Transfer',
-  `status` enum('Draft','Pending Approval','Approved','Paid','Rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Approved',
-  `receipt_file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_by` int unsigned DEFAULT NULL,
-  `approved_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `expense_code` (`expense_code`),
-  KEY `category_id` (`category_id`),
-  KEY `property_id` (`property_id`),
-  KEY `project_id` (`project_id`),
-  KEY `expense_date` (`expense_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `property_expenses`
@@ -1959,34 +476,6 @@ INSERT INTO `property_expenses` VALUES (1,'EXP-2026-000001',1,1,NULL,1,'Elevator
 UNLOCK TABLES;
 
 --
--- Table structure for table `property_media`
---
-
-DROP TABLE IF EXISTS `property_media`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_media` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `property_id` int unsigned NOT NULL,
-  `media_type` enum('photo','gallery','video','floor_plan','brochure','virtual_tour','document') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'photo',
-  `file_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file_path` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file_size` bigint unsigned NOT NULL DEFAULT '0',
-  `mime_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `is_primary` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `property_id` (`property_id`),
-  KEY `media_type` (`media_type`),
-  KEY `is_primary` (`is_primary`),
-  CONSTRAINT `property_media_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `property_media`
 --
 
@@ -1994,46 +483,6 @@ LOCK TABLES `property_media` WRITE;
 /*!40000 ALTER TABLE `property_media` DISABLE KEYS */;
 /*!40000 ALTER TABLE `property_media` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `property_owners`
---
-
-DROP TABLE IF EXISTS `property_owners`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_owners` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `owner_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int unsigned DEFAULT NULL,
-  `first_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `company_name` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alternate_phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pan_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `aadhaar_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kyc_status` enum('pending','verified','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `bank_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_account_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_ifsc` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `owner_code` (`owner_code`),
-  KEY `user_id` (`user_id`),
-  KEY `email` (`email`),
-  KEY `phone` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `property_owners`
@@ -2046,35 +495,6 @@ INSERT INTO `property_owners` VALUES (1,'OWN-2026-000001',NULL,'Rajeshwar','Rao'
 UNLOCK TABLES;
 
 --
--- Table structure for table `property_pricing`
---
-
-DROP TABLE IF EXISTS `property_pricing`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_pricing` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `property_id` int unsigned NOT NULL,
-  `unit_id` int unsigned DEFAULT NULL,
-  `base_price` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `price_per_sqft` decimal(15,2) DEFAULT NULL,
-  `market_price` decimal(15,2) DEFAULT NULL,
-  `negotiated_price` decimal(15,2) DEFAULT NULL,
-  `discount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `effective_from` date DEFAULT NULL,
-  `effective_to` date DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `property_id` (`property_id`),
-  KEY `unit_id` (`unit_id`),
-  CONSTRAINT `property_pricing_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `property_pricing_unit_id_foreign` FOREIGN KEY (`unit_id`) REFERENCES `property_units` (`id`) ON DELETE CASCADE ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `property_pricing`
 --
 
@@ -2083,33 +503,6 @@ LOCK TABLES `property_pricing` WRITE;
 INSERT INTO `property_pricing` VALUES (1,1,NULL,45000000.00,24324.32,47500000.00,44000000.00,1000000.00,'2026-10-01',NULL,'Pre-launch baseline valuation with 10L launch rebate','2026-10-01 15:14:40','2026-10-01 15:14:40'),(2,5,NULL,18500000.00,11212.12,18500000.00,NULL,0.00,'2026-10-01',NULL,'Baseline property listing valuation','2026-10-01 15:25:59','2026-10-01 15:25:59');
 /*!40000 ALTER TABLE `property_pricing` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `property_status_history`
---
-
-DROP TABLE IF EXISTS `property_status_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_status_history` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `property_id` int unsigned DEFAULT NULL,
-  `unit_id` int unsigned DEFAULT NULL,
-  `old_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `new_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `changed_by` int unsigned DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `property_status_history_changed_by_foreign` (`changed_by`),
-  KEY `property_id` (`property_id`),
-  KEY `unit_id` (`unit_id`),
-  KEY `new_status` (`new_status`),
-  CONSTRAINT `property_status_history_changed_by_foreign` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE SET NULL,
-  CONSTRAINT `property_status_history_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `property_status_history_unit_id_foreign` FOREIGN KEY (`unit_id`) REFERENCES `property_units` (`id`) ON DELETE CASCADE ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `property_status_history`
@@ -2122,28 +515,6 @@ INSERT INTO `property_status_history` VALUES (1,1,NULL,'Under Negotiation','Avai
 UNLOCK TABLES;
 
 --
--- Table structure for table `property_types`
---
-
-DROP TABLE IF EXISTS `property_types`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_types` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `property_types`
 --
 
@@ -2152,43 +523,6 @@ LOCK TABLES `property_types` WRITE;
 INSERT INTO `property_types` VALUES (1,'Residential','residential','Residential living spaces, apartments, and private dwellings','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(2,'Commercial','commercial','Commercial office complexes, retail premises, and hubs','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(3,'Plot/Land','plot-land','Open residential, commercial, or mixed-use land plots','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(4,'Industrial','industrial','Industrial manufacturing plants, sheds, and assembly sites','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(5,'Agricultural','agricultural','Fertile agricultural farmland and rural acreage','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(6,'Apartment','apartment','Multi-storey luxury and standard residential flats','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(7,'Villa','villa','Independent gated community luxury villas','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(8,'Independent House','independent-house','Stand-alone residential bungalows and houses','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(9,'Office','office','Grade-A corporate office suites and IT facilities','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(10,'Shop','shop','High-street retail shops and showroom spaces','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(11,'Warehouse','warehouse','Logistics warehouses and distribution hubs','active','2026-10-01 15:14:39','2026-10-01 15:14:39',NULL),(12,'Penthouse Suite Luxury','penthouse-suite-luxury','Top-floor high-end luxury residences','active','2026-10-01 15:25:53','2026-10-01 15:25:55','2026-10-01 15:25:55'),(13,'Penthouse Luxury 710','penthouse-luxury-119','Top-floor high-end luxury residences','active','2026-10-01 15:35:43','2026-10-01 15:35:44','2026-10-01 15:35:44'),(14,'Penthouse Luxury 854','penthouse-luxury-822','Top-floor high-end luxury residences','active','2026-10-01 15:43:02','2026-10-01 15:43:03','2026-10-01 15:43:03'),(15,'Penthouse Luxury 763','penthouse-luxury-614','Top-floor high-end luxury residences','active','2026-10-01 15:47:10','2026-10-01 15:47:11','2026-10-01 15:47:11'),(16,'Penthouse Luxury 577','penthouse-luxury-478','Top-floor high-end luxury residences','active','2026-10-01 16:19:40','2026-10-01 16:19:41','2026-10-01 16:19:41'),(17,'Penthouse Luxury 939','penthouse-luxury-646','Top-floor high-end luxury residences','active','2026-10-01 16:33:11','2026-10-01 16:33:11','2026-10-01 16:33:11'),(18,'Penthouse Luxury 986','penthouse-luxury-121','Top-floor high-end luxury residences','active','2026-10-01 16:39:24','2026-10-01 16:39:25','2026-10-01 16:39:25'),(19,'Penthouse Luxury 491','penthouse-luxury-375','Top-floor high-end luxury residences','active','2026-10-01 17:20:52','2026-10-01 17:20:53','2026-10-01 17:20:53'),(20,'Penthouse Luxury 803','penthouse-luxury-958','Top-floor high-end luxury residences','active','2026-10-03 11:48:05','2026-10-03 11:48:06','2026-10-03 11:48:06'),(21,'Penthouse Luxury 320','penthouse-luxury-678','Top-floor high-end luxury residences','active','2026-10-03 12:32:36','2026-10-03 12:32:37','2026-10-03 12:32:37'),(22,'Penthouse Luxury 495','penthouse-luxury-415','Top-floor high-end luxury residences','active','2026-10-03 13:07:12','2026-10-03 13:07:12','2026-10-03 13:07:12'),(23,'Penthouse Luxury 400','penthouse-luxury-878','Top-floor high-end luxury residences','active','2026-10-03 13:23:48','2026-10-03 13:23:49','2026-10-03 13:23:49'),(24,'Penthouse Luxury 876','penthouse-luxury-217','Top-floor high-end luxury residences','active','2026-10-03 14:13:04','2026-10-03 14:13:05','2026-10-03 14:13:05'),(25,'Penthouse Luxury 774','penthouse-luxury-233','Top-floor high-end luxury residences','active','2026-10-03 14:24:56','2026-10-03 14:24:56','2026-10-03 14:24:56'),(26,'Penthouse Luxury 802','penthouse-luxury-680','Top-floor high-end luxury residences','active','2026-10-03 14:30:30','2026-10-03 14:30:30','2026-10-03 14:30:30'),(27,'Penthouse Luxury 681','penthouse-luxury-990','Top-floor high-end luxury residences','active','2026-10-03 15:21:30','2026-10-03 15:21:31','2026-10-03 15:21:31'),(28,'Penthouse Luxury 336','penthouse-luxury-907','Top-floor high-end luxury residences','active','2026-10-05 11:03:15','2026-10-05 11:03:16','2026-10-05 11:03:16'),(29,'Penthouse Luxury 405','penthouse-luxury-355','Top-floor high-end luxury residences','active','2026-10-05 12:36:48','2026-10-05 12:36:49','2026-10-05 12:36:49'),(30,'Penthouse Luxury 502','penthouse-luxury-299','Top-floor high-end luxury residences','active','2026-10-05 12:48:05','2026-10-05 12:48:06','2026-10-05 12:48:06'),(31,'Penthouse Luxury 119','penthouse-luxury-729','Top-floor high-end luxury residences','active','2026-10-05 13:05:59','2026-10-05 13:05:59','2026-10-05 13:05:59'),(32,'Penthouse Luxury 307','penthouse-luxury-131','Top-floor high-end luxury residences','active','2026-10-05 14:35:29','2026-10-05 14:35:29','2026-10-05 14:35:29');
 /*!40000 ALTER TABLE `property_types` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `property_units`
---
-
-DROP TABLE IF EXISTS `property_units`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_units` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `property_id` int unsigned DEFAULT NULL,
-  `project_id` int unsigned NOT NULL,
-  `tower_id` int unsigned DEFAULT NULL,
-  `unit_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `floor` int NOT NULL DEFAULT '0',
-  `flat_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `carpet_area` decimal(10,2) NOT NULL,
-  `built_up_area` decimal(10,2) NOT NULL,
-  `balcony` int unsigned NOT NULL DEFAULT '0',
-  `parking` int unsigned NOT NULL DEFAULT '0',
-  `facing` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `unit_price` decimal(15,2) NOT NULL,
-  `availability_status` enum('Available','Reserved','Under Negotiation','Booked','Sold','Rented','Under Maintenance','Unavailable') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Available',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `property_id` (`property_id`),
-  KEY `project_id` (`project_id`),
-  KEY `tower_id` (`tower_id`),
-  KEY `unit_number` (`unit_number`),
-  KEY `availability_status` (`availability_status`),
-  CONSTRAINT `property_units_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `property_units_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE ON UPDATE SET NULL,
-  CONSTRAINT `property_units_tower_id_foreign` FOREIGN KEY (`tower_id`) REFERENCES `project_towers` (`id`) ON DELETE CASCADE ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `property_units`
@@ -2201,35 +535,6 @@ INSERT INTO `property_units` VALUES (1,1,1,1,'A-1201',12,'3 BHK',1450.00,1850.00
 UNLOCK TABLES;
 
 --
--- Table structure for table `property_verifications`
---
-
-DROP TABLE IF EXISTS `property_verifications`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `property_verifications` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `verification_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `property_id` int unsigned NOT NULL,
-  `verification_type` enum('Legal Title Clearance','Physical Property Audit','RERA Compliance Check','Municipal Approval Check','Structural & Fire Safety','Tax Compliance') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Legal Title Clearance',
-  `status` enum('Pending','Under Review','Verified','Rejected','Expired') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `assigned_to` int unsigned DEFAULT NULL,
-  `checklist_data` json DEFAULT NULL,
-  `findings` text COLLATE utf8mb4_unicode_ci,
-  `verified_by` int unsigned DEFAULT NULL,
-  `verified_at` datetime DEFAULT NULL,
-  `rejection_reason` text COLLATE utf8mb4_unicode_ci,
-  `expiry_date` date DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `verification_code` (`verification_code`),
-  KEY `property_id` (`property_id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `property_verifications`
 --
 
@@ -2238,35 +543,6 @@ LOCK TABLES `property_verifications` WRITE;
 INSERT INTO `property_verifications` VALUES (1,'VER-2026-000001',1,'Legal Title Clearance','Verified',1,'{\"title_deed_verified\": true, \"tax_receipts_cleared\": true, \"litigation_search_clear\": true, \"non_encumbrance_verified\": true}','Clear 30-year unbroken chain of title verified. Zero encumbrances, registered in favor of the developer.',1,'2026-09-10 12:00:00',NULL,NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43'),(2,'VER-2026-000002',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": true, \"escrow_account_reconciled\": true, \"quarterly_filings_current\": true, \"advertisement_rera_labeled\": true}','RERA registration active. Escrow bank account compliant. Quarterly progress filings updated with authority.',1,'2026-09-11 15:30:00',NULL,NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43'),(3,'VER-2026-000003',2,'Physical Property Audit','Verified',1,'{\"setback_compliance\": true, \"parking_slot_allotments\": true, \"boundary_markers_verified\": true, \"fire_tender_movement_clear\": true}','Setback distances, structural fire exits and boundary demarcations verified on site matching approved plans.',1,'2026-09-15 11:00:00',NULL,NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43'),(4,'VER-2026-000004',2,'Municipal Approval Check','Under Review',1,'{\"drainage_clearance\": false, \"tree_plantation_noc\": true, \"building_plan_sanctioned\": true, \"plinth_certificate_issued\": true}','Sanctioned architectural drawing matches foundation footprint. Awaiting final drainage connection certificate.',NULL,NULL,NULL,NULL,'2026-10-05 11:12:43','2026-10-05 11:12:43'),(5,'VER-2026-000005',1,'','Verified',1,'{\"site_inspected\": true, \"statutory_cleared\": true}','',1,'2026-10-05 11:30:56',NULL,NULL,'2026-10-05 11:30:56','2026-10-05 11:30:56'),(6,'VER-2026-000006',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 12:02:32',NULL,NULL,'2026-10-05 12:02:31','2026-10-05 12:02:32'),(7,'VER-2026-000007',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 12:05:13',NULL,NULL,'2026-10-05 12:05:12','2026-10-05 12:05:13'),(8,'VER-2026-000008',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 12:49:00',NULL,NULL,'2026-10-05 12:48:59','2026-10-05 12:49:00'),(9,'VER-2026-000009',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 13:06:48',NULL,NULL,'2026-10-05 13:06:48','2026-10-05 13:06:48'),(10,'VER-2026-000010',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 14:07:26',NULL,NULL,'2026-10-05 14:07:25','2026-10-05 14:07:26'),(11,'VER-2026-000011',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 14:30:18',NULL,NULL,'2026-10-05 14:30:18','2026-10-05 14:30:18'),(12,'VER-2026-000012',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 14:51:39',NULL,NULL,'2026-10-05 14:51:38','2026-10-05 14:51:39'),(13,'VER-2026-000013',1,'RERA Compliance Check','Verified',1,'{\"rera_number_active\": false, \"escrow_account_reconciled\": false, \"quarterly_filings_current\": false, \"advertisement_rera_labeled\": false}','All approved floor plans and commencement certificates match municipal sanctions',1,'2026-10-05 16:36:21',NULL,NULL,'2026-10-05 16:36:20','2026-10-05 16:36:21');
 /*!40000 ALTER TABLE `property_verifications` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `prospects`
---
-
-DROP TABLE IF EXISTS `prospects`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `prospects` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `lead_id` int unsigned NOT NULL,
-  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alternate_phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `occupation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `preferred_contact_method` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Phone',
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `prospects_lead_id_foreign` (`lead_id`),
-  CONSTRAINT `prospects_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `prospects`
@@ -2279,37 +555,6 @@ INSERT INTO `prospects` VALUES (1,1,'Vikramaditya Singhania','vikram.singhania@a
 UNLOCK TABLES;
 
 --
--- Table structure for table `receipts`
---
-
-DROP TABLE IF EXISTS `receipts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `receipts` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `receipt_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_id` int unsigned NOT NULL,
-  `booking_id` int unsigned NOT NULL,
-  `customer_id` int unsigned NOT NULL,
-  `receipt_date` date NOT NULL,
-  `amount` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `payment_method` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `transaction_reference` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `receipt_number` (`receipt_number`),
-  KEY `payment_id` (`payment_id`),
-  KEY `booking_id` (`booking_id`),
-  KEY `customer_id` (`customer_id`),
-  KEY `receipt_date` (`receipt_date`),
-  CONSTRAINT `receipts_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `receipts_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `receipts_payment_id_foreign` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `receipts`
 --
 
@@ -2318,39 +563,6 @@ LOCK TABLES `receipts` WRITE;
 INSERT INTO `receipts` VALUES (1,'RCT-2026-000001',1,1,1,'2026-09-01',100000.00,'Bank Transfer','HDFCNEFT92019238','Official receipt for booking token payment',NULL),(2,'RCT-2026-000002',2,1,1,'2026-09-16',500000.00,'NEFT','ICICINEFT5502910','Official receipt for booking advance milestone',NULL),(3,'RCT-2026-000003',3,2,2,'2026-09-19',200000.00,'UPI','UPI/920182749219','Official electronic token receipt',NULL),(4,'RCT-2026-000004',4,1,1,'2026-10-01',15000.00,'Bank Transfer','UTR1790855058','Official receipt for payment PMT-2026-000004','2026-10-01 17:14:18'),(5,'RCT-2026-000005',5,1,1,'2026-10-01',15000.00,'Bank Transfer','UTR1790855506','Official receipt for payment PMT-2026-000005','2026-10-01 17:21:46'),(6,'RCT-2026-000006',6,1,1,'2026-10-01',15000.00,'Bank Transfer','UTR1790856900','Official receipt for payment PMT-2026-000006','2026-10-01 17:45:01'),(7,'RCT-2026-000007',7,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791008678','Official receipt for payment PMT-2026-000007','2026-10-03 11:54:38'),(8,'RCT-2026-000008',8,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791011330','Official receipt for payment PMT-2026-000008','2026-10-03 12:38:50'),(9,'RCT-2026-000009',9,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791013087','Official receipt for payment PMT-2026-000009','2026-10-03 13:08:07'),(10,'RCT-2026-000010',10,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791014092','Official receipt for payment PMT-2026-000010','2026-10-03 13:24:52'),(11,'RCT-2026-000011',11,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791016395','Official receipt for payment PMT-2026-000011','2026-10-03 14:03:15'),(12,'RCT-2026-000012',12,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791017089','Official receipt for payment PMT-2026-000012','2026-10-03 14:14:49'),(13,'RCT-2026-000013',13,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791017718','Official receipt for payment PMT-2026-000013','2026-10-03 14:25:18'),(14,'RCT-2026-000014',14,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791018055','Official receipt for payment PMT-2026-000014','2026-10-03 14:30:55'),(15,'RCT-2026-000015',15,1,1,'2026-10-03',15000.00,'Bank Transfer','UTR1791021178','Official receipt for payment PMT-2026-000015','2026-10-03 15:22:58'),(16,'RCT-2026-000016',16,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791178423','Official receipt for payment PMT-2026-000016','2026-10-05 11:03:43'),(17,'RCT-2026-000017',17,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791184085','Official receipt for payment PMT-2026-000017','2026-10-05 12:38:05'),(18,'RCT-2026-000018',18,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791184711','Official receipt for payment PMT-2026-000018','2026-10-05 12:48:32'),(19,'RCT-2026-000019',19,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791185780','Official receipt for payment PMT-2026-000019','2026-10-05 13:06:20'),(20,'RCT-2026-000020',20,1,1,'2026-10-05',15000.00,'Bank Transfer','UTR1791191185','Official receipt for payment PMT-2026-000020','2026-10-05 14:36:26');
 /*!40000 ALTER TABLE `receipts` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `rent_collections`
---
-
-DROP TABLE IF EXISTS `rent_collections`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rent_collections` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `collection_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rent_demand_id` int unsigned NOT NULL,
-  `tenant_id` int unsigned NOT NULL,
-  `lease_id` int unsigned NOT NULL,
-  `amount` decimal(12,2) NOT NULL,
-  `payment_date` date NOT NULL,
-  `payment_method` enum('Cash','Bank Transfer','NEFT','RTGS','IMPS','UPI','Cheque','Online Gateway','Other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Bank Transfer',
-  `transaction_reference` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `received_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `collection_number` (`collection_number`),
-  KEY `rent_collections_rent_demand_id_foreign` (`rent_demand_id`),
-  KEY `rent_collections_tenant_id_foreign` (`tenant_id`),
-  KEY `rent_collections_lease_id_foreign` (`lease_id`),
-  KEY `rent_collections_received_by_foreign` (`received_by`),
-  CONSTRAINT `rent_collections_lease_id_foreign` FOREIGN KEY (`lease_id`) REFERENCES `lease_agreements` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `rent_collections_received_by_foreign` FOREIGN KEY (`received_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `rent_collections_rent_demand_id_foreign` FOREIGN KEY (`rent_demand_id`) REFERENCES `rent_demands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `rent_collections_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rent_collections`
@@ -2363,51 +575,6 @@ INSERT INTO `rent_collections` VALUES (1,'RCL-2026-000001',1,1,1,50000.00,'2026-
 UNLOCK TABLES;
 
 --
--- Table structure for table `rent_demands`
---
-
-DROP TABLE IF EXISTS `rent_demands`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rent_demands` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `demand_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tenant_id` int unsigned NOT NULL,
-  `lease_id` int unsigned NOT NULL,
-  `property_id` int unsigned NOT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `billing_period` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `base_rent` decimal(12,2) NOT NULL,
-  `maintenance` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `other_charges` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `late_fee` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `tax` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `total_amount` decimal(12,2) NOT NULL,
-  `paid_amount` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `balance_amount` decimal(12,2) NOT NULL,
-  `due_date` date NOT NULL,
-  `status` enum('unpaid','partially_paid','paid','overdue') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
-  `generated_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `demand_number` (`demand_number`),
-  UNIQUE KEY `lease_id_billing_period` (`lease_id`,`billing_period`),
-  KEY `rent_demands_tenant_id_foreign` (`tenant_id`),
-  KEY `rent_demands_property_id_foreign` (`property_id`),
-  KEY `rent_demands_property_unit_id_foreign` (`property_unit_id`),
-  KEY `rent_demands_generated_by_foreign` (`generated_by`),
-  KEY `status` (`status`),
-  KEY `due_date` (`due_date`),
-  CONSTRAINT `rent_demands_generated_by_foreign` FOREIGN KEY (`generated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `rent_demands_lease_id_foreign` FOREIGN KEY (`lease_id`) REFERENCES `lease_agreements` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `rent_demands_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `rent_demands_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `rent_demands_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `rent_demands`
 --
 
@@ -2416,38 +583,6 @@ LOCK TABLES `rent_demands` WRITE;
 INSERT INTO `rent_demands` VALUES (1,'RNT-2026-000001',1,1,1,5,'2026-09',45000.00,5000.00,0.00,0.00,0.00,50000.00,50000.00,0.00,'2026-09-05','paid',1,'2026-09-01 08:00:00','2026-09-04 11:30:00'),(2,'RNT-2026-000002',1,1,1,5,'2026-10',45000.00,5000.00,0.00,0.00,0.00,50000.00,0.00,50000.00,'2026-10-05','unpaid',1,'2026-10-01 17:56:00','2026-10-01 17:56:00'),(3,'RNT-2026-000003',2,2,2,8,'2026-10',180000.00,20000.00,0.00,2000.00,36000.00,238000.00,0.00,238000.00,'2026-10-01','overdue',1,'2026-10-01 17:56:00','2026-10-05 14:37:07');
 /*!40000 ALTER TABLE `rent_demands` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `rental_histories`
---
-
-DROP TABLE IF EXISTS `rental_histories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rental_histories` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `tenant_id` int unsigned NOT NULL,
-  `property_id` int unsigned NOT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `lease_id` int unsigned DEFAULT NULL,
-  `previous_rent` decimal(12,2) DEFAULT NULL,
-  `current_rent` decimal(12,2) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date DEFAULT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `rental_histories_property_id_foreign` (`property_id`),
-  KEY `rental_histories_property_unit_id_foreign` (`property_unit_id`),
-  KEY `rental_histories_lease_id_foreign` (`lease_id`),
-  KEY `tenant_id` (`tenant_id`),
-  CONSTRAINT `rental_histories_lease_id_foreign` FOREIGN KEY (`lease_id`) REFERENCES `lease_agreements` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `rental_histories_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `rental_histories_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `rental_histories_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rental_histories`
@@ -2460,25 +595,6 @@ INSERT INTO `rental_histories` VALUES (1,1,1,5,1,NULL,45000.00,'2026-01-01','202
 UNLOCK TABLES;
 
 --
--- Table structure for table `role_permissions`
---
-
-DROP TABLE IF EXISTS `role_permissions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `role_permissions` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `role_id` int unsigned NOT NULL,
-  `permission_id` int unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `role_id_permission_id` (`role_id`,`permission_id`),
-  KEY `role_permissions_permission_id_foreign` (`permission_id`),
-  CONSTRAINT `role_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `role_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=690 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `role_permissions`
 --
 
@@ -2487,25 +603,6 @@ LOCK TABLES `role_permissions` WRITE;
 INSERT INTO `role_permissions` VALUES (344,1,127),(345,1,128),(346,1,129),(347,1,130),(348,1,131),(349,1,132),(350,1,133),(351,1,134),(352,1,135),(353,1,136),(354,1,137),(355,1,138),(356,1,139),(357,1,140),(358,1,141),(359,1,142),(360,1,143),(361,1,144),(362,1,145),(363,1,146),(364,1,147),(365,1,148),(366,1,149),(367,1,150),(368,1,151),(369,1,152),(370,1,153),(371,1,154),(372,1,155),(373,1,156),(374,1,157),(375,1,158),(376,1,159),(377,1,160),(378,1,161),(379,1,162),(380,1,163),(381,1,164),(382,1,165),(383,1,166),(384,1,167),(385,1,168),(386,1,169),(1,2,1),(2,2,2),(3,2,3),(4,2,4),(5,2,5),(6,2,6),(7,2,7),(8,2,8),(9,2,9),(10,2,10),(11,2,11),(12,2,12),(13,2,13),(14,2,14),(15,2,15),(16,2,16),(17,2,17),(18,2,18),(19,2,19),(20,2,20),(21,2,21),(22,2,22),(62,2,23),(63,2,24),(64,2,25),(65,2,26),(66,2,27),(67,2,28),(68,2,29),(69,2,30),(70,2,31),(71,2,32),(72,2,33),(73,2,34),(74,2,35),(75,2,36),(76,2,37),(77,2,38),(78,2,39),(79,2,40),(80,2,41),(81,2,42),(82,2,43),(83,2,44),(84,2,45),(85,2,46),(86,2,47),(87,2,48),(88,2,49),(89,2,50),(90,2,51),(91,2,52),(92,2,53),(93,2,54),(94,2,55),(95,2,56),(123,2,57),(124,2,58),(125,2,59),(126,2,60),(127,2,61),(128,2,62),(129,2,63),(130,2,64),(131,2,65),(132,2,66),(133,2,67),(134,2,68),(135,2,69),(136,2,70),(137,2,71),(138,2,72),(139,2,73),(140,2,74),(141,2,75),(142,2,76),(143,2,77),(144,2,78),(145,2,79),(146,2,80),(147,2,81),(148,2,82),(149,2,83),(150,2,84),(151,2,85),(152,2,86),(153,2,87),(154,2,88),(155,2,89),(156,2,90),(157,2,91),(215,2,92),(216,2,93),(217,2,94),(218,2,95),(219,2,96),(220,2,97),(221,2,98),(222,2,99),(223,2,100),(224,2,101),(225,2,102),(226,2,103),(227,2,104),(228,2,105),(229,2,106),(230,2,107),(231,2,108),(232,2,109),(233,2,110),(234,2,111),(235,2,112),(236,2,113),(237,2,114),(238,2,115),(239,2,116),(240,2,117),(241,2,118),(242,2,119),(243,2,120),(244,2,121),(245,2,122),(246,2,123),(247,2,124),(248,2,125),(249,2,126),(387,2,127),(388,2,128),(389,2,129),(390,2,130),(391,2,131),(392,2,132),(393,2,133),(394,2,134),(395,2,135),(396,2,136),(397,2,137),(398,2,138),(399,2,139),(400,2,140),(401,2,141),(402,2,142),(403,2,143),(404,2,144),(405,2,145),(406,2,146),(407,2,147),(408,2,148),(409,2,149),(410,2,150),(411,2,151),(412,2,152),(413,2,153),(414,2,154),(415,2,155),(416,2,156),(417,2,157),(418,2,158),(419,2,159),(420,2,160),(421,2,161),(422,2,162),(423,2,163),(424,2,164),(425,2,165),(426,2,166),(427,2,167),(428,2,168),(429,2,169),(500,2,170),(497,2,171),(491,2,172),(488,2,173),(485,2,174),(508,2,175),(503,2,176),(506,2,177),(505,2,178),(514,2,179),(510,2,180),(512,2,181),(538,2,182),(536,2,183),(534,2,184),(531,2,185),(528,2,186),(525,2,187),(522,2,188),(519,2,189),(516,2,190),(494,2,191),(561,2,192),(565,2,193),(568,2,194),(571,2,195),(572,2,196),(576,2,197),(578,2,198),(580,2,199),(581,2,200),(585,2,201),(589,2,202),(593,2,203),(595,2,204),(598,2,205),(601,2,206),(603,2,207),(605,2,208),(606,2,209),(609,2,210),(612,2,211),(615,2,212),(617,2,213),(620,2,214),(623,2,215),(626,2,216),(629,2,217),(632,2,218),(637,2,219),(639,2,220),(644,2,221),(648,2,222),(652,2,223),(654,2,224),(657,2,225),(658,2,226),(659,2,227),(661,2,228),(665,2,229),(669,2,230),(672,2,231),(675,2,232),(23,3,1),(24,3,2),(250,3,3),(251,3,4),(253,3,6),(25,3,14),(262,3,16),(26,3,18),(27,3,19),(28,3,20),(96,3,23),(266,3,24),(267,3,25),(268,3,26),(97,3,27),(98,3,28),(99,3,29),(269,3,30),(100,3,31),(270,3,32),(271,3,33),(272,3,34),(101,3,35),(102,3,36),(103,3,37),(273,3,38),(104,3,39),(105,3,40),(106,3,41),(274,3,42),(107,3,43),(108,3,44),(109,3,45),(275,3,46),(110,3,47),(111,3,48),(276,3,49),(112,3,50),(113,3,51),(114,3,52),(115,3,53),(277,3,54),(278,3,55),(116,3,56),(158,3,57),(279,3,58),(280,3,59),(281,3,60),(159,3,61),(160,3,62),(161,3,63),(282,3,64),(162,3,65),(163,3,66),(164,3,67),(165,3,68),(166,3,69),(167,3,70),(283,3,71),(168,3,72),(169,3,73),(170,3,74),(284,3,75),(171,3,76),(172,3,77),(173,3,78),(285,3,79),(174,3,80),(175,3,81),(176,3,82),(177,3,83),(286,3,84),(178,3,85),(179,3,86),(180,3,87),(181,3,88),(182,3,89),(183,3,90),(184,3,91),(287,3,92),(288,3,93),(289,3,94),(290,3,95),(291,3,96),(292,3,97),(293,3,98),(294,3,99),(295,3,100),(296,3,101),(297,3,102),(298,3,103),(299,3,104),(300,3,105),(301,3,106),(302,3,107),(303,3,108),(304,3,109),(305,3,110),(306,3,111),(307,3,112),(308,3,113),(309,3,114),(310,3,115),(311,3,116),(312,3,117),(313,3,118),(314,3,119),(315,3,120),(316,3,121),(317,3,122),(318,3,123),(319,3,124),(320,3,125),(321,3,126),(501,3,170),(498,3,171),(492,3,172),(489,3,173),(486,3,174),(509,3,175),(504,3,176),(507,3,177),(515,3,179),(511,3,180),(513,3,181),(539,3,182),(537,3,183),(535,3,184),(532,3,185),(529,3,186),(526,3,187),(523,3,188),(520,3,189),(517,3,190),(495,3,191),(562,3,192),(566,3,193),(569,3,194),(573,3,196),(577,3,197),(579,3,198),(582,3,200),(586,3,201),(590,3,202),(596,3,204),(599,3,205),(602,3,206),(604,3,207),(607,3,209),(610,3,210),(613,3,211),(616,3,212),(618,3,213),(621,3,214),(624,3,215),(627,3,216),(630,3,217),(633,3,218),(638,3,219),(640,3,220),(645,3,221),(649,3,222),(653,3,223),(655,3,224),(660,3,227),(662,3,228),(666,3,229),(670,3,230),(673,3,231),(676,3,232),(185,4,61),(186,4,62),(187,4,63),(188,4,66),(189,4,68),(190,4,69),(191,4,70),(192,4,72),(193,4,73),(194,4,74),(195,4,76),(196,4,77),(197,4,78),(198,4,80),(199,4,81),(200,4,82),(201,4,83),(202,4,85),(203,4,86),(204,4,88),(205,4,91),(322,4,92),(323,4,93),(324,4,94),(325,4,96),(326,4,97),(327,4,99),(328,4,100),(329,4,101),(330,4,104),(331,4,109),(332,4,112),(333,4,113),(334,4,116),(335,4,120),(336,4,122),(337,4,126),(574,4,196),(600,4,205),(634,4,218),(641,4,220),(646,4,221),(650,4,222),(663,4,228),(667,4,229),(430,5,127),(431,5,128),(432,5,129),(433,5,131),(434,5,132),(435,5,133),(436,5,134),(437,5,135),(438,5,136),(439,5,137),(440,5,138),(441,5,139),(442,5,140),(443,5,141),(444,5,144),(445,5,145),(446,5,146),(447,5,148),(448,5,149),(449,5,150),(450,5,152),(451,5,153),(452,5,154),(453,5,155),(454,5,156),(455,5,157),(456,5,158),(457,5,159),(458,5,160),(459,5,161),(460,5,162),(461,5,163),(502,5,170),(499,5,171),(493,5,172),(490,5,173),(487,5,174),(533,5,185),(530,5,186),(527,5,187),(524,5,188),(521,5,189),(518,5,190),(496,5,191),(563,5,192),(567,5,193),(570,5,194),(583,5,200),(587,5,201),(591,5,202),(608,5,209),(611,5,210),(614,5,211),(619,5,213),(622,5,214),(625,5,215),(628,5,216),(631,5,217),(635,5,218),(642,5,220),(647,5,221),(651,5,222),(462,6,127),(463,6,132),(464,6,138),(465,6,139),(466,6,140),(467,6,141),(468,6,142),(469,6,143),(470,6,161),(471,6,162),(472,6,163),(473,6,167),(474,6,168),(475,6,169),(564,6,192),(575,6,196),(584,6,200),(588,6,201),(592,6,202),(594,6,203),(597,6,204),(636,6,218),(643,6,220),(656,6,224),(664,6,228),(668,6,229),(671,6,230),(674,6,231),(677,6,232),(478,7,166),(476,8,164),(477,9,165),(29,10,1),(30,10,2),(31,10,14),(32,11,1),(33,11,2),(34,11,14),(35,12,1),(36,12,2),(37,12,14),(38,13,1),(39,13,2),(40,13,14),(41,14,1),(42,14,2),(43,14,14),(44,15,1),(45,15,2),(46,15,14),(47,16,1),(48,16,2),(49,16,14),(50,17,1),(51,17,2),(52,17,14),(53,18,1),(54,18,2),(55,18,14),(56,19,1),(57,19,2),(58,19,14),(59,20,1),(60,20,2),(61,20,14),(117,21,1),(118,21,2),(119,21,14),(120,22,1),(121,22,2),(122,22,14),(206,23,1),(207,23,2),(208,23,14),(209,24,1),(210,24,2),(211,24,14),(212,25,1),(213,25,2),(214,25,14),(338,26,1),(339,26,2),(340,26,14),(341,27,1),(342,27,2),(343,27,14),(479,28,1),(480,28,2),(481,28,14),(482,29,1),(483,29,2),(484,29,14),(540,30,1),(541,30,2),(542,30,14),(543,31,1),(544,31,2),(545,31,14),(546,32,1),(547,32,2),(548,32,14),(549,33,1),(550,33,2),(551,33,14),(552,34,1),(553,34,2),(554,34,14),(555,35,1),(556,35,2),(557,35,14),(558,36,1),(559,36,2),(560,36,14),(678,37,1),(679,37,2),(680,37,14),(681,38,1),(682,38,2),(683,38,14),(684,39,1),(685,39,2),(686,39,14),(687,40,1),(688,40,2),(689,40,14);
 /*!40000 ALTER TABLE `role_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `roles`
---
-
-DROP TABLE IF EXISTS `roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `roles` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `roles`
@@ -2518,50 +615,6 @@ INSERT INTO `roles` VALUES (1,'Super Admin','Full unrestricted system access and
 UNLOCK TABLES;
 
 --
--- Table structure for table `sales_agreements`
---
-
-DROP TABLE IF EXISTS `sales_agreements`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sales_agreements` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `agreement_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `booking_id` int unsigned NOT NULL,
-  `customer_id` int unsigned NOT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned NOT NULL,
-  `agreement_date` date NOT NULL,
-  `agreement_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Sale Agreement',
-  `agreement_status` enum('Draft','Pending Signature','Signed','Cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Draft',
-  `total_value` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `terms_conditions` text COLLATE utf8mb4_unicode_ci,
-  `special_conditions` text COLLATE utf8mb4_unicode_ci,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `agreement_number` (`agreement_number`),
-  KEY `sales_agreements_created_by_foreign` (`created_by`),
-  KEY `booking_id` (`booking_id`),
-  KEY `customer_id` (`customer_id`),
-  KEY `project_id` (`project_id`),
-  KEY `property_id` (`property_id`),
-  KEY `property_unit_id` (`property_unit_id`),
-  KEY `agreement_status` (`agreement_status`),
-  KEY `agreement_date` (`agreement_date`),
-  CONSTRAINT `sales_agreements_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `sales_agreements_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `sales_agreements_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `sales_agreements_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `sales_agreements_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `sales_agreements_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `sales_agreements`
 --
 
@@ -2570,38 +623,6 @@ LOCK TABLES `sales_agreements` WRITE;
 INSERT INTO `sales_agreements` VALUES (1,'AGR-2026-000001',1,1,1,1,1,'2026-09-21','Agreement to Sale','Signed',47145000.00,'1. SALE AND CONVEYANCE: The Promoter/Seller agrees to sell and the Allottee/Purchaser agrees to purchase the designated unit as described in the Schedule of Property.\n2. CONSIDERATION & PAYMENT SCHEDULE: The total agreed consideration shall be paid by the Purchaser strictly in accordance with the agreed construction-linked milestone plan.\n3. POSSESSION & HANDOVER: The Seller shall complete construction and deliver peaceful possession subject to timely milestone clearances and force majeure circumstances.\n4. DEFAULT & INTEREST: Delay in milestone payments beyond due date shall attract simple interest at the prescribed statutory rate until cleared.\n5. CANCELLATION: In the event of voluntary cancellation, applicable statutory and administrative deductions shall apply before processing refund.\n6. JURISDICTION: This agreement is executed in accordance with applicable Real Estate Regulatory Authority regulations.','Exclusive covered stilt parking bay P-12 allotted with no additional charge.','Executed and registered with statutory stamp duty paid.',1,'2026-10-01 17:09:56','2026-10-01 17:09:56'),(2,'AGR-2026-000002',2,2,1,NULL,2,'2026-09-26','Allotment Letter','Signed',43500000.00,'1. SALE AND CONVEYANCE: The Promoter/Seller agrees to sell and the Allottee/Purchaser agrees to purchase the designated unit as described in the Schedule of Property.\n2. CONSIDERATION & PAYMENT SCHEDULE: The total agreed consideration shall be paid by the Purchaser strictly in accordance with the agreed construction-linked milestone plan.\n3. POSSESSION & HANDOVER: The Seller shall complete construction and deliver peaceful possession subject to timely milestone clearances and force majeure circumstances.\n4. DEFAULT & INTEREST: Delay in milestone payments beyond due date shall attract simple interest at the prescribed statutory rate until cleared.\n5. CANCELLATION: In the event of voluntary cancellation, applicable statutory and administrative deductions shall apply before processing refund.\n6. JURISDICTION: This agreement is executed in accordance with applicable Real Estate Regulatory Authority regulations.','Buyer to execute bi-lateral agreement upon physical arrival in Mumbai.','Sent to customer email for e-signature review.',17,'2026-10-01 17:09:56','2026-10-01 17:10:54');
 /*!40000 ALTER TABLE `sales_agreements` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `security_deposits`
---
-
-DROP TABLE IF EXISTS `security_deposits`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `security_deposits` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `deposit_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tenant_id` int unsigned NOT NULL,
-  `lease_id` int unsigned NOT NULL,
-  `amount` decimal(12,2) NOT NULL,
-  `deposit_date` date NOT NULL,
-  `refundable_amount` decimal(12,2) NOT NULL,
-  `adjusted_amount` decimal(12,2) NOT NULL DEFAULT '0.00',
-  `refund_date` date DEFAULT NULL,
-  `refund_status` enum('held','partially_refunded','refunded','forfeited') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'held',
-  `adjustment_reason` text COLLATE utf8mb4_unicode_ci,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `deposit_number` (`deposit_number`),
-  KEY `security_deposits_tenant_id_foreign` (`tenant_id`),
-  KEY `security_deposits_lease_id_foreign` (`lease_id`),
-  KEY `refund_status` (`refund_status`),
-  CONSTRAINT `security_deposits_lease_id_foreign` FOREIGN KEY (`lease_id`) REFERENCES `lease_agreements` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `security_deposits_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `security_deposits`
@@ -2614,36 +635,6 @@ INSERT INTO `security_deposits` VALUES (1,'DEP-2026-000001',1,1,90000.00,'2026-0
 UNLOCK TABLES;
 
 --
--- Table structure for table `site_inspections`
---
-
-DROP TABLE IF EXISTS `site_inspections`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `site_inspections` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `inspection_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `project_id` int unsigned NOT NULL,
-  `tower_id` int unsigned DEFAULT NULL,
-  `unit_id` int unsigned DEFAULT NULL,
-  `inspection_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `inspection_date` date NOT NULL,
-  `inspector_id` int unsigned NOT NULL,
-  `result` enum('Passed','Failed','Conditional Pass') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Passed',
-  `snags_found` int NOT NULL DEFAULT '0',
-  `snag_details` text COLLATE utf8mb4_unicode_ci,
-  `rectification_deadline` date DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('Scheduled','Completed','Action Required','Rectified & Closed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Completed',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `inspection_code` (`inspection_code`),
-  KEY `project_id` (`project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `site_inspections`
 --
 
@@ -2652,52 +643,6 @@ LOCK TABLES `site_inspections` WRITE;
 INSERT INTO `site_inspections` VALUES (1,'INSP-2026-000001',1,1,NULL,'Structural Integrity','2026-10-01',1,'Passed',0,'Reinforcement lap lengths, cover blocks (25mm), and beam junctions inspected before concrete pour. All parameters comply with IS 456:2000.',NULL,'Structural consultant signed off on quality checklist.','Completed','2026-10-03 12:42:05','2026-10-03 12:42:05'),(2,'INSP-2026-000002',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791012608\n[Rectified on 2026-10-03 13:00]','Rectified & Closed','2026-10-03 13:00:08','2026-10-03 13:00:08'),(3,'INSP-2026-000003',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791012957\n[Rectified on 2026-10-03 13:05]','Rectified & Closed','2026-10-03 13:05:57','2026-10-03 13:05:57'),(4,'INSP-2026-000004',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791013138\n[Rectified on 2026-10-03 13:08]','Rectified & Closed','2026-10-03 13:08:58','2026-10-03 13:08:58'),(5,'INSP-2026-000005',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791014125\n[Rectified on 2026-10-03 13:25]','Rectified & Closed','2026-10-03 13:25:25','2026-10-03 13:25:25'),(6,'INSP-2026-000006',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791017176\n[Rectified on 2026-10-03 14:16]','Rectified & Closed','2026-10-03 14:16:16','2026-10-03 14:16:17'),(7,'INSP-2026-000007',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791017737\n[Rectified on 2026-10-03 14:25]','Rectified & Closed','2026-10-03 14:25:37','2026-10-03 14:25:38'),(8,'INSP-2026-000008',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791018076\n[Rectified on 2026-10-03 14:31]','Rectified & Closed','2026-10-03 14:31:16','2026-10-03 14:31:17'),(9,'INSP-2026-000009',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-03',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-08','Automated test snag inspection: 1791021301\n[Rectified on 2026-10-03 15:25]','Rectified & Closed','2026-10-03 15:25:01','2026-10-03 15:25:01'),(10,'INSP-2026-000010',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-05',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-10','Automated test snag inspection: 1791178447\n[Rectified on 2026-10-05 11:04]','Rectified & Closed','2026-10-05 11:04:07','2026-10-05 11:04:08'),(11,'INSP-2026-000011',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-05',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-10','Automated test snag inspection: 1791184156\n[Rectified on 2026-10-05 12:39]','Rectified & Closed','2026-10-05 12:39:17','2026-10-05 12:39:17'),(12,'INSP-2026-000012',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-05',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-10','Automated test snag inspection: 1791184729\n[Rectified on 2026-10-05 12:48]','Rectified & Closed','2026-10-05 12:48:49','2026-10-05 12:48:50'),(13,'INSP-2026-000013',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-05',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-10','Automated test snag inspection: 1791185798\n[Rectified on 2026-10-05 13:06]','Rectified & Closed','2026-10-05 13:06:38','2026-10-05 13:06:38'),(14,'INSP-2026-000014',1,1,NULL,'Pre-Possession Snagging Checklist','2026-10-05',1,'Conditional Pass',2,'Living room window sliding latch stiff, balcony tile grout gap','2026-10-10','Automated test snag inspection: 1791191256\n[Rectified on 2026-10-05 14:37]','Rectified & Closed','2026-10-05 14:37:36','2026-10-05 14:37:36');
 /*!40000 ALTER TABLE `site_inspections` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `site_visits`
---
-
-DROP TABLE IF EXISTS `site_visits`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `site_visits` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `visit_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lead_id` int unsigned NOT NULL,
-  `project_id` int unsigned DEFAULT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned DEFAULT NULL,
-  `assigned_user_id` int unsigned DEFAULT NULL,
-  `scheduled_at` datetime NOT NULL,
-  `visit_type` enum('Property Visit','Project Visit','Virtual Visit') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Property Visit',
-  `status` enum('Scheduled','Confirmed','Completed','Cancelled','No Show','Rescheduled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Scheduled',
-  `visitor_count` int unsigned NOT NULL DEFAULT '1',
-  `rating` int unsigned DEFAULT NULL,
-  `interest_level` enum('High','Medium','Low','Not Interested') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `feedback` text COLLATE utf8mb4_unicode_ci,
-  `agent_observation` text COLLATE utf8mb4_unicode_ci,
-  `preferred_unit` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price_feedback` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `next_action` enum('Follow-up','Negotiation','Alternative Property','Token Discussion','Lost') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `visit_code` (`visit_code`),
-  KEY `site_visits_lead_id_foreign` (`lead_id`),
-  KEY `site_visits_project_id_foreign` (`project_id`),
-  KEY `site_visits_property_id_foreign` (`property_id`),
-  KEY `site_visits_property_unit_id_foreign` (`property_unit_id`),
-  KEY `site_visits_assigned_user_id_foreign` (`assigned_user_id`),
-  KEY `scheduled_at` (`scheduled_at`),
-  KEY `status` (`status`),
-  CONSTRAINT `site_visits_assigned_user_id_foreign` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `site_visits_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `site_visits_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `site_visits_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `site_visits_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `site_visits`
@@ -2710,27 +655,6 @@ INSERT INTO `site_visits` VALUES (1,'SV-2026-000001',1,NULL,1,NULL,17,'2026-10-0
 UNLOCK TABLES;
 
 --
--- Table structure for table `sla_rules`
---
-
-DROP TABLE IF EXISTS `sla_rules`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sla_rules` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `category` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `priority` enum('low','medium','high','urgent') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `response_time_hours` int NOT NULL DEFAULT '4',
-  `resolution_time_hours` int NOT NULL DEFAULT '24',
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `category_priority` (`category`,`priority`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `sla_rules`
 --
 
@@ -2739,29 +663,6 @@ LOCK TABLES `sla_rules` WRITE;
 INSERT INTO `sla_rules` VALUES (1,'electrical','urgent',1,4,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(2,'electrical','high',2,8,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(3,'electrical','medium',4,24,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(4,'electrical','low',8,48,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(5,'plumbing','urgent',1,4,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(6,'plumbing','high',2,8,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(7,'plumbing','medium',4,24,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(8,'hvac','high',2,12,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(9,'hvac','medium',4,24,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(10,'elevators','urgent',1,3,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(11,'fire_safety','urgent',1,2,'active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(12,'other','medium',6,36,'active','2026-10-01 17:56:00','2026-10-01 17:56:00');
 /*!40000 ALTER TABLE `sla_rules` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `system_settings`
---
-
-DROP TABLE IF EXISTS `system_settings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `system_settings` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `setting_group` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'general',
-  `setting_key` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `setting_value` text COLLATE utf8mb4_unicode_ci,
-  `setting_type` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'string',
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `updated_by` int unsigned DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `setting_key` (`setting_key`),
-  KEY `setting_group` (`setting_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `system_settings`
@@ -2774,30 +675,6 @@ INSERT INTO `system_settings` VALUES (1,'general','app_name','Imperial Estates &
 UNLOCK TABLES;
 
 --
--- Table structure for table `tds_certificates`
---
-
-DROP TABLE IF EXISTS `tds_certificates`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tds_certificates` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `certificate_number` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `party_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pan_number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gross_amount` decimal(12,2) NOT NULL,
-  `tds_amount` decimal(12,2) NOT NULL,
-  `financial_year` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quarter` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `certificate_file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `issue_date` date NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `certificate_number` (`certificate_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `tds_certificates`
 --
 
@@ -2806,40 +683,6 @@ LOCK TABLES `tds_certificates` WRITE;
 INSERT INTO `tds_certificates` VALUES (1,'CERT-2026-000001','Apex Realty Advisory LLP','AAACA1234D',942900.00,47145.00,'2026-2027','Q3',NULL,'2026-10-01','2026-10-01 17:56:00');
 /*!40000 ALTER TABLE `tds_certificates` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `tds_entries`
---
-
-DROP TABLE IF EXISTS `tds_entries`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tds_entries` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `entry_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `party_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pan_number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `section` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '194H',
-  `transaction_reference` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `commission_id` int unsigned DEFAULT NULL,
-  `gross_amount` decimal(12,2) NOT NULL,
-  `tds_rate` decimal(5,2) NOT NULL DEFAULT '5.00',
-  `tds_amount` decimal(12,2) NOT NULL,
-  `net_payable` decimal(12,2) NOT NULL,
-  `deduction_date` date NOT NULL,
-  `financial_year` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quarter` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('deducted','deposited','certified') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'deducted',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `entry_code` (`entry_code`),
-  KEY `tds_entries_commission_id_foreign` (`commission_id`),
-  KEY `pan_number` (`pan_number`),
-  KEY `status` (`status`),
-  CONSTRAINT `tds_entries_commission_id_foreign` FOREIGN KEY (`commission_id`) REFERENCES `commissions` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tds_entries`
@@ -2852,30 +695,6 @@ INSERT INTO `tds_entries` VALUES (1,'TDS-2026-000001','Apex Realty Advisory LLP'
 UNLOCK TABLES;
 
 --
--- Table structure for table `technicians`
---
-
-DROP TABLE IF EXISTS `technicians`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `technicians` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `technician_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mobile` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `skill` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `department` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `availability` enum('available','busy','on_leave') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'available',
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `technician_code` (`technician_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `technicians`
 --
 
@@ -2884,36 +703,6 @@ LOCK TABLES `technicians` WRITE;
 INSERT INTO `technicians` VALUES (1,'TECH-2026-000001','Rajesh Kumar','9876501111','rajesh.kumar@realestate-erp.local','Licensed Master Electrician','Electrical & Power Systems','available','active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(2,'TECH-2026-000002','Amit Verma','9876502222','amit.verma@realestate-erp.local','HVAC & Central Chiller Specialist','Climate Control & Mechanical','busy','active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(3,'TECH-2026-000003','Suresh Patil','9876503333','suresh.patil@realestate-erp.local','Water Treatment & Piping Engineer','Sanitation & Plumbing','available','active','2026-10-01 17:56:00','2026-10-01 17:56:00'),(4,'TECH-2026-000004','Dinesh Sharma','9876504444','dinesh.sharma@realestate-erp.local','Elevator Automation & VFD Drives','Vertical Transportation','available','active','2026-10-01 17:56:00','2026-10-01 17:56:00');
 /*!40000 ALTER TABLE `technicians` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `tenant_documents`
---
-
-DROP TABLE IF EXISTS `tenant_documents`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tenant_documents` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `tenant_id` int unsigned NOT NULL,
-  `document_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `document_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `file_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `verification_status` enum('pending','verified','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `verified_by` int unsigned DEFAULT NULL,
-  `verification_date` datetime DEFAULT NULL,
-  `expiry_date` date DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tenant_documents_verified_by_foreign` (`verified_by`),
-  KEY `tenant_id` (`tenant_id`),
-  KEY `verification_status` (`verification_status`),
-  CONSTRAINT `tenant_documents_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `tenant_documents_verified_by_foreign` FOREIGN KEY (`verified_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tenant_documents`
@@ -2926,54 +715,6 @@ INSERT INTO `tenant_documents` VALUES (1,1,'PAN Card','ABCDE1234F','pan_vikramad
 UNLOCK TABLES;
 
 --
--- Table structure for table `tenants`
---
-
-DROP TABLE IF EXISTS `tenants`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tenants` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `tenant_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tenant_type` enum('individual','company') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'individual',
-  `full_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `company_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_person` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mobile` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_proof_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_proof_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kyc_status` enum('pending','verified','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `occupied_property_id` int unsigned DEFAULT NULL,
-  `occupied_unit_id` int unsigned DEFAULT NULL,
-  `user_id` int unsigned DEFAULT NULL,
-  `lease_start_date` date DEFAULT NULL,
-  `lease_end_date` date DEFAULT NULL,
-  `status` enum('active','inactive','blacklisted') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tenant_code` (`tenant_code`),
-  KEY `tenants_occupied_property_id_foreign` (`occupied_property_id`),
-  KEY `tenants_occupied_unit_id_foreign` (`occupied_unit_id`),
-  KEY `tenants_user_id_foreign` (`user_id`),
-  KEY `mobile` (`mobile`),
-  KEY `email` (`email`),
-  KEY `status` (`status`),
-  KEY `kyc_status` (`kyc_status`),
-  CONSTRAINT `tenants_occupied_property_id_foreign` FOREIGN KEY (`occupied_property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `tenants_occupied_unit_id_foreign` FOREIGN KEY (`occupied_unit_id`) REFERENCES `property_units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `tenants_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `tenants`
 --
 
@@ -2982,43 +723,6 @@ LOCK TABLES `tenants` WRITE;
 INSERT INTO `tenants` VALUES (1,'TEN-2026-000001','individual','Vikramaditya Birla',NULL,NULL,'9820011223','vikramaditya.birla@example.com','Flat 401, Tower A, Grand Horizon','Mumbai','Maharashtra','400050','PAN Card','ABCDE1234F','verified',1,5,1,'2026-01-01','2026-12-31','active',NULL,'2026-10-01 17:56:00','2026-10-01 17:56:00',NULL),(2,'TEN-2026-000002','company','Nexus Tech Solutions Pvt. Ltd.','Nexus Tech Solutions Pvt. Ltd.','Rohan Deshmukh (Head of Admin)','9820099887','admin@nexustech.example.com','Level 5, Platinum Business Tower','Pune','Maharashtra','411006','Certificate of Incorporation','U72200PN2020PTC123456','verified',2,8,1,'2026-04-01','2029-03-31','active',NULL,'2026-10-01 17:56:00','2026-10-01 17:56:00',NULL),(3,'TEN-2026-000003','individual','Dr. Ananya Sen',NULL,NULL,'9811122334','ananya.sen@example.com','Apartment 102, Garden Heights','Bengaluru','Karnataka','560001','Passport','Z1234567','pending',NULL,NULL,1,NULL,NULL,'active',NULL,'2026-10-01 17:56:00','2026-10-01 17:56:00',NULL),(4,'TEN-2026-000004','individual','Pooja Agarwal 1791008034',NULL,NULL,'9820014348','pooja.1791008034@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA9253Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 11:43:54','2026-10-03 11:43:54',NULL),(5,'TEN-2026-000005','individual','Pooja Agarwal 1791008224',NULL,NULL,'9820077089','pooja.1791008224@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA3807Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 11:47:05','2026-10-03 11:47:05',NULL),(6,'TEN-2026-000006','individual','Pooja Agarwal 1791008700',NULL,NULL,'9820048899','pooja.1791008700@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA6333Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 11:55:01','2026-10-03 11:55:01',NULL),(7,'TEN-2026-000007','individual','Pooja Agarwal 1791009864',NULL,NULL,'9820011499','pooja.1791009864@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA9532Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 12:14:25','2026-10-03 12:14:25',NULL),(8,'TEN-2026-000008','individual','Pooja Agarwal 1791011365',NULL,NULL,'9820041698','pooja.1791011365@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA3972Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 12:39:25','2026-10-03 12:39:25',NULL),(9,'TEN-2026-000009','individual','Pooja Agarwal 1791013103',NULL,NULL,'9820015773','pooja.1791013103@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA1700Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 13:08:23','2026-10-03 13:08:23',NULL),(10,'TEN-2026-000010','individual','Pooja Agarwal 1791014104',NULL,NULL,'9820079349','pooja.1791014104@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA1325Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 13:25:04','2026-10-03 13:25:04',NULL),(11,'TEN-2026-000011','individual','Pooja Agarwal 1791017099',NULL,NULL,'9820085064','pooja.1791017099@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA9356Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 14:14:59','2026-10-03 14:14:59',NULL),(12,'TEN-2026-000012','individual','Pooja Agarwal 1791017722',NULL,NULL,'9820083746','pooja.1791017722@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA1325Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 14:25:22','2026-10-03 14:25:22',NULL),(13,'TEN-2026-000013','individual','Pooja Agarwal 1791018059',NULL,NULL,'9820095065','pooja.1791018059@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA9348Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 14:30:59','2026-10-03 14:30:59',NULL),(14,'TEN-2026-000014','individual','Pooja Agarwal 1791021287',NULL,NULL,'9820032408','pooja.1791021287@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA4607Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-03 15:24:47','2026-10-03 15:24:47',NULL),(15,'TEN-2026-000015','individual','Pooja Agarwal 1791178428',NULL,NULL,'9820059976','pooja.1791178428@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA8226Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-05 11:03:48','2026-10-05 11:03:48',NULL),(16,'TEN-2026-000016','individual','Pooja Agarwal 1791184108',NULL,NULL,'9820061361','pooja.1791184108@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA1343Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-05 12:38:28','2026-10-05 12:38:28',NULL),(17,'TEN-2026-000017','individual','Pooja Agarwal 1791184714',NULL,NULL,'9820090094','pooja.1791184714@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA8792Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-05 12:48:35','2026-10-05 12:48:35',NULL),(18,'TEN-2026-000018','individual','Pooja Agarwal 1791185784',NULL,NULL,'9820089277','pooja.1791185784@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA2530Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-05 13:06:24','2026-10-05 13:06:24',NULL),(19,'TEN-2026-000019','individual','Pooja Agarwal 1791191225',NULL,NULL,'9820026709','pooja.1791191225@example.com',NULL,NULL,NULL,NULL,'PAN Card','ABCPA8099Z','pending',NULL,NULL,NULL,NULL,NULL,'active',NULL,'2026-10-05 14:37:05','2026-10-05 14:37:05',NULL);
 /*!40000 ALTER TABLE `tenants` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `unit_holds`
---
-
-DROP TABLE IF EXISTS `unit_holds`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `unit_holds` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `hold_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lead_id` int unsigned NOT NULL,
-  `property_id` int unsigned DEFAULT NULL,
-  `property_unit_id` int unsigned NOT NULL,
-  `held_by` int unsigned NOT NULL,
-  `hold_status` enum('Active','Expired','Released','Converted') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
-  `hold_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `started_at` datetime NOT NULL,
-  `expires_at` datetime NOT NULL,
-  `released_at` datetime DEFAULT NULL,
-  `remarks` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `hold_code` (`hold_code`),
-  KEY `unit_holds_lead_id_foreign` (`lead_id`),
-  KEY `unit_holds_property_id_foreign` (`property_id`),
-  KEY `unit_holds_property_unit_id_foreign` (`property_unit_id`),
-  KEY `unit_holds_held_by_foreign` (`held_by`),
-  KEY `hold_status` (`hold_status`),
-  KEY `expires_at` (`expires_at`),
-  CONSTRAINT `unit_holds_held_by_foreign` FOREIGN KEY (`held_by`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `unit_holds_lead_id_foreign` FOREIGN KEY (`lead_id`) REFERENCES `leads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `unit_holds_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `unit_holds_property_unit_id_foreign` FOREIGN KEY (`property_unit_id`) REFERENCES `property_units` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `unit_holds`
@@ -3031,25 +735,6 @@ INSERT INTO `unit_holds` VALUES (1,'HOLD-2026-000001',6,1,1,1,'Converted','Token
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_roles`
---
-
-DROP TABLE IF EXISTS `user_roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_roles` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
-  `role_id` int unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id_role_id` (`user_id`,`role_id`),
-  KEY `user_roles_role_id_foreign` (`role_id`),
-  CONSTRAINT `user_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_roles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `user_roles`
 --
 
@@ -3058,32 +743,6 @@ LOCK TABLES `user_roles` WRITE;
 INSERT INTO `user_roles` VALUES (1,1,1),(2,2,2),(3,3,3),(4,4,2),(5,5,2),(6,6,2),(7,7,2),(8,8,2),(9,9,2),(10,10,2),(11,11,2),(12,12,2),(13,13,2),(14,14,2),(15,15,2),(16,16,2),(17,17,4),(18,18,2),(19,19,2),(20,20,2),(21,21,2),(22,22,2),(23,23,2),(24,24,2),(25,25,2),(26,26,2),(27,27,2),(28,28,2),(29,29,2),(30,30,2),(31,31,2),(32,32,2),(33,33,2),(34,34,2),(35,35,2);
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `branch_id` int unsigned DEFAULT NULL,
-  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('active','inactive','suspended') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `last_login_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `users_branch_id_foreign` (`branch_id`),
-  CONSTRAINT `users_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `users`
@@ -3113,3 +772,5 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-10-05 17:59:23
+
+SET FOREIGN_KEY_CHECKS = 1;

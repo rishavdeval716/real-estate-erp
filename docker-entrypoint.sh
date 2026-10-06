@@ -29,4 +29,10 @@ mkdir -p /var/www/html/writable/cache \
 chown -R www-data:www-data /var/www/html/writable
 chmod -R 775 /var/www/html/writable
 
+# Safe database initialization: only imports if remote database is configured and empty
+if [ -n "${DB_HOST}" ] && [ "${DB_HOST}" != "localhost" ] && [ "${DB_HOST}" != "127.0.0.1" ]; then
+    echo "[*] Checking database initialization status..."
+    php /var/www/html/spark db:init-production
+fi
+
 exec "$@"

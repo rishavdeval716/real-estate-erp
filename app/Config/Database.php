@@ -26,7 +26,7 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
+        'hostname'     => '127.0.0.1',
         'username'     => 'root',
         'password'     => '',
         'database'     => 'real_estate_erp',
@@ -35,7 +35,7 @@ class Database extends Config
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',
-        'DBCollat'     => 'utf8mb4_general_ci',
+        'DBCollat'     => 'utf8mb4_unicode_ci',
         'swapPre'      => '',
         'encrypt'      => false,
         'compress'     => false,
@@ -205,29 +205,57 @@ class Database extends Config
             return null;
         };
 
-        if ($host = $getEnv('database.default.hostname', 'DB_HOST')) {
+        // Support standard connection URLs (e.g. DATABASE_URL, MYSQL_URL)
+        if ($dbUrl = $getEnv('DATABASE_URL', 'MYSQL_URL')) {
+            $parsed = parse_url($dbUrl);
+            if ($parsed && !empty($parsed['host'])) {
+                $this->default['hostname'] = $parsed['host'];
+                if (!empty($parsed['port'])) $this->default['port'] = (int) $parsed['port'];
+                if (!empty($parsed['user'])) $this->default['username'] = urldecode($parsed['user']);
+                if (isset($parsed['pass'])) $this->default['password'] = urldecode($parsed['pass']);
+                if (!empty($parsed['path'])) $this->default['database'] = ltrim(urldecode($parsed['path']), '/');
+            }
+        }
+
+        if ($host = $getEnv('DB_HOST', 'MYSQL_HOST', 'MYSQLHOST', 'database.default.hostname')) {
             $this->default['hostname'] = $host;
         }
-        if ($db = $getEnv('database.default.database', 'DB_DATABASE')) {
+        if ($db = $getEnv('DB_DATABASE', 'MYSQL_DATABASE', 'MYSQLDATABASE', 'database.default.database')) {
             $this->default['database'] = $db;
         }
-        if ($user = $getEnv('database.default.username', 'DB_USERNAME')) {
+        if ($user = $getEnv('DB_USERNAME', 'DB_USER', 'MYSQL_USER', 'MYSQLUSER', 'database.default.username')) {
             $this->default['username'] = $user;
         }
-        if ($pass = $getEnv('database.default.password', 'DB_PASSWORD')) {
+        if ($pass = $getEnv('DB_PASSWORD', 'DB_PASS', 'MYSQL_PASSWORD', 'MYSQLPASSWORD', 'database.default.password')) {
             $this->default['password'] = $pass;
         }
-        if ($driver = $getEnv('database.default.DBDriver', 'DB_DRIVER')) {
+        if ($driver = $getEnv('DB_DRIVER', 'database.default.DBDriver')) {
             $this->default['DBDriver'] = $driver;
         }
-        if ($port = $getEnv('database.default.port', 'DB_PORT')) {
+        if ($port = $getEnv('DB_PORT', 'MYSQL_PORT', 'MYSQLPORT', 'database.default.port')) {
             $this->default['port'] = (int) $port;
+        }
+
+        // Support SSL/TLS encryption for cloud-hosted MySQL databases (Aiven, DigitalOcean, Supabase, RDS)
+        if ($ssl = $getEnv('DB_SSL', 'MYSQL_SSL', 'DB_ENCRYPT')) {
+            $sslEnabled = filter_var($ssl, FILTER_VALIDATE_BOOLEAN);
+            if ($sslEnabled) {
+                $this->default['encrypt'] = [
+                    'ssl_verify' => false,
+                ];
+            }
+        }
+
+        // Log an informative warning if running in production without a remote DB_HOST
+        $isProd = (defined('ENVIRONMENT') && ENVIRONMENT === 'production') || getenv('CI_ENVIRONMENT') === 'production';
+        if ($isProd && in_array($this->default['hostname'], ['localhost', '127.0.0.1'], true) && !$getEnv('DB_HOST', 'DATABASE_URL', 'MYSQL_URL')) {
+            error_log('[REAL ESTATE ERP] Production environment active, but DB_HOST is set to localhost/127.0.0.1. A remote MySQL host is required on Render.');
         }
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
-        if (ENVIRONMENT === 'testing') {
+        if (defined('ENVIRONMENT') && ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
     }

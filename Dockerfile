@@ -30,6 +30,17 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         zip \
         opcache
 
+# Configure OPcache for low-memory, fast execution on Render Free Tier
+RUN { \
+        echo 'opcache.enable=1'; \
+        echo 'opcache.memory_consumption=64'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=10000'; \
+        echo 'opcache.revalidate_freq=0'; \
+        echo 'opcache.validate_timestamps=0'; \
+        echo 'opcache.save_comments=1'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
 # Enable Apache modules: rewrite, headers, env
 RUN a2enmod rewrite headers env
 
